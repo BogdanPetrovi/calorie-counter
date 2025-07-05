@@ -1,0 +1,8 @@
+CREATE DATABASE "calorieCounter";
+
+CREATE TABLE users(
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(25) NOT NULL,
+  email TEXT UNIQUE NOT NULL,
+  password TEXT NOT NULL
+);
