@@ -7,9 +7,9 @@ const createToken = (id) => {
 }
 
 export const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { fullName, email, password } = req.body;
 
-  if(!name || !email || !password)
+  if(!fullName || !email || !password)
     return res.status(400).json({"message": "All fields are required"})
 
   if(password.length < 8)
@@ -17,25 +17,26 @@ export const registerUser = async (req, res) => {
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10)
-    const result = await db.query('INSERT INTO users(name, email, password) VALUES ($1, $2, $3) RETURNING id, name, email;', [name, email, hashedPassword]);
+    const result = await db.query('INSERT INTO users(name, email, password) VALUES ($1, $2, $3) RETURNING id, name, email;', [fullName, email, hashedPassword]);
     const user = result.rows[0];
 
     return res.status(201).json({"message": "Success", "data": {
       id: user.id,
-      name: user.name,
+      fullName: user.fullName,
       email: user.email,
       token: createToken(user.id)
     }})
 
   } catch (err) {
+    //Error 23505 indicates there is unique constraint violation
     if(err.code === '23505'){
       if(err.constraint === 'users_email_key'){
-         return res.status(409).json({"message": "Email already exists"})
+         return res.status(409).json({"message": "This email is already associated with an existing account. Please try logging in instead."})
       }
     }
 
     console.log(err)
-    return res.status(500).json({"message": "Registration failed. Please try again later"}) 
+    return res.status(500).json({"message": "Registration failed. Please try again later."}) 
   }
 }
 

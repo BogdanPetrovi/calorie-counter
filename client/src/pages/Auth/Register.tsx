@@ -1,40 +1,54 @@
 import React, { useState } from "react"
+import { motion } from 'framer-motion'
+import { Link, useNavigate } from "react-router-dom"
 import AuthInput from "../../components/ui/AuthInput"
 import AuthPageLayout from "../../components/ui/AuthPageLayout"
 import AuthSubmit from "../../components/ui/AuthSubmit"
-import { Link } from "react-router-dom"
-import AuthPagesDetails from "../../components/ui/AuthPagesDetails"
-import { validateEmail } from "../../utils/helper"
-import { motion } from 'framer-motion'
+import AuthPageDecoration from "../../components/ui/AuthPageDecoration"
+import { validateRegister } from "../../utils/helper"
+import api from "../../services/apiConnection"
 
 const Register = () => {
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const navigate = useNavigate()
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if(!fullName){
-      setError('Please enter your full name')
-      return;
-    }
-
-    if(!validateEmail(email)){
-      setError('Please enter valid email address')
-      return;
-    }
-
-    if(password.length <= 7) {
-      setError('Please enter a password with at least 8 characters')
-      return;
-    }
+    //If there was an error function will return string error message
+    const validateError: string = validateRegister(email, password, fullName)
+    if(validateError)
+      return setError(validateError)
 
     setError('')
-    console.log(fullName)
-    console.log(email)
-    console.log(password)
+
+    try {
+      const result = await api.post('/auth/register', {
+        fullName,
+        email,
+        password
+      })
+
+      const { token } = result.data.data;
+
+      if(token) {
+        localStorage.setItem("token", token)
+        return navigate('/dashboard')
+      }
+
+    } catch (err) {
+      const error = err as any;
+      if(error.response?.data?.message){ 
+        console.log(err)
+        return setError(error.response.data.message)
+      } else {
+        console.log('Unknown error has occurred\n' + err)
+        return setError('Unknown error has occurred.')
+      }
+    }
   }
 
   return (
@@ -91,7 +105,7 @@ const Register = () => {
         exit={{ opacity: 0, x:-20 }}
         transition={{ duration: 0.4 }}
       >
-        <AuthPagesDetails />
+        <AuthPageDecoration />
       </motion.div>
     
     </div>

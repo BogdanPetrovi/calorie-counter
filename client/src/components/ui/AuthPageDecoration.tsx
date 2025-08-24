@@ -1,7 +1,7 @@
 import { LuApple } from "react-icons/lu";
 import { GiPineapple } from "react-icons/gi";
 
-const AuthPagesDetails = () => {
+const AuthPageDecoration = () => {
   return (
     <div className="hidden md:block w-[40vw] max-h-screen overflow-hidden bg-green-100 relative">
 
@@ -21,4 +21,4 @@ const AuthPagesDetails = () => {
   )
 }
 
-export default AuthPagesDetails
+export default AuthPageDecoration

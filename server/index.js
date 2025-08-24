@@ -10,7 +10,8 @@ app.use(helmet())
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(cors({
-  origin: process.env.ORIGIN
+  origin: process.env.ORIGIN,
+  allowedHeaders: ["Content-Type", "Authorization"]
 }))
 const port = process.env.PORT;
 

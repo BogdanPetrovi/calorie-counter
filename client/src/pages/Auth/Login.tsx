@@ -1,34 +1,55 @@
 import type React from "react"
 import { useState } from "react"
 import AuthInput from "../../components/ui/AuthInput"
-import AuthPagesDetails from "../../components/ui/AuthPagesDetails"
-import { validateEmail } from "../../utils/helper"
-import { Link } from "react-router-dom"
+import AuthPageDecoration from "../../components/ui/AuthPageDecoration"
+import { Link, useNavigate } from "react-router-dom"
 import AuthSubmit from "../../components/ui/AuthSubmit"
 import AuthPageLayout from "../../components/ui/AuthPageLayout"
 import { motion } from 'framer-motion'
+import api from "../../services/apiConnection"
+import { validateLogin } from "../../utils/helper"
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const navigate = useNavigate()
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if(!validateEmail(email)){
-      setError('Please enter valid email address')
-      return;
-    }
-
-    if(password.length <= 7) {
-      setError('Please enter a password with at least 8 characters')
-      return;
-    }
-
     setError('')
-    console.log(email)
-    console.log(password)
+
+    //If there was an error function will return string error message
+    const validateError: string = validateLogin(email, password)
+    if(validateError)
+      return setError(validateError)
+    
+    setPassword('')
+    
+    try {
+      const result = await api.post('/auth/login', {
+        email,
+        password
+      })
+      
+      const { token } = result.data.data;
+
+      if(token) {
+        localStorage.setItem("token", token)
+        return navigate('/dashboard')
+      } 
+
+    } catch (err) {
+      const error = err as any;
+      if(error.response?.data?.message){ 
+        console.log(err)
+        return setError(error.response.data.message)
+      } else {
+        console.log('Unknown error has occurred')
+        return setError('Unknown error has occurred')
+      }
+    }
+  
   }
 
   return (
@@ -78,7 +99,7 @@ const Login = () => {
         exit={{ opacity: 0, x:20 }}
         transition={{ duration: 0.4 }}
       >
-        <AuthPagesDetails />
+        <AuthPageDecoration />
       </motion.div>
 
     </div>
