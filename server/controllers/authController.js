@@ -1,6 +1,7 @@
 import db from '../db/databaseConnect.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { token } from 'morgan'
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "2h" })
@@ -20,12 +21,13 @@ export const registerUser = async (req, res) => {
     const result = await db.query('INSERT INTO users(name, email, password) VALUES ($1, $2, $3) RETURNING id, name, email;', [fullName, email, hashedPassword]);
     const user = result.rows[0];
 
-    return res.status(201).json({"message": "Success", "data": {
-      id: user.id,
-      fullName: user.fullName,
-      email: user.email,
-      token: createToken(user.id)
-    }})
+    return res.status(201).
+                cookie('token', createToken(user.id), {expiresIn: '2h'}).
+                json({"message": "Success", "data": {
+                  id: user.id,
+                  fullName: user.fullName,
+                  email: user.email,
+                }})
 
   } catch (err) {
     //Error 23505 indicates there is unique constraint violation
@@ -53,12 +55,13 @@ export const loginUser = async (req, res) => {
     if(!user || !( await bcrypt.compare(password, user.password) ))
       return res.status(401).json({"message": "Invalid credentials"})
    
-    return res.status(200).json({"message": "Success", data: {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      token: createToken(user.id)
-    }})
+    return res.status(200).
+                cookie('token', createToken(user.id), {expiresIn: '2h'}).
+                json({"message": "Success", "data": {
+                  id: user.id,
+                  fullName: user.fullName,
+                  email: user.email,
+                }})
 
   } catch (err) {
     console.log(err)

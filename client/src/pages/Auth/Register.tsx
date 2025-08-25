@@ -7,6 +7,7 @@ import AuthSubmit from "../../components/ui/AuthSubmit"
 import AuthPageDecoration from "../../components/ui/AuthPageDecoration"
 import { validateRegister } from "../../utils/helper"
 import api from "../../services/apiConnection"
+import axios from "axios"
 
 const Register = () => {
   const [fullName, setFullName] = useState('')
@@ -32,21 +33,19 @@ const Register = () => {
         password
       })
 
-      const { token } = result.data.data;
-
-      if(token) {
-        localStorage.setItem("token", token)
+      if(result)
         return navigate('/dashboard')
-      }
 
     } catch (err) {
-      const error = err as any;
-      if(error.response?.data?.message){ 
-        console.log(err)
-        return setError(error.response.data.message)
+      if(axios.isAxiosError(err)){
+        if(err.response?.data?.message){ 
+          console.log(err)
+          return setError(err.response.data.message)
+        }
       } else {
-        console.log('Unknown error has occurred\n' + err)
-        return setError('Unknown error has occurred.')
+        console.log('Unknown error has occurred')
+        console.log(err)
+        return setError('Unknown error has occurred')
       }
     }
   }

@@ -8,6 +8,7 @@ import AuthPageLayout from "../../components/ui/AuthPageLayout"
 import { motion } from 'framer-motion'
 import api from "../../services/apiConnection"
 import { validateLogin } from "../../utils/helper"
+import axios from "axios"
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -31,21 +32,19 @@ const Login = () => {
         email,
         password
       })
-      
-      const { token } = result.data.data;
 
-      if(token) {
-        localStorage.setItem("token", token)
+      if(result)
         return navigate('/dashboard')
-      } 
 
     } catch (err) {
-      const error = err as any;
-      if(error.response?.data?.message){ 
-        console.log(err)
-        return setError(error.response.data.message)
+      if(axios.isAxiosError(err)){
+        if(err.response?.data?.message){ 
+          console.log(err)
+          return setError(err.response.data.message)
+        }
       } else {
         console.log('Unknown error has occurred')
+        console.log(err)
         return setError('Unknown error has occurred')
       }
     }

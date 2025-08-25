@@ -4,12 +4,7 @@ import Register from "./pages/Auth/Register";
 import Main from "./pages/Dashboard/Main";
 
 const IsAuthenticated = () => {
-  const isAuthenticated = !!localStorage.getItem("token")
-
-  return isAuthenticated ? 
-  <Navigate to="/dashboard" /> 
-  :
-  <Navigate to="/login" />
+  return <Navigate to={'/dashboard'} />
 }
 
 export const router = createBrowserRouter([
