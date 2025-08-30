@@ -1,17 +1,27 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
-import Main from "./pages/Dashboard/Main";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import { useUser } from "./utils/query";
+import axios from "axios";
 
 const IsAuthenticated = () => {
-  return <Navigate to={'/dashboard'} />
+  const { data: user, isPending, isError, error } = useUser()
+   
+  if(isPending) return <h1>Loading...</h1>
+
+  if(isError && axios.isAxiosError(error) && error.status === 401)
+    return <Navigate to={'/login'} />
+
+   if(user)
+    return <Navigate to={'/dashboard'} />
 }
 
 export const router = createBrowserRouter([
   { path: '/', element: <IsAuthenticated /> },
   { path: '/login', element: <Login />  },
   { path: '/register', element: <Register /> },
-  { path: '/dashboard', element: <Main /> }
+  { path: '/dashboard', element: <Dashboard /> }
 ])
 
 

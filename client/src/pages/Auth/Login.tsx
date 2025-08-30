@@ -2,28 +2,30 @@ import type React from "react"
 import { useState } from "react"
 import AuthInput from "../../components/ui/AuthInput"
 import AuthPageDecoration from "../../components/ui/AuthPageDecoration"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import AuthSubmit from "../../components/ui/AuthSubmit"
 import AuthPageLayout from "../../components/ui/AuthPageLayout"
 import { motion } from 'framer-motion'
 import api from "../../services/apiConnection"
 import { validateLogin } from "../../utils/helper"
 import axios from "axios"
+import { useUser } from "../../utils/query"
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
+  const [displayError, setDisplayError] = useState('')
   const navigate = useNavigate()
+  const { data: user, isPending } = useUser()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError('')
+    setDisplayError('')
 
     //If there was an error function will return string error message
     const validateError: string = validateLogin(email, password)
     if(validateError)
-      return setError(validateError)
+      return setDisplayError(validateError)
     
     setPassword('')
     
@@ -40,16 +42,19 @@ const Login = () => {
       if(axios.isAxiosError(err)){
         if(err.response?.data?.message){ 
           console.log(err)
-          return setError(err.response.data.message)
+          return setDisplayError(err.response.data.message)
         }
       } else {
         console.log('Unknown error has occurred')
         console.log(err)
-        return setError('Unknown error has occurred')
+        return setDisplayError('Unknown error has occurred')
       }
     }
-  
   }
+
+  if(isPending) return <h1>Loading...</h1>
+
+  if(user) return <Navigate to={'/dashboard'} />
 
   return (
     <div className="flex">
@@ -79,8 +84,8 @@ const Login = () => {
               onChange={(value) => setPassword(value)}  />
 
             {
-              error &&
-              <h4 className="ml-3 md:ml-0 text-lg -mt-3 font-semibold text-red-600">{error}</h4>
+              displayError &&
+              <h4 className="ml-3 md:ml-0 text-lg -mt-3 font-semibold text-red-600">{displayError}</h4>
             }
 
             <AuthSubmit />
