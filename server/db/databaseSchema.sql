@@ -13,11 +13,11 @@ CREATE TABLE user_profiles(
   gender ENUM('Male', 'Female') NOT NULL,
   weight_kg FLOAT NOT NULL,
   height_cm FLOAT NOT NULL,
-  age INT,
-  activicy_level ENUM('sedentery', 'lightly', 'moderately', 'very_active', 'extremely') NOT NULL,
+  date_of_birth DATE,
+  activicy_level ENUM(0, 1, 3, 6) NOT NULL,
   target_daily_calories INT,
   goal ENUM('lose', 'maintain', 'gain'),
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE food_entries(
