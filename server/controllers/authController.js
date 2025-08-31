@@ -70,12 +70,12 @@ export const loginUser = async (req, res) => {
 }
 
 export const getUserInfo = async (req, res) => {
-  const user = await db.query('SELECT id, name, email FROM users WHERE id = $1;', [req.user.id])
-
-  if(!user)
-    return res.status(400).json({ "message": "User not found" })
-
   try {
+    const user = await db.query('SELECT id, name, email FROM users WHERE id = $1;', [req.user.id])
+    
+    if(!user)
+      return res.status(400).json({ "message": "User not found" })
+    
     return res.status(200).json(user.rows[0])  
   } catch (err) {
     return res.status(500).json({"message": "Failed, please try again later"})

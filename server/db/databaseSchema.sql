@@ -7,24 +7,29 @@ CREATE TABLE users(
   password TEXT NOT NULL
 );
 
+CREATE TYPE genders AS ENUM ('Male', 'Female');
+CREATE TYPE goals AS ENUM ('lose', 'maintain', 'gain');
+
 CREATE TABLE user_profiles(
   id SERIAL PRIMARY KEY,
   user_id BIGINT REFERENCES users(id) NOT NULL,
-  gender ENUM('Male', 'Female') NOT NULL,
+  gender genders NOT NULL,
   weight_kg FLOAT NOT NULL,
   height_cm FLOAT NOT NULL,
-  date_of_birth DATE,
-  activicy_level ENUM(0, 1, 3, 6) NOT NULL,
-  target_daily_calories INT,
-  goal ENUM('lose', 'maintain', 'gain'),
+  date_of_birth DATE NOT NULL,
+  activicy_level INTEGER NOT NULL,
+  target_daily_calories INT NOT NULL,
+  goal goals NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TYPE meal_types AS ENUM ('breakfast', 'lunch', 'dinner', 'snack');
 
 CREATE TABLE food_entries(
   id SERIAL PRIMARY KEY,
   user_id BIGINT REFERENCES users(id) NOT NULL,
   food_name TEXT NOT NULL,
   calories FLOAT NOT NULL,
-  meal_type ENUM('breakfast', 'lunch', 'dinner', 'snack'),
+  meal_type meal_types NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
