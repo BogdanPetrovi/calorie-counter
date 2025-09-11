@@ -1,8 +1,8 @@
-import express from 'express'
+import { Router } from 'express'
 import { getUserInfo, loginUser, registerUser } from '../controllers/authController.js';
 import { isLoggedIn } from '../middlewares/authMiddlware.js';
 
-const router = express.Router();
+const router = Router();
 
 
 router.post('/register', registerUser)

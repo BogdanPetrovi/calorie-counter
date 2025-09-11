@@ -1,7 +1,6 @@
 import db from '../db/databaseConnect.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { token } from 'morgan'
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "2h" })
@@ -38,7 +37,7 @@ export const registerUser = async (req, res) => {
     }
 
     console.log(err)
-    return res.status(500).json({"message": "Registration failed. Please try again later."}) 
+    return res.status(err.status || 500).json({"message": "Registration failed. Please try again later."}) 
   }
 }
 
@@ -65,19 +64,28 @@ export const loginUser = async (req, res) => {
 
   } catch (err) {
     console.log(err)
-    return res.status(500).json({"message": "Logging in failed. Please try again later"})
+    return res.status(err.status || 500).json({"message": "Logging in failed. Please try again later"})
   }
 }
 
 export const getUserInfo = async (req, res) => {
   try {
-    const user = await db.query('SELECT id, name, email FROM users WHERE id = $1;', [req.user.id])
+    const user = await db.query(`SELECT users.name, users.email, user_profiles.activicy_level, 
+                                 user_profiles.created_at, user_profiles.date_of_birth, user_profiles.gender,
+                                 user_profiles.goal, user_profiles.height_cm, user_profiles.target_daily_calories,
+                                 user_profiles.weight_kg FROM users
+                                 LEFT JOIN user_profiles ON user_profiles.user_id = users.id
+                                 WHERE users.id = $1
+                                 ORDER BY user_profiles.created_at DESC
+                                 LIMIT 1;`,
+                                [req.user.id])
     
     if(!user)
-      return res.status(400).json({ "message": "User not found" })
-    
-    return res.status(200).json(user.rows[0])  
+      return res.status(401).json({ "message": "Not authorized" })
+
+    return res.status(200).json(user.rows[0])
   } catch (err) {
-    return res.status(500).json({"message": "Failed, please try again later"})
+    console.log(err)
+    return res.status(err.status || 500).json({"message": "Failed, please try again later"})
   }
 }

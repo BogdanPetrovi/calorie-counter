@@ -1,14 +1,15 @@
 import React, { useState } from "react"
 import { motion } from 'framer-motion'
 import { Link, Navigate, useNavigate } from "react-router-dom"
-import AuthInput from "../../components/ui/AuthInput"
-import AuthPageLayout from "../../components/ui/AuthPageLayout"
-import AuthSubmit from "../../components/ui/AuthSubmit"
-import AuthPageDecoration from "../../components/ui/AuthPageDecoration"
+import AuthInput from "../../components/auth/AuthInput"
+import AuthPageLayout from "../../components/auth/AuthPageLayout"
+import AuthSubmit from "../../components/auth/AuthSubmit"
+import AuthPageDecoration from "../../components/auth/AuthPageDecoration"
 import { validateRegister } from "../../utils/helper"
 import api from "../../services/apiConnection"
 import axios from "axios"
-import { useUser } from "../../utils/query"
+import { useUser } from "../../utils/userQuery"
+import Loader from "../../components/general/Loader"
 
 const Register = () => {
   const [fullName, setFullName] = useState('')
@@ -36,7 +37,7 @@ const Register = () => {
       })
 
       if(result)
-        return navigate('/dashboard')
+        return navigate('/setup')
 
     } catch (err) {
       if(axios.isAxiosError(err)){
@@ -52,7 +53,7 @@ const Register = () => {
     }
   }
 
-  if(isPending) return <h1>Loading...</h1>
+  if(isPending) return <Loader />
 
   if(user) return <Navigate to={'/dashboard'} />
 

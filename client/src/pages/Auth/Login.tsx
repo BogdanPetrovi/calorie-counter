@@ -1,15 +1,16 @@
 import type React from "react"
 import { useState } from "react"
-import AuthInput from "../../components/ui/AuthInput"
-import AuthPageDecoration from "../../components/ui/AuthPageDecoration"
+import AuthInput from "../../components/auth/AuthInput"
+import AuthPageDecoration from "../../components/auth/AuthPageDecoration"
 import { Link, Navigate, useNavigate } from "react-router-dom"
-import AuthSubmit from "../../components/ui/AuthSubmit"
-import AuthPageLayout from "../../components/ui/AuthPageLayout"
+import AuthSubmit from "../../components/auth/AuthSubmit"
+import AuthPageLayout from "../../components/auth/AuthPageLayout"
 import { motion } from 'framer-motion'
 import api from "../../services/apiConnection"
 import { validateLogin } from "../../utils/helper"
 import axios from "axios"
-import { useUser } from "../../utils/query"
+import { useUser } from "../../utils/userQuery"
+import Loader from "../../components/general/Loader"
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -52,7 +53,7 @@ const Login = () => {
     }
   }
 
-  if(isPending) return <h1>Loading...</h1>
+  if(isPending) return <Loader />
 
   if(user) return <Navigate to={'/dashboard'} />
 

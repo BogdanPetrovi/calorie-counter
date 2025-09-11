@@ -2,8 +2,9 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import { useUser } from "./utils/query";
+import { useUser } from "./utils/userQuery";
 import axios from "axios";
+import SetUpAccount from "./pages/SetUp/SetUpAccount";
 
 const IsAuthenticated = () => {
   const { data: user, isPending, isError, error } = useUser()
@@ -21,7 +22,8 @@ export const router = createBrowserRouter([
   { path: '/', element: <IsAuthenticated /> },
   { path: '/login', element: <Login />  },
   { path: '/register', element: <Register /> },
-  { path: '/dashboard', element: <Dashboard /> }
+  { path: '/dashboard', element: <Dashboard /> },
+  { path: '/setup', element: <SetUpAccount /> }
 ])
 
 
