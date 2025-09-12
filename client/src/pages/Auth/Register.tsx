@@ -16,11 +16,13 @@ const Register = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [displayError, setDisplayError] = useState('')
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const { data: user, isPending } = useUser()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true)
 
     //If there was an error function will return string error message
     const validateError: string = validateRegister(email, password, fullName)
@@ -50,10 +52,12 @@ const Register = () => {
         console.log(err)
         return setDisplayError('Unknown error has occurred')
       }
+    } finally {
+      setLoading(false)
     }
   }
 
-  if(isPending) return <Loader />
+  if(isPending || loading) return <Loader />
 
   if(user) return <Navigate to={'/dashboard'} />
 

@@ -4,6 +4,7 @@ import api from "../../services/apiConnection"
 import Loader from "../general/Loader"
 import { useQuery } from "@tanstack/react-query"
 import { Navigate } from "react-router-dom"
+import { useUser } from "../../utils/userQuery"
 
 
 interface EndProps {
@@ -11,6 +12,7 @@ interface EndProps {
 }
 
 const End:React.FC<EndProps> = ({ userData }) => {
+  const { refetch } = useUser()
   const postUserData = async () => {
     const result = await api.post('/setup', userData)
     return result
@@ -20,6 +22,7 @@ const End:React.FC<EndProps> = ({ userData }) => {
     queryKey: ['postUserData'],
     queryFn: postUserData, 
   })
+  refetch()
 
   if (isPending) 
     return <Loader />
