@@ -6,7 +6,7 @@ interface HeaderProps {
 
 const Header:React.FC<HeaderProps> = ({ title }) => {
   return (
-    <h2 className="text-6xl font-semibold text-zinc-800 mx-2 lg:mx-0">{title}</h2>
+    <h2 className="text-6xl font-semibold mx-2 lg:mx-0">{title}</h2>
   )
 }
 

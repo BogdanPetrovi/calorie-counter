@@ -7,7 +7,7 @@ import AuthSubmit from "../../components/auth/AuthSubmit"
 import AuthPageLayout from "../../components/auth/AuthPageLayout"
 import { motion } from 'framer-motion'
 import api from "../../services/apiConnection"
-import { validateLogin } from "../../utils/helper"
+import { validateLogin } from "../../utils/validator"
 import axios from "axios"
 import { useUser } from "../../utils/userQuery"
 import Loader from "../../components/general/Loader"
@@ -70,7 +70,7 @@ const Login = () => {
       >
         <AuthPageLayout>
           <div className="ml-3 md:ml-0">
-            <h2 className="text-6xl font-bold text-zinc-800">Welcome back</h2>
+            <h2 className="text-6xl font-bold">Welcome back</h2>
             <h4 className="text-2xl text-green-600">Please enter your login details</h4>
           </div>
           <form className="flex flex-col w-full items-center md:items-start" onSubmit={(e) => handleSubmit(e)}>

@@ -5,11 +5,12 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import { useUser } from "./utils/userQuery";
 import axios from "axios";
 import SetUpAccount from "./pages/SetUp/SetUpAccount";
+import Loader from "./components/general/Loader";
 
 const IsAuthenticated = () => {
   const { data: user, isPending, isError, error } = useUser()
    
-  if(isPending) return <h1>Loading...</h1>
+  if(isPending) return <Loader />
 
   if(isError && axios.isAxiosError(error) && error.status === 401)
     return <Navigate to={'/login'} />

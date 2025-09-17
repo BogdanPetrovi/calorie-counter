@@ -8,6 +8,7 @@
 
   body {
     background-color: #faf9fa;
+    @apply text-zinc-800;
     overflow-x: hidden;
   }
   

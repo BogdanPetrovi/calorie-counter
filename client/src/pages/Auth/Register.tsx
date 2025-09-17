@@ -5,7 +5,7 @@ import AuthInput from "../../components/auth/AuthInput"
 import AuthPageLayout from "../../components/auth/AuthPageLayout"
 import AuthSubmit from "../../components/auth/AuthSubmit"
 import AuthPageDecoration from "../../components/auth/AuthPageDecoration"
-import { validateRegister } from "../../utils/helper"
+import { validateRegister } from "../../utils/validator"
 import api from "../../services/apiConnection"
 import axios from "axios"
 import { useUser } from "../../utils/userQuery"
@@ -70,7 +70,7 @@ const Register = () => {
       >
         <AuthPageLayout>
           <div className="ml-3 md:ml-0">
-            <h2 className="text-6xl font-bold text-zinc-800">Create an Account</h2>
+            <h2 className="text-6xl font-bold">Create an Account</h2>
             <h4 className="text-2xl text-green-600">Join us by entering your details below</h4>
           </div>
           <form className="flex flex-col w-full items-center md:items-start" onSubmit={(e) => handleSubmit(e)}>
