@@ -68,6 +68,10 @@ export const loginUser = async (req, res) => {
   }
 }
 
+export const logOut = async (req,res) => {
+  return res.clearCookie('token').status(200).json({"message": "Successfully logged out"})
+}
+
 export const getUserInfo = async (req, res) => {
   try {
     const user = await db.query(`SELECT users.name, users.email, user_profiles.activicy_level, 
