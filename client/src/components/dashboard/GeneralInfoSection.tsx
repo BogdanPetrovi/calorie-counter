@@ -11,7 +11,7 @@ interface GeneralInfoSectionProps {
 
 const GeneralInfoSection:React.FC<GeneralInfoSectionProps> = ({ user }) => {
   return (
-    <div className="w-full h-36 grid grid-cols-1 lg:grid-cols-3 gap-5">
+    <div className="w-full lg:h-36 grid grid-cols-1 lg:grid-cols-3 gap-5">
       <GeneralInfoCard 
         bgColor="bg-green-600"
         Icon={LuApple}

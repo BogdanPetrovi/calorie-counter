@@ -10,7 +10,7 @@ interface GeneralInfoCardProps {
 
 const GeneralInfoCard:React.FC<GeneralInfoCardProps> = ({ bgColor, Icon, label, value }) => {
   return (
-    <div className="bg-white flex items-center gap-5 p-6 shadow-md shadow-gray-100 border border-gray-200/50 rounded-2xl">
+    <div className="bg-white flex items-center gap-5 p-6 shadow-md shadow-gray-200 border border-gray-200/50 rounded-2xl">
       <div className={`size-20 text-white flex justify-center items-center rounded-full ${bgColor}`}>
         <Icon size={'3rem'} />
       </div>

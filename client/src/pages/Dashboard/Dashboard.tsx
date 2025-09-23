@@ -4,6 +4,7 @@ import { useUser } from "../../utils/userQuery"
 import Loader from "../../components/general/Loader"
 import DashboardLayout from "../../components/dashboard/DashboardLayout"
 import GeneralInfoSection from "../../components/dashboard/GeneralInfoSection"
+import CaloriesIntakeInfo from "../../components/dashboard/CaloriesIntakeInfo"
 
 const Dashboard = () => {
   const { data: user, isPending, isError, error } = useUser()
@@ -23,8 +24,9 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout user={user}>
-      <div className="xl:ml-96 mt-14 w-full py-9 px-5">
+      <div className="xl:ml-96 mt-14 w-full py-9 px-5 flex flex-col items-center gap-5">
         <GeneralInfoSection user={ user } />
+        <CaloriesIntakeInfo />
       </div>
     </DashboardLayout>
   )
