@@ -6,6 +6,7 @@ import 'dotenv/config'
 import cookieParser from 'cookie-parser';
 import authRouter from './routes/authRoutes.js';
 import setupRouter from './routes/setupRoutes.js'
+import dashboardRoutes from './routes/dashboardRoutes.js'
 
 const app = express();
 app.use(express.json())
@@ -21,6 +22,8 @@ const port = process.env.PORT;
 app.use('/api/v1/auth', authRouter);
 
 app.use('/api/v1/setup', setupRouter);
+
+app.use('/api/v1/dashboard', dashboardRoutes);
 
 app.listen(port, () => {
   console.log(`App is up and listening on port ${port}!`)
