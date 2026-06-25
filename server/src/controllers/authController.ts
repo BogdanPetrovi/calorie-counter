@@ -2,6 +2,8 @@ import { Request, Response } from 'express'
 import db from '../db/databaseConnect.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import AppError from '../utils/appError.js'
+import { DatabaseError } from 'pg'
 
 const createToken = (id: number) => {
   return jwt.sign({ id }, process.env.JWT_SECRET!, { expiresIn: "2h" })
@@ -28,17 +30,11 @@ export const registerUser = async (req: Request, res: Response) => {
                   fullName: user.fullName,
                   email: user.email,
                 }})
-
   } catch (err) {
-    //Error 23505 indicates there is unique constraint violation
-    // if(err.code === '23505'){
-    //   if(err.constraint === 'users_email_key'){
-    //      return res.status(409).json({"message": "This email is already associated with an existing account. Please try logging in instead."})
-    //   }
-    // }
-
-    console.log(err)
-    // return res.status(err.status || 500).json({"message": "Registration failed. Please try again later."}) 
+    if(err instanceof DatabaseError && err.code === '23505')
+      throw new AppError("This email is already associated with an existing account. Please try logging in instead.", 409)
+    
+    throw err
   }
 }
 
@@ -48,25 +44,19 @@ export const loginUser = async (req: Request, res: Response) => {
   if(!email || !password)
     return res.status(400).json({"message": "All fields are required"})
 
-  try {
-    const result = await db.query('SELECT * FROM users WHERE email = $1;', [email])
-    const user = result.rows[0]
+  const result = await db.query('SELECT * FROM users WHERE email = $1;', [email])
+  const user = result.rows[0]
 
-    if(!user || !( await bcrypt.compare(password, user.password) ))
-      return res.status(401).json({"message": "Invalid credentials"})
-   
-    return res.status(200).
-                cookie('token', createToken(user.id), { maxAge: 60 * 60 * 60 * 2 }).
-                json({"message": "Success", "data": {
-                  id: user.id,
-                  fullName: user.fullName,
-                  email: user.email,
+  if(!user || !( await bcrypt.compare(password, user.password) ))
+    return res.status(401).json({"message": "Invalid credentials"})
+  
+  return res.status(200).
+              cookie('token', createToken(user.id), { maxAge: 60 * 60 * 60 * 2 }).
+              json({"message": "Success", "data": {
+                id: user.id,
+                fullName: user.fullName,
+                email: user.email,
                 }})
-
-  } catch (err) {
-    console.log(err)
-    // return res.status(err.status || 500).json({"message": "Logging in failed. Please try again later"})
-  }
 }
 
 export const logOut = async (req: Request, res: Response) => {
@@ -74,25 +64,20 @@ export const logOut = async (req: Request, res: Response) => {
 }
 
 export const getUserInfo = async (req: Request, res: Response) => {
-  try {
-    if(!req.user) return res.sendStatus(401)
+  if(!req.user) return res.sendStatus(401)
 
-    const user = await db.query(`SELECT users.name, users.email, user_profiles.activicy_level, 
-                                 user_profiles.created_at, user_profiles.date_of_birth, user_profiles.gender,
-                                 user_profiles.goal, user_profiles.height_cm, user_profiles.target_daily_calories,
-                                 user_profiles.weight_kg FROM users
-                                 LEFT JOIN user_profiles ON user_profiles.user_id = users.id
-                                 WHERE users.id = $1
-                                 ORDER BY user_profiles.created_at DESC
-                                 LIMIT 1;`,
-                                [req.user.id])
-    
-    if(!user)
-      return res.status(401).json({ "message": "Not authorized" })
+  const user = await db.query(`SELECT users.name, users.email, user_profiles.activicy_level, 
+                                user_profiles.created_at, user_profiles.date_of_birth, user_profiles.gender,
+                                user_profiles.goal, user_profiles.height_cm, user_profiles.target_daily_calories,
+                                user_profiles.weight_kg FROM users
+                                LEFT JOIN user_profiles ON user_profiles.user_id = users.id
+                                WHERE users.id = $1
+                                ORDER BY user_profiles.created_at DESC
+                                LIMIT 1;`,
+                              [req.user.id])
+  
+  if(!user)
+    return res.status(401).json({ "message": "Not authorized" })
 
-    return res.status(200).json(user.rows[0])
-  } catch (err) {
-    console.log(err)
-    // return res.status(err.status || 500).json({"message": "Failed, please try again later"})
-  }
+  return res.status(200).json(user.rows[0])
 }
