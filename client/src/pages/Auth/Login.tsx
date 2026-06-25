@@ -5,7 +5,6 @@ import AuthPageDecoration from "../../components/auth/AuthPageDecoration"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import AuthSubmit from "../../components/auth/AuthSubmit"
 import AuthPageLayout from "../../components/auth/AuthPageLayout"
-import { motion } from 'framer-motion'
 import api from "../../services/apiConnection"
 import { validateLogin } from "../../utils/validator"
 import axios from "axios"
@@ -63,11 +62,7 @@ const Login = () => {
 
   return (
     <div className="flex">
-      <motion.div 
-        initial={{opacity: 0}}
-        animate={{opacity: 1}}
-        transition={{duration: 0.4}}
-      >
+      <div className="fade-in-right">
         <AuthPageLayout>
           <div className="ml-3 md:ml-0">
             <h2 className="text-6xl font-bold">Welcome back</h2>
@@ -100,17 +95,11 @@ const Login = () => {
             </p>
           </form>
         </AuthPageLayout>
-      </motion.div>
+      </div>
 
-      <motion.div 
-        initial={{ x:-1150}}
-        animate={{ x:0, y:0 }}
-        exit={{ opacity: 0, x:20 }}
-        transition={{ duration: 0.4 }}
-      >
+      <div className="slide-in-right">
         <AuthPageDecoration />
-      </motion.div>
-
+      </div>
     </div>
   )
 }

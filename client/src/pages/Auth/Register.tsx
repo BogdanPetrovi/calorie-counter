@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { motion } from 'framer-motion'
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import AuthInput from "../../components/auth/AuthInput"
 import AuthPageLayout from "../../components/auth/AuthPageLayout"
@@ -63,11 +62,7 @@ const Register = () => {
 
   return (
     <div className="flex flex-row-reverse">
-      <motion.div 
-        initial={{opacity: 0}}
-        animate={{opacity: 1}}
-        transition={{duration: 0.4}}
-      >
+      <div className="fade-in-left">
         <AuthPageLayout>
           <div className="ml-3 md:ml-0">
             <h2 className="text-6xl font-bold">Create an Account</h2>
@@ -107,17 +102,11 @@ const Register = () => {
             </p>
           </form>
         </AuthPageLayout>
-      </motion.div>
+      </div>
 
-      <motion.div 
-        initial={{ x:1150 }}
-        animate={{ x:0 }}
-        exit={{ opacity: 0, x:-20 }}
-        transition={{ duration: 0.4 }}
-      >
-        <AuthPageDecoration />
-      </motion.div>
-    
+      <div className="slide-in-left">
+        <AuthPageDecoration />    
+      </div>
     </div>
   )
 }
