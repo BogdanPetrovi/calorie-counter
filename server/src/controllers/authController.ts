@@ -6,7 +6,7 @@ import AppError from '../utils/appError.js'
 import { DatabaseError } from 'pg'
 
 const createToken = (id: number) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET!, { expiresIn: "2h" })
+  return jwt.sign({ id }, process.env.JWT_SECRET!, { expiresIn: "30d" })
 }
 
 export const registerUser = async (req: Request, res: Response) => {
@@ -24,7 +24,7 @@ export const registerUser = async (req: Request, res: Response) => {
     const user = result.rows[0];
 
     return res.status(201).
-                cookie('token', createToken(user.id), { maxAge: 60 * 60 * 60 * 2 }).
+                cookie('token', createToken(user.id), { maxAge: 1000 * 60 * 60 * 24 * 30 }).
                 json({"message": "Success", "data": {
                   id: user.id,
                   fullName: user.fullName,
@@ -51,7 +51,7 @@ export const loginUser = async (req: Request, res: Response) => {
     return res.status(401).json({"message": "Invalid credentials"})
   
   return res.status(200).
-              cookie('token', createToken(user.id), { maxAge: 60 * 60 * 60 * 2 }).
+              cookie('token', createToken(user.id), { maxAge: 1000 * 60 * 60 * 24 * 30 }).
               json({"message": "Success", "data": {
                 id: user.id,
                 fullName: user.fullName,
