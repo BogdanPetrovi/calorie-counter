@@ -4,25 +4,25 @@ export interface User {
 }
 
 export interface AdditionalUserData {
-  gender: string | null,
-  weight: number | null,
-  height: number | null,
-  dateOfBirth: string | null,
-  activicyLevel: string | null,
-  goal: string | null,
-  targetDailyCalories: string | null,
-  createdAt: string | null
+  gender: string,
+  weight: number,
+  height: number,
+  dateOfBirth: string,
+  activicyLevel: string,
+  goal: string,
+  targetDailyCalories: number,
+  createdAt: string
 }
 
 export interface CompletedUser extends User, AdditionalUserData {}
 
 export interface BackendResponse extends User {
-  gender: string | null,
-  weight_kg: number | null,
-  height_cm: number | null,
-  date_of_birth: string | null,
-  activicy_level: string | null,
-  goal: string | null,
-  target_daily_calories: string | null,
-  created_at: string | null
+  gender: string,
+  weight_kg: number,
+  height_cm: number,
+  date_of_birth: string,
+  activicy_level: string,
+  goal: string,
+  target_daily_calories: number,
+  created_at: string
 }

@@ -14,7 +14,7 @@ export const useUser = () => {
         return false
       return failureCount < 3
     },
-    staleTime: 1000 * 60 * 5
+    staleTime: 1000 * 60 * 10
   })
 }
 

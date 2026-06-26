@@ -21,7 +21,6 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true)
     setDisplayError('')
 
     //If there was an error function will return string error message
