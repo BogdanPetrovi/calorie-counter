@@ -2,7 +2,7 @@ import { Navigate } from "react-router-dom"
 import axios from "axios"
 import { useUser } from "../../utils/userQuery"
 import Loader from "../../components/general/Loader"
-import DashboardLayout from "../../components/dashboard/DashboardLayout"
+import Layout from "../../components/layout/Layout"
 import GeneralInfoSection from "../../components/dashboard/GeneralInfoSection"
 import CaloriesIntakeInfo from "../../components/dashboard/CaloriesIntakeInfo"
 
@@ -23,12 +23,12 @@ const Dashboard = () => {
     return <Navigate to={'/setup'} />
 
   return (
-    <DashboardLayout user={user}>
+    <Layout user={user}>
       <div className="xl:ml-96 mt-14 w-full py-9 px-5 flex flex-col items-center gap-5">
         <GeneralInfoSection user={ user } />
         <CaloriesIntakeInfo />
       </div>
-    </DashboardLayout>
+    </Layout>
   )
 }
 
