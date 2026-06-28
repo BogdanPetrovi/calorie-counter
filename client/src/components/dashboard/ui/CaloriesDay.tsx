@@ -12,14 +12,19 @@ const CaloriesDay = ({ day, done , goal }: CaloriesDayProps) => {
       <h1 className="text-5xl font-bold self-start">Calories {day}</h1>
         <div className="relative inline-block">
           <LuApple className="size-[14rem] md:size-[20rem] lg:size-[23rem]" fill="#d4d4d8" color="#d4d4d8" />
-          <LuApple
-            fill="green"
-            color="green"
-            className="absolute top-0 left-0 size-[14rem] md:size-[20rem] lg:size-[23rem]"
-            style={{
-              clipPath: `polygon(0 0, ${Math.round((done || 0/goal) * 100)}% 0, ${Math.round((done || 0/goal) * 100)}% 100%, 0 100%)`
-            }}
-          />
+          {
+            done ?
+              <LuApple
+                fill="green"
+                color="green"
+                className="absolute top-0 left-0 size-[14rem] md:size-[20rem] lg:size-[23rem]"
+                style={{
+                  clipPath: `polygon(0 0, ${Math.round((done/goal) * 100)}% 0, ${Math.round((done/goal) * 100)}% 100%, 0 100%)`
+                }}
+              />
+            :
+              <></>
+          }
         </div>
       <h2 className="text-4xl"><span className="font-bold">{ done || 0 }</span> out of <span className="font-bold">{ goal }</span></h2>
     </div>
