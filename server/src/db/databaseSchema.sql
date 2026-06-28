@@ -31,5 +31,6 @@ CREATE TABLE food_entries(
   food_name TEXT NOT NULL,
   calories FLOAT NOT NULL,
   meal_type meal_types NOT NULL,
+  serving_size VARCHAR(10),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

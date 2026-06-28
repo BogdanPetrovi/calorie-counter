@@ -1,16 +1,9 @@
-import { useQuery } from "@tanstack/react-query"
 import CaloriesDay from "./ui/CaloriesDay"
-import api from "../../services/apiConnection"
 import { useUser } from "../../utils/userQuery"
+import { useCaloriesIntakeInfo } from "../../utils/caloriesIntakeInfoQuery"
 
 const CaloriesIntakeInfo = () => {
-  const { data, isPending } = useQuery({
-    queryKey: ['calories-intake-info'],
-    queryFn: async () => {
-      const result = await api.get('/dashboard/recent-calories')
-      return result.data
-    }
-  })
+  const { data, isPending } = useCaloriesIntakeInfo()
   const { data: user, isPending: isUserPending } = useUser();
 
   if(isPending || isUserPending) return <></>

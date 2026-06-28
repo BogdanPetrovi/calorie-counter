@@ -60,6 +60,15 @@
   }
 }
 
+@keyframes toast-progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
 .slide-in-right {
   animation: slide-in-right 0.4s ease-out;
 }
@@ -74,4 +83,8 @@
 
 .fade-in-left {
   animation: fade-in-left 0.4s ease-out;
+}
+
+.toast-progress {
+  animation: toast-progress linear forwards;
 }

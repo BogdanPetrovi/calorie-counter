@@ -3,11 +3,11 @@ import db from "../db/databaseConnect.js";
 
 export const addFoodEntry = async (req: Request, res: Response) => {
   const id = req.user?.id;
-  const { foodName, calories, mealType } = req.body;
+  const { foodName, calories, mealType, servingSize } = req.body;
   
-  const result = await db.query('INSERT INTO food_entries(user_id, food_name, calories, meal_type) VALUES ($1,$2,$3,$4);', [id, foodName, calories, mealType]);
+  const result = await db.query('INSERT INTO food_entries(user_id, food_name, calories, meal_type, serving_size) VALUES ($1,$2,$3,$4, $5);', [id, foodName, calories, mealType, servingSize || null]);
 
-  return res.status(200).json({ "message": "Success" });
+  return res.status(201).json({ "message": "Success" });
 }
 
 export const recentCalories = async (req: Request, res: Response) => {

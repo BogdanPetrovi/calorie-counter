@@ -19,7 +19,7 @@ const Navbar:React.FC<NavbarProps> = ({ isSidebar, setSidebar, setIsModal }) => 
             Calorie counter
           </h1>
         </div>
-          <BsPlusCircle className="xl:hidden text-green-700 size-11 rounded-full cursor-pointer hover:bg-zinc-200 duration-300" />
+          <BsPlusCircle className="xl:hidden text-green-700 size-11 rounded-full cursor-pointer hover:bg-zinc-200 duration-300" onClick={() => setIsModal(true)} />
         <button 
           className="hidden xl:block w-50 h-2/3 bg-green-700 hover:bg-green-600 active:bg-green-500 text-2xl text-white font-semibold cursor-pointer rounded-xl duration-300"
           onClick={() => setIsModal(true)}  

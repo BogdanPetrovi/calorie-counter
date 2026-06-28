@@ -1,7 +1,7 @@
 import { LuLogOut } from "react-icons/lu"
-import api from "../../../services/apiConnection"
+import api from "../../../../services/apiConnection"
 import { useNavigate } from "react-router-dom"
-import { queryClient } from "../../../main"
+import { queryClient } from "../../../../main"
 
 const LogOutButton = () => {
   const navigate = useNavigate()

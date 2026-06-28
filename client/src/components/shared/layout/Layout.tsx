@@ -1,9 +1,11 @@
 import type React from "react"
 import Navbar from "./Navbar"
 import Sidebar from "./Sidebar"
-import type { CompletedUser } from "../../types/userTypes"
+import type { CompletedUser } from "../../../types/userTypes"
 import { useState } from "react"
 import AddMealModal from "./modal/AddMealModal"
+import type { ToastWithShow } from "../../../types/toastTypes"
+import Toast from "../Toast"
 
 interface LayoutProps {
   children: React.ReactNode,
@@ -13,9 +15,23 @@ interface LayoutProps {
 const Layout:React.FC<LayoutProps> = ({ children, user }) => {
   const [isSidebar, setIsSidebar] = useState(false);
   const [isModal, setIsModal] = useState(false)
+  const [toast, setToast] = useState<ToastWithShow>({
+    message: '',
+    type: 'success',
+    show: false
+  })
 
   const close = () => {
     setIsModal(false)
+  }
+
+  const toastSettings = ( toast: ToastWithShow ) => {
+    setToast({
+      ...toast,
+      message: toast.message,
+      show: toast.show,
+      type: toast.type
+    })
   }
 
   return (
@@ -29,7 +45,15 @@ const Layout:React.FC<LayoutProps> = ({ children, user }) => {
       </div>
       {
         isModal &&
-          <AddMealModal close={close} />
+          <AddMealModal close={close} toast={toastSettings} />
+      }
+      {
+        toast.show &&
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            onClose={() => setToast({...toast, show: false})}
+          />
       }
       {children}
     </div>

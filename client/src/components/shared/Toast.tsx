@@ -1,0 +1,35 @@
+import { useEffect } from "react"
+import type { ToastProps } from "../../types/toastTypes"
+
+const Toast = ({ message, type = 'success', onClose, duration = 6000 }: ToastProps) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onClose()
+    }, duration)
+
+    return () => clearTimeout(timer)
+  }, [duration, onClose])
+
+  const bgColor = type === 'success' ? 'bg-green-600' : 'bg-red-500'
+  const progressColor = type === 'success' ? 'bg-green-300' : 'bg-red-300'
+
+  return (
+    <div className={`slide-in-left fixed bottom-6 right-2 lg:right-6 left-2 lg:left-auto ${bgColor} text-white px-6 py-6 rounded-lg shadow-2xl flex items-center gap-3 slide-in z-50 min-h-[100px] min-w-[350px] overflow-hidden`}>
+      <div className="flex-1">
+        <p className="font-semibold text-2xl">{message}</p>
+      </div>
+      <button 
+        onClick={onClose}
+        className="text-white hover:text-gray-200 duration-200 cursor-pointer text-3xl font-bold"
+      >
+        ×
+      </button>
+      <div 
+        className={`absolute bottom-0 left-0 h-1 ${progressColor} toast-progress`}
+        style={{ animationDuration: `${duration}ms` }}
+      />
+    </div>
+  )
+}
+
+export default Toast

@@ -1,5 +1,5 @@
 import type React from "react"
-import getInitials from "../../../utils/getInitials"
+import getInitials from "../../../../utils/getInitials"
 
 interface InitialsAvatarProps {
   fullName: string
