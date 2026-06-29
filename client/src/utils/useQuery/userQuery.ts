@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
-import api from "../services/apiConnection"
-import type { CompletedUser } from "../types/userTypes"
-import transformUser from "./transformUser"
+import api from "../../services/apiConnection"
+import type { CompletedUser } from "../../types/userTypes"
+import transformUser from "../transformUser"
 
 
 export const useUser = () => {
@@ -13,8 +13,7 @@ export const useUser = () => {
       if(axios.isAxiosError(error) && error.status === 401)
         return false
       return failureCount < 3
-    },
-    staleTime: 1000 * 60 * 10
+    }
   })
 }
 

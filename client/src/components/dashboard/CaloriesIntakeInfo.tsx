@@ -1,6 +1,6 @@
 import CaloriesDay from "./CaloriesDay"
-import { useUser } from "../../utils/userQuery"
-import { useCaloriesIntakeInfo } from "../../utils/caloriesIntakeInfoQuery"
+import { useUser } from "../../utils/useQuery/userQuery"
+import { useCaloriesIntakeInfo } from "../../utils/useQuery/caloriesIntakeInfoQuery"
 import MealsDay from "./MealsDay"
 
 const CaloriesIntakeInfo = () => {

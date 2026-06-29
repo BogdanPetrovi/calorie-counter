@@ -1,30 +1,34 @@
 import MealBar from "./ui/MealBar"
+import { useRecentMeals } from "../../utils/useQuery/recentMealsQuery"
 
 const MealsDay = ({ day }: { day: 'today' | 'yesterday' }) => {
+  const { data, isPending } = useRecentMeals()
+  const recentMeals = day === 'today' ? data?.today : data?.yesterday
+  
+  if(isPending || !data) return <></>
+
   return (
     <div className="bg-white shadow-md shadow-gray-200 border border-gray-200/50 rounded-2xl flex flex-col justify-around items-center p-3 gap-3">
       <h2 className="text-4xl font-bold tracking-wide self-start">Meals { day }</h2>
       <MealBar
-        emoji="🍳"
-        meal="Breakfast"
-        food="Eggs, bread"
-        calories={600}
+        meal="breakfast"
+        food={ recentMeals?.find(value => value.meal === "breakfast")?.foods }
+        calories={ recentMeals?.find(value => value.meal === "breakfast")?.calories }
       />
       <MealBar
-        emoji="🍲"
-        meal="Lunch"
-        food="Beans, bread"
-        calories={1100}
+        meal="lunch"
+        food={ recentMeals?.find(value => value.meal === "lunch")?.foods }
+        calories={ recentMeals?.find(value => value.meal === "lunch")?.calories }
       />
       <MealBar
-        emoji="🥪"
-        meal="Dinner"
-        food="Tuna sandwitch"
-        calories={600}
+        meal="dinner"
+        food={ recentMeals?.find(value => value.meal === "dinner")?.foods }
+        calories={ recentMeals?.find(value => value.meal === "dinner")?.calories }
       />
       <MealBar
-        emoji="🍫"
-        meal="Snack"
+        meal="snack"
+        food={ recentMeals?.find(value => value.meal === "snack")?.foods }
+        calories={ recentMeals?.find(value => value.meal === "snack")?.calories }
       />
     </div>
   )

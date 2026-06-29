@@ -18,3 +18,22 @@ export const recentCalories = async (req: Request, res: Response) => {
 
   return res.status(200).json({ today: todayResult.rows[0].today, yesterday: yesterdayResult.rows[0].yesterday })
 }
+
+export const recentMeals = async (req: Request, res: Response) => {
+  const id = req.user?.id;
+
+  const todayMeals = await db.query(
+    `SELECT meal_type AS meal, SUM(calories) AS calories, STRING_AGG(food_name, ', ') AS foods
+    FROM food_entries 
+    WHERE user_id = $1 AND DATE(created_at) = CURRENT_DATE
+    GROUP BY meal_type;
+    `, [id]);
+  const yesterdayMeals = await db.query(
+    `SELECT meal_type AS meal, SUM(calories) AS calories, STRING_AGG(food_name, ', ') AS foods
+    FROM food_entries 
+    WHERE user_id = $1 AND DATE(created_at) = CURRENT_DATE - 1
+    GROUP BY meal_type;
+    `, [id])
+
+  return res.status(200).json({ today: todayMeals.rows, yesterday: yesterdayMeals.rows })
+}

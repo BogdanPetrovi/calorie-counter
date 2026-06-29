@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
-import apiConnection from "../services/apiConnection"
-import type CaloriesIntakeInfo from "../types/caloriesIntakeInfoTypes"
+import apiConnection from "../../services/apiConnection"
+import type CaloriesIntakeInfo from "../../types/caloriesIntakeInfoTypes"
 
 export const useCaloriesIntakeInfo = () => {
   return useQuery<CaloriesIntakeInfo, Error>({
@@ -8,7 +8,6 @@ export const useCaloriesIntakeInfo = () => {
     queryFn: async () => {
       const result = await apiConnection.get('/dashboard/recent-calories')
       return result.data
-    },
-    staleTime: 1000 * 60 * 5
+    }
   })
 }

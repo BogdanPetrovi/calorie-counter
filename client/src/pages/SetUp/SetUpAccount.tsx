@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useUser } from "../../utils/userQuery"
+import { useUser } from "../../utils/useQuery/userQuery"
 import { Navigate } from "react-router-dom"
 import steps from "../../utils/steps"
 import Start from "../../components/setup/Start"
@@ -18,14 +18,14 @@ function SetUpAccount() {
   const { data: user, isPending, isError, error } = useUser()
   const [currentStep, setCurrentStep] = useState(0)
   const [userData, setUserData] = useState<AdditionalUserData>({
-    gender: null,
-    weight: null,
-    height: null,
-    dateOfBirth: null,
-    activicyLevel: null,
-    goal: null,
-    targetDailyCalories: null,
-    createdAt: null
+    gender: '',
+    weight: 0,
+    height: 0,
+    dateOfBirth: '',
+    activicyLevel: '',
+    goal: '',
+    targetDailyCalories: 0,
+    createdAt: ''
   })
 
   if (isPending) 

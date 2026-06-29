@@ -8,7 +8,7 @@ import AuthPageLayout from "../../components/auth/AuthPageLayout"
 import api from "../../services/apiConnection"
 import { validateLogin } from "../../utils/validator"
 import axios from "axios"
-import { useUser } from "../../utils/userQuery"
+import { useUser } from "../../utils/useQuery/userQuery"
 import Loader from "../../components/general/Loader"
 
 const Login = () => {

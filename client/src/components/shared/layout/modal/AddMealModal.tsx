@@ -3,8 +3,9 @@ import MealType from "./MealType"
 import Input from "./Input"
 import ServingSizeInput from "./ServingSizeInput"
 import apiConnection from "../../../../services/apiConnection"
-import { useCaloriesIntakeInfo } from "../../../../utils/caloriesIntakeInfoQuery"
+import { useCaloriesIntakeInfo } from "../../../../utils/useQuery/caloriesIntakeInfoQuery"
 import type { ToastWithShow } from "../../../../types/toastTypes"
+import { useRecentMeals } from "../../../../utils/useQuery/recentMealsQuery"
 
 interface AddMealModalProps {
   close: () => void,
@@ -12,7 +13,8 @@ interface AddMealModalProps {
 }
 
 const AddMealModal = ({ close, toast }: AddMealModalProps ) => {
-  const { refetch } = useCaloriesIntakeInfo()
+  const { refetch: refetchRecentCalories } = useCaloriesIntakeInfo()
+  const { refetch: refetchRecentMeals } = useRecentMeals()
   const [mealType, setMealType] = useState('breakfast')
   const [foodName, setFoodName] = useState('')
   const [calories, setCalories] = useState('')
@@ -55,7 +57,8 @@ const AddMealModal = ({ close, toast }: AddMealModalProps ) => {
     setCalories('')
     setServingSize('')
     setServingMeasurment('grams')
-    refetch()
+    refetchRecentCalories()
+    refetchRecentMeals()
     close()
   }
 
