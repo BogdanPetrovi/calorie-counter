@@ -1,6 +1,7 @@
-import CaloriesDay from "./ui/CaloriesDay"
+import CaloriesDay from "./CaloriesDay"
 import { useUser } from "../../utils/userQuery"
 import { useCaloriesIntakeInfo } from "../../utils/caloriesIntakeInfoQuery"
+import MealsDay from "./MealsDay"
 
 const CaloriesIntakeInfo = () => {
   const { data, isPending } = useCaloriesIntakeInfo()
@@ -17,10 +18,16 @@ const CaloriesIntakeInfo = () => {
         done={data.today}
         goal={user.targetDailyCalories}
       />
+      <MealsDay
+        day="today"  
+      />
       <CaloriesDay
         day="yesterday"
         done={data.yesterday}
         goal={user.targetDailyCalories}
+      />
+      <MealsDay
+        day="yesterday"  
       />
     </div>
   )

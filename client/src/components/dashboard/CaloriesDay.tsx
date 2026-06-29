@@ -9,7 +9,7 @@ interface CaloriesDayProps {
 const CaloriesDay = ({ day, done , goal }: CaloriesDayProps) => {
   return (
     <div className="bg-white shadow-md shadow-gray-200 border border-gray-200/50 rounded-2xl flex flex-col justify-around items-center p-3 gap-3">
-      <h1 className="text-5xl font-bold self-start">Calories {day}</h1>
+      <h1 className="text-4xl font-bold self-start">Calories {day}</h1>
         <div className="relative inline-block">
           <LuApple className="size-[14rem] md:size-[20rem] lg:size-[23rem]" fill="#d4d4d8" color="#d4d4d8" />
           {
