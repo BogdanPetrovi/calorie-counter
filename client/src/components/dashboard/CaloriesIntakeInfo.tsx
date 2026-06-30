@@ -12,7 +12,7 @@ const CaloriesIntakeInfo = () => {
   if(!data || !user) return <></>
 
   return(
-    <div className="w-11/12 grid grid-cols-1 lg:grid-cols-2 gap-10">
+    <div className="w-full lg:w-11/12 grid grid-cols-1 lg:grid-cols-2 gap-10">
       <CaloriesDay
         day="today"
         done={data.today}
@@ -20,14 +20,6 @@ const CaloriesIntakeInfo = () => {
       />
       <MealsDay
         day="today"  
-      />
-      <CaloriesDay
-        day="yesterday"
-        done={data.yesterday}
-        goal={user.targetDailyCalories}
-      />
-      <MealsDay
-        day="yesterday"  
       />
     </div>
   )

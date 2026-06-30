@@ -7,7 +7,6 @@ interface MealBarProps {
 }
 
 const MealBar = ({ meal, food, calories }: MealBarProps) => {
-  // const color = meal === 'breakfast' ? 'indigo' : meal === 'lunch' ? 'yellow' : meal === 'dinner' ? 'green' : 'orange'
   const colorMap = {
     breakfast: {
       background: "bg-indigo-300/30",

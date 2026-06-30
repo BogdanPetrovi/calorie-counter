@@ -1,5 +1,6 @@
 import MealBar from "./ui/MealBar"
 import { useRecentMeals } from "../../utils/useQuery/recentMealsQuery"
+import Title from "./ui/Title"
 
 const MealsDay = ({ day }: { day: 'today' | 'yesterday' }) => {
   const { data, isPending } = useRecentMeals()
@@ -9,7 +10,7 @@ const MealsDay = ({ day }: { day: 'today' | 'yesterday' }) => {
 
   return (
     <div className="bg-white shadow-md shadow-gray-200 border border-gray-200/50 rounded-2xl flex flex-col justify-around items-center p-3 gap-3">
-      <h2 className="text-4xl font-bold tracking-wide self-start">Meals { day }</h2>
+      <Title name={`Meals ${day}`} />
       <MealBar
         meal="breakfast"
         food={ recentMeals?.find(value => value.meal === "breakfast")?.foods }
