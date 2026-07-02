@@ -1,4 +1,4 @@
-import GeneralInfoCard from "./ui/GeneralInfoCard"
+import InfoCard from "../shared/InfoCard"
 import { LuApple } from "react-icons/lu"
 import { IoScale } from "react-icons/io5"
 import { GoGoal } from "react-icons/go"
@@ -12,19 +12,19 @@ interface GeneralInfoSectionProps {
 const GeneralInfoSection:React.FC<GeneralInfoSectionProps> = ({ user }) => {
   return (
     <div className="w-full lg:h-36 grid grid-cols-1 lg:grid-cols-3 gap-5">
-      <GeneralInfoCard 
+      <InfoCard 
         bgColor="bg-green-600"
         Icon={LuApple}
         label="Calorie budget"
         value={user.targetDailyCalories}
       />
-      <GeneralInfoCard 
+      <InfoCard 
         bgColor="bg-violet-500"
         Icon={IoScale}
         label="Current weight"
         value={`${user.weight}kg`}
       />
-      <GeneralInfoCard 
+      <InfoCard 
         bgColor="bg-cyan-500"
         Icon={GoGoal}
         label="Goal"

@@ -25,11 +25,9 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <div className="xl:ml-96 mt-14 w-full py-9 px-5 flex flex-col items-center gap-5 fade-in-left">
-        <GeneralInfoSection user={ user } />
-        <CaloriesIntakeInfo />
-        <WeeklyChart />
-      </div>
+      <GeneralInfoSection user={ user } />
+      <CaloriesIntakeInfo />
+      <WeeklyChart />
     </Layout>
   )
 }

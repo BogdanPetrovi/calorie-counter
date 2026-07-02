@@ -53,7 +53,9 @@ const Layout:React.FC<LayoutProps> = ({ children }) => {
             onClose={() => setToast({...toast, show: false})}
           />
       }
-      {children}
+      <div className="xl:ml-96 mt-14 w-full py-9 px-5 flex flex-col items-center gap-5 fade-in-left">
+        {children}
+      </div>
     </div>
   )
 }

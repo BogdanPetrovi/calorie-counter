@@ -3,6 +3,7 @@ import Loader from "../components/general/Loader"
 import { useUser } from "../utils/useQuery/userQuery"
 import { Navigate } from "react-router-dom"
 import Layout from "../components/shared/layout/Layout"
+import UserStats from "../components/history/UserStats"
 
 const History = () => {
   const { data: user, isPending, isError, error } = useUser()
@@ -22,7 +23,7 @@ const History = () => {
 
   return (
     <Layout>
-      <div></div>
+      <UserStats />
     </Layout>
   )
 }
