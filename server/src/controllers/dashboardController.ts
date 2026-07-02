@@ -37,3 +37,23 @@ export const recentMeals = async (req: Request, res: Response) => {
 
   return res.status(200).json({ today: todayMeals.rows, yesterday: yesterdayMeals.rows })
 }
+
+export const weeklyStats = async (req: Request, res: Response) => {
+  const id = req.user?.id;
+
+  const result = await db.query(`
+      SELECT to_char(d.day, 'Dy') AS day, COALESCE(SUM(calories), 0) AS calories
+      FROM generate_series(
+        CURRENT_DATE - 6,
+        CURRENT_DATE,
+        INTERVAL '1 DAY'
+      ) AS d(day)
+      LEFT JOIN food_entries
+        ON date_trunc('day', created_at) = d.day
+        AND user_id = $1
+      GROUP BY d.day
+      ORDER BY d.day;
+    `, [id])
+
+  return res.status(200).json({ stats: result.rows })
+}

@@ -7,7 +7,6 @@ export const useRecentMeals = () => {
     queryKey: ['recent-meals'],
     queryFn: async (): Promise<MealsDay> => {
       const result = await apiConnection.get('/dashboard/recent-meals')
-      console.log(result.data)
       return result.data
     }
   })

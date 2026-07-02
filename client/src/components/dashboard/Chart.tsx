@@ -1,25 +1,29 @@
 import { CategoryScale, Chart as ChartJS, defaults, Legend, LinearScale, LineElement, PointElement, Tooltip, type ChartOptions } from 'chart.js'
 import annotationPlugin from 'chartjs-plugin-annotation'
 import { Line } from 'react-chartjs-2'
+import { useWeeklyStats } from '../../utils/useQuery/weeklyStatsQuery'
 
 ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Tooltip, annotationPlugin, Legend)
 defaults.maintainAspectRatio = false
-defaults.color = 'green';
 
 const Chart = () => {
-  const data = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  const { data, isPending } = useWeeklyStats()
+
+  if(isPending || !data) return <></>
+
+  const chartData = {
+    labels: data.map(val => val.day),
     datasets: [
       {
         label: 'Calories',
-        data: [2100, 3000, 2410, 2401, 2913, 2503, 2503],
+        data: data.map(val => val.calories),
         borderColor: 'green',
         backgroundColor: 'green'
       }
     ]
   }
 
-  const options: ChartOptions<'line'> = {
+  const chartOptions: ChartOptions<'line'> = {
     plugins: {
       tooltip: {
         enabled: true
@@ -61,8 +65,8 @@ const Chart = () => {
 
   return (
     <Line
-      data={data}
-      options={options}
+      data={chartData}
+      options={chartOptions}
     />
   )
 }

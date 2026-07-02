@@ -6,6 +6,7 @@ import apiConnection from "../../../../services/apiConnection"
 import { useCaloriesIntakeInfo } from "../../../../utils/useQuery/caloriesIntakeInfoQuery"
 import type { ToastWithShow } from "../../../../types/toastTypes"
 import { useRecentMeals } from "../../../../utils/useQuery/recentMealsQuery"
+import { useWeeklyStats } from "../../../../utils/useQuery/weeklyStatsQuery"
 
 interface AddMealModalProps {
   close: () => void,
@@ -15,6 +16,7 @@ interface AddMealModalProps {
 const AddMealModal = ({ close, toast }: AddMealModalProps ) => {
   const { refetch: refetchRecentCalories } = useCaloriesIntakeInfo()
   const { refetch: refetchRecentMeals } = useRecentMeals()
+  const { refetch: refetchWeeklyStats } = useWeeklyStats()
   const [mealType, setMealType] = useState('breakfast')
   const [foodName, setFoodName] = useState('')
   const [calories, setCalories] = useState('')
@@ -59,6 +61,7 @@ const AddMealModal = ({ close, toast }: AddMealModalProps ) => {
     setServingMeasurment('grams')
     refetchRecentCalories()
     refetchRecentMeals()
+    refetchWeeklyStats()
     close()
   }
 
