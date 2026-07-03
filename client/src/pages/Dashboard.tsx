@@ -4,7 +4,7 @@ import { useUser } from "../utils/useQuery/userQuery"
 import Loader from "../components/general/Loader"
 import Layout from "../components/shared/layout/Layout"
 import GeneralInfoSection from "../components/dashboard/GeneralInfoSection"
-import CaloriesIntakeInfo from "../components/dashboard/CaloriesIntakeInfo"
+import CaloriesIntakeInfo from "../components/shared/CaloriesIntakeInfo"
 import WeeklyChart from "../components/dashboard/WeeklyChart"
 
 const Dashboard = () => {
@@ -26,7 +26,7 @@ const Dashboard = () => {
   return (
     <Layout>
       <GeneralInfoSection user={ user } />
-      <CaloriesIntakeInfo />
+      <CaloriesIntakeInfo day="today" />
       <WeeklyChart />
     </Layout>
   )

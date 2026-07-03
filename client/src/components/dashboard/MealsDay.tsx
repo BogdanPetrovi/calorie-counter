@@ -1,6 +1,7 @@
 import MealBar from "./ui/MealBar"
 import { useRecentMeals } from "../../utils/useQuery/recentMealsQuery"
-import Title from "./ui/Title"
+import Title from "../shared/ui/Title"
+import ContainerDiv from "../shared/ui/ContainerDiv"
 
 const MealsDay = ({ day }: { day: 'today' | 'yesterday' }) => {
   const { data, isPending } = useRecentMeals()
@@ -9,7 +10,7 @@ const MealsDay = ({ day }: { day: 'today' | 'yesterday' }) => {
   if(isPending || !data) return <></>
 
   return (
-    <div className="bg-white shadow-md shadow-gray-200 border border-gray-200/50 rounded-2xl flex flex-col justify-around items-center p-3 gap-3">
+    <ContainerDiv>
       <Title name={`Meals ${day}`} />
       <MealBar
         meal="breakfast"
@@ -31,7 +32,7 @@ const MealsDay = ({ day }: { day: 'today' | 'yesterday' }) => {
         food={ recentMeals?.find(value => value.meal === "snack")?.foods }
         calories={ recentMeals?.find(value => value.meal === "snack")?.calories }
       />
-    </div>
+    </ContainerDiv>
   )
 }
 

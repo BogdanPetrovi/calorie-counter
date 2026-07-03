@@ -1,34 +1,43 @@
 import { LuApple } from "react-icons/lu"
-import Title from "./ui/Title"
+import Title from "../shared/ui/Title"
+import { useCaloriesIntakeInfo } from "../../utils/useQuery/caloriesIntakeInfoQuery"
+import { useUser } from "../../utils/useQuery/userQuery"
+import ContainerDiv from "../shared/ui/ContainerDiv"
 
 interface CaloriesDayProps {
-  day: 'today' | 'yesterday',
-  done: number | null,
-  goal: number
+  day: 'today' | 'yesterday'
 }
 
-const CaloriesDay = ({ day, done , goal }: CaloriesDayProps) => {
+const CaloriesDay = ({ day }: CaloriesDayProps) => {
+  const { data, isPending } = useCaloriesIntakeInfo();
+  const { data: user, isPending: userPending } = useUser();
+
+  if(isPending || !data || !user || userPending) return <></>
+
+  const done = data[day]
+  const goal = user.targetDailyCalories
+
   return (
-    <div className="bg-white shadow-md shadow-gray-200 border border-gray-200/50 rounded-2xl flex flex-col justify-around items-center p-3 gap-3">
-        <Title name={`Calories ${day}`} />
-        <div className="relative inline-block">
-          <LuApple className="size-[14rem] md:size-[20rem] lg:size-[23rem]" fill="#d4d4d8" color="#d4d4d8" />
-          {
-            done ?
-              <LuApple
-                fill="green"
-                color="green"
-                className="absolute top-0 left-0 size-[14rem] md:size-[20rem] lg:size-[23rem]"
-                style={{
-                  clipPath: `polygon(0 0, ${Math.round((done/goal) * 100)}% 0, ${Math.round((done/goal) * 100)}% 100%, 0 100%)`
-                }}
-              />
-            :
-              <></>
-          }
-        </div>
-      <h2 className="text-4xl"><span className="font-bold">{ done || 0 }</span> out of <span className="font-bold">{ goal }</span></h2>
-    </div>
+    <ContainerDiv>
+      <Title name={`Calories ${day}`} />
+      <div className="relative inline-block">
+        <LuApple className="size-[14rem] md:size-[20rem] lg:size-[23rem]" fill="#d4d4d8" color="#d4d4d8" />
+        {
+          done ?
+            <LuApple
+              fill="green"
+              color="green"
+              className="absolute top-0 left-0 size-[14rem] md:size-[20rem] lg:size-[23rem]"
+              style={{
+                clipPath: `polygon(0 0, ${Math.round((done/goal) * 100)}% 0, ${Math.round((done/goal) * 100)}% 100%, 0 100%)`
+              }}
+            />
+          :
+            <></>
+        }
+      </div>
+    <h2 className="text-4xl"><span className="font-bold">{ done || 0 }</span> out of <span className="font-bold">{ goal }</span></h2>
+  </ContainerDiv>
   )
 }
 
