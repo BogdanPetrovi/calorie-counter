@@ -1,11 +1,12 @@
 import type { Dispatch, SetStateAction } from "react"
+import type { MealType } from "../../../../types/mealTypeTypes"
 
 interface MealTypeProps {
   value: string,
-  setValue: Dispatch<SetStateAction<string>>
+  setValue: Dispatch<SetStateAction<MealType>>
 }
 
-const MealType = ({ value, setValue }: MealTypeProps) => {
+const MealTypeSelector = ({ value, setValue }: MealTypeProps) => {
   return (
     <div className="flex gap-2 justify-center font-semibold text-xl">
       <div 
@@ -48,4 +49,4 @@ const MealType = ({ value, setValue }: MealTypeProps) => {
   )
 }
 
-export default MealType
+export default MealTypeSelector

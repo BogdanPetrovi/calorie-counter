@@ -4,7 +4,7 @@ interface InputProps {
   name: string,
   placeholder: string,
   type: 'text' | 'number',
-  value: string | number,
+  value: string,
   setValue: Dispatch<SetStateAction<string>>
 }
 

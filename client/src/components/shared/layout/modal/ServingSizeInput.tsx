@@ -1,13 +1,13 @@
 import type { Dispatch, SetStateAction } from "react"
 
 interface ServiceSizeInputProps {
-  measurmentValue: string,
-  setMeasurment: Dispatch<SetStateAction<string>>
+  measurementValue: string,
+  setMeasurement: Dispatch<SetStateAction<string>>
   value: string,
   setValue: Dispatch<SetStateAction<string>>
 }
 
-const ServiceSizeInput = ({ value, setValue, measurmentValue, setMeasurment }: ServiceSizeInputProps) => {
+const ServiceSizeInput = ({ value, setValue, measurementValue, setMeasurement }: ServiceSizeInputProps) => {
   return (
     <div className="text-sm">
       <h5>Serving size (optional)</h5>
@@ -21,8 +21,8 @@ const ServiceSizeInput = ({ value, setValue, measurmentValue, setMeasurment }: S
         />
         <select
           className="w-1/3 border border-green-600 rounded-r-lg p-2 cursor-pointer focus:outline-none focus:ring-0"
-          value={measurmentValue}
-          onChange={(e) => setMeasurment(e.target.value)}
+          value={measurementValue}
+          onChange={(e) => setMeasurement(e.target.value)}
         >
           <option value="g">grams</option>
           <option value="ml">milliliters</option>

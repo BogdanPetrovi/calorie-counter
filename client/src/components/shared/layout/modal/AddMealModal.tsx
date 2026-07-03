@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import MealType from "./MealType"
+import MealTypeSelector from "./MealTypeSelector"
 import Input from "./Input"
 import ServingSizeInput from "./ServingSizeInput"
 import apiConnection from "../../../../services/apiConnection"
@@ -7,21 +7,23 @@ import { useCaloriesIntakeInfo } from "../../../../utils/useQuery/caloriesIntake
 import type { ToastWithShow } from "../../../../types/toastTypes"
 import { useRecentMeals } from "../../../../utils/useQuery/recentMealsQuery"
 import { useWeeklyStats } from "../../../../utils/useQuery/weeklyStatsQuery"
+import type CompleteMealType from "../../../../types/completeMealType"
 
 interface AddMealModalProps {
   close: () => void,
-  toast: (toast: ToastWithShow) => void
+  toast: (toast: ToastWithShow) => void,
+  modalValues?: CompleteMealType
 }
 
-const AddMealModal = ({ close, toast }: AddMealModalProps ) => {
+const AddMealModal = ({ close, toast, modalValues }: AddMealModalProps ) => {
   const { refetch: refetchRecentCalories } = useCaloriesIntakeInfo()
   const { refetch: refetchRecentMeals } = useRecentMeals()
   const { refetch: refetchWeeklyStats } = useWeeklyStats()
-  const [mealType, setMealType] = useState('breakfast')
-  const [foodName, setFoodName] = useState('')
-  const [calories, setCalories] = useState('')
-  const [servingSize, setServingSize] = useState('')
-  const [servingMeasurment, setServingMeasurment] = useState('g')
+  const [mealType, setMealType] = useState(modalValues?.mealType || 'breakfast')
+  const [foodName, setFoodName] = useState(modalValues?.foodName || '')
+  const [calories, setCalories] = useState(modalValues?.calories || '')
+  const [servingSize, setServingSize] = useState(modalValues?.servingSize || '')
+  const [servingMeasurement, setServingMeasurement] = useState(modalValues?.servingMesurment || 'g')
   const [isDisabled, setIsDisabled] = useState(true)
 
   useEffect(() => {
@@ -33,11 +35,15 @@ const AddMealModal = ({ close, toast }: AddMealModalProps ) => {
 
   const handleSubmit = async () => {
     try {
+      if(modalValues?.id){
+        return
+      }
+
       const result = await apiConnection.post('/dashboard/add-meal', {
         foodName,
         calories,
         mealType,
-        servingSize: servingSize && `${servingSize} ${servingMeasurment}`
+        servingSize: servingSize && `${servingSize} ${servingMeasurement}`
       })
       if(result.status === 201){
         toast({ 
@@ -58,7 +64,7 @@ const AddMealModal = ({ close, toast }: AddMealModalProps ) => {
     setFoodName('')
     setCalories('')
     setServingSize('')
-    setServingMeasurment('grams')
+    setServingMeasurement('g')
     refetchRecentCalories()
     refetchRecentMeals()
     refetchWeeklyStats()
@@ -78,7 +84,7 @@ const AddMealModal = ({ close, toast }: AddMealModalProps ) => {
           <h2>Log food</h2>
           <h2 className="cursor-pointer" onClick={close}>X</h2>
         </div>
-        <MealType value={mealType} setValue={setMealType} />
+        <MealTypeSelector value={mealType} setValue={setMealType} />
         <Input
           name="Food name"
           placeholder={"Chicken breast, chicken soup,..."}
@@ -94,8 +100,8 @@ const AddMealModal = ({ close, toast }: AddMealModalProps ) => {
           type="number"
         />
         <ServingSizeInput
-          measurmentValue={servingMeasurment}
-          setMeasurment={setServingMeasurment}
+          measurementValue={servingMeasurement}
+          setMeasurement={setServingMeasurement}
           value={servingSize}
           setValue={setServingSize}
         />

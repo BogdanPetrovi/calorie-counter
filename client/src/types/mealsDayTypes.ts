@@ -1,3 +1,5 @@
+import type { MealType } from "./mealTypeTypes"
+
 export default interface MealsDay {
   today: MealInfo[],
   yesterday: MealInfo[]
@@ -8,5 +10,3 @@ interface MealInfo {
   calories: number,
   foods: string
 }
-
-export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack'
