@@ -2,14 +2,16 @@ import { CategoryScale, Chart as ChartJS, defaults, Legend, LinearScale, LineEle
 import annotationPlugin from 'chartjs-plugin-annotation'
 import { Line } from 'react-chartjs-2'
 import { useWeeklyStats } from '../../utils/useQuery/weeklyStatsQuery'
+import { useUser } from '../../utils/useQuery/userQuery'
 
 ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Tooltip, annotationPlugin, Legend)
 defaults.maintainAspectRatio = false
 
 const Chart = () => {
   const { data, isPending } = useWeeklyStats()
+  const { data: user, isPending: isUserPending } = useUser()
 
-  if(isPending || !data) return <></>
+  if(isPending || !data || isUserPending || !user) return <></>
 
   const chartData = {
     labels: data.map(val => val.day),
@@ -52,8 +54,8 @@ const Chart = () => {
         annotations: {
           reccomendedLine: {
             type: 'line',
-            yMin: 2503,
-            yMax: 2503,
+            yMin: user.targetDailyCalories,
+            yMax: user.targetDailyCalories,
             borderColor: 'indigo',
             borderWidth: 3,
             borderDash: [10, 10],
