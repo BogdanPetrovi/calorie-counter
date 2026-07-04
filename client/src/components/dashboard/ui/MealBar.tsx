@@ -1,4 +1,4 @@
-import type { MealType } from "../../../types/mealsDayTypes"
+import type { MealType } from "../../../types/mealTypeTypes"
 
 interface MealBarProps {
   meal: MealType,
@@ -28,7 +28,7 @@ const MealBar = ({ meal, food, calories }: MealBarProps) => {
   const emoji = meal === 'breakfast' ? "🍳" : meal === 'lunch' ? "🍲" : meal === 'dinner' ? "🥪" : "🍫"
   
   return (
-    <div className={`w-11/12 h-20 ${ colorMap[meal].background } rounded-lg flex justify-between items-center px-5`}>
+    <div className={`w-full h-20 ${ colorMap[meal].background } rounded-lg flex justify-between items-center px-5`}>
       <div className="flex items-center text-2xl gap-2">
         <h2>{ emoji }</h2>
         <div>

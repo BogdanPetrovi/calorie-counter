@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { FaPen } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
-import AddMealModal from "../shared/layout/modal/AddMealModal";
-import type { ToastWithShow } from "../../types/toastTypes";
-import Toast from "../shared/Toast";
+import AddMealModal from "../../shared/layout/modal/AddMealModal";
+import type { ToastWithShow } from "../../../types/toastTypes";
+import Toast from "../../shared/Toast";
 
 const LogEntry = () => {
   const [showModal, setShowModal] = useState(false)

@@ -35,6 +35,9 @@ const AddMealModal = ({ close, toast, modalValues }: AddMealModalProps ) => {
 
   const handleSubmit = async () => {
     try {
+      if(isDisabled)
+        return
+
       if(modalValues?.id){
         return
       }
