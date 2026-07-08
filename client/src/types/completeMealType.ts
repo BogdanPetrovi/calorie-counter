@@ -6,5 +6,5 @@ export default interface CompleteMealType {
   foodName: string,
   calories: string,
   servingSize?: string,
-  servingMesurment?: string
+  servingMeasurment?: string
 }

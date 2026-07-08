@@ -8,6 +8,9 @@ import type { ToastWithShow } from "../../../../types/toastTypes"
 import { useRecentMeals } from "../../../../utils/useQuery/recentMealsQuery"
 import { useWeeklyStats } from "../../../../utils/useQuery/weeklyStatsQuery"
 import type CompleteMealType from "../../../../types/completeMealType"
+import { useHistoryStats } from "../../../../utils/useQuery/useHistoryStatsQuery"
+import { useQueryClient } from "@tanstack/react-query"
+import useLogPages from "../../../../utils/useQuery/logPagesQuery"
 
 interface AddMealModalProps {
   close: () => void,
@@ -19,11 +22,15 @@ const AddMealModal = ({ close, toast, modalValues }: AddMealModalProps ) => {
   const { refetch: refetchRecentCalories } = useCaloriesIntakeInfo()
   const { refetch: refetchRecentMeals } = useRecentMeals()
   const { refetch: refetchWeeklyStats } = useWeeklyStats()
+  const { refetch: refetchHistoryStats } = useHistoryStats()
+  const { refetch: refetchLogPages } = useLogPages()
+  const queryClient = useQueryClient()
+
   const [mealType, setMealType] = useState(modalValues?.mealType || 'breakfast')
   const [foodName, setFoodName] = useState(modalValues?.foodName || '')
   const [calories, setCalories] = useState(modalValues?.calories || '')
   const [servingSize, setServingSize] = useState(modalValues?.servingSize || '')
-  const [servingMeasurement, setServingMeasurement] = useState(modalValues?.servingMesurment || 'g')
+  const [servingMeasurement, setServingMeasurement] = useState(modalValues?.servingMeasurment || 'g')
   const [isDisabled, setIsDisabled] = useState(true)
 
   useEffect(() => {
@@ -46,7 +53,7 @@ const AddMealModal = ({ close, toast, modalValues }: AddMealModalProps ) => {
         foodName,
         calories,
         mealType,
-        servingSize: servingSize && `${servingSize} ${servingMeasurement}`
+        servingSize: servingSize && `${servingSize}${servingMeasurement}`
       })
       if(result.status === 201){
         toast({ 
@@ -71,6 +78,9 @@ const AddMealModal = ({ close, toast, modalValues }: AddMealModalProps ) => {
     refetchRecentCalories()
     refetchRecentMeals()
     refetchWeeklyStats()
+    refetchHistoryStats()
+    refetchLogPages()
+    queryClient.invalidateQueries({ queryKey: ['meal-log'] })
     close()
   }
 

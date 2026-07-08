@@ -57,3 +57,55 @@ export const historyStats = async (req: Request, res: Response) => {
     mostEatenFood: mostEatenFood.rows[0].food_name
   })
 }
+
+export const mealLogPage = async (req: Request, res: Response) => {
+  const user = req.user
+  const { page } = req.query
+
+  if(Number(page) < 1) return res.status(400).json({ message: "Page can only be a positive number" })
+
+  const offset = (Number(page) - 1) * 5
+  const result = await databaseConnect.query(`
+      SELECT * FROM food_entries
+      WHERE user_id = $1
+      ORDER BY created_at DESC
+      LIMIT 5 OFFSET $2;
+    `, [user?.id, offset])
+
+  const fixedNamesResult = result.rows.map(row => {
+    return {
+      id: row.id,
+      foodName: row.food_name,
+      calories: row.calories,
+      mealType: row.meal_type,
+      createdAt: row.created_at,
+      servingSize: row.serving_size
+    }
+  })
+
+  const transformedResult = fixedNamesResult.map(row => {
+    return {
+      ...row,
+      createdAt: new Intl.DateTimeFormat('sr-RS', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour:'2-digit',
+        minute: '2-digit',
+        hour12: false
+      }).format(row.createdAt)
+    }
+  })
+
+  return res.status(200).json(transformedResult)
+}
+
+export const logPages = async (req: Request, res: Response) => {
+  const user = req.user
+
+  const result = await databaseConnect.query("SELECT COUNT(*) AS total FROM food_entries WHERE user_id = $1;", [user?.id])
+
+  return res.status(200).json({
+    pages: Math.ceil(Number(result.rows[0].total) / 5) || 1
+  })
+}

@@ -1,19 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
 import InfoCard from "../shared/InfoCard"
 import { PiFireLight } from "react-icons/pi";
 import { PiAlignCenterVerticalLight } from "react-icons/pi";
 import { PiCarrotThin } from "react-icons/pi";
-import apiConnection from "../../services/apiConnection";
-import type HistoryStats from "../../types/HistoryStats";
+import { useHistoryStats } from "../../utils/useQuery/useHistoryStatsQuery";
+
 
 const UserStats = () => {
-  const { data, isPending } = useQuery({
-    queryKey: ['history-stats'],
-    queryFn: async ():Promise<HistoryStats> => {
-      const result = await apiConnection.get('/history/history-stats')
-      return result.data
-    }
-  })
+  const { data, isPending } = useHistoryStats();
 
   if(isPending || !data) return <></>
 
