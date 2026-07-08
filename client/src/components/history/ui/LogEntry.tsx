@@ -2,25 +2,35 @@ import { useState } from "react";
 import { FaPen } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import AddMealModal from "../../shared/layout/modal/AddMealModal";
-import type { ToastWithShow } from "../../../types/toastTypes";
-import Toast from "../../shared/Toast";
 import type MealLog from "../../../types/mealLogTypes";
+import apiConnection from "../../../services/apiConnection";
+import { useInvalidateData } from "../../../utils/refetch";
+import type { ToastWithShow } from "../../../types/toastTypes";
 
-const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize }: MealLog) => {
+const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize, toastSettings }: MealLog & { toastSettings: (toast: ToastWithShow) => void }) => {
+  const { invalidateAll } = useInvalidateData()
   const [showModal, setShowModal] = useState(false)
-  const [toast, setToast] = useState<ToastWithShow>({
-    message: '',
-    type: 'success',
-    show: false
-  })
-  const toastSettings = ( toast: ToastWithShow ) => {
-    setToast({
-      ...toast,
-      message: toast.message,
-      show: toast.show,
-      type: toast.type
-    })
+
+  const deleteRow = async () => {
+    try {
+      await apiConnection.delete(`/dashboard/delete-meal/${id}`)
+      toastSettings({ 
+        message: `Succesfuly deleted meal!`,  
+        show: true,
+        type: 'success'
+      })
+    } catch (err) {
+      console.log(err)
+      toastSettings({ 
+        message: `Couldn't delete your meal, try again!`,  
+        show: true,
+        type: 'error'
+      })
+    }
+
+    invalidateAll()
   }
+
   return (
     <>
       <div className="w-full h-16 bg-black/5 rounded-lg flex items-center justify-between px-2">
@@ -36,7 +46,7 @@ const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize }: 
             <h3 className="text-sm">{ String(createdAt) }</h3>
           </div>
           <FaPen className="text-xl cursor-pointer -mr-3" onClick={() => setShowModal(true)} />
-          <FaTrash className="text-red-700 cursor-pointer" />
+          <FaTrash className="text-red-700 cursor-pointer" onClick={() => deleteRow()} />
         </div>
       </div>
       {
@@ -53,14 +63,7 @@ const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize }: 
             }}
           />
       }
-      {
-        toast.show &&
-          <Toast
-            message={toast.message}
-            type={toast.type}
-            onClose={() => setToast({...toast, show: false})}
-          />
-      }
+      
     </>
   )
 }

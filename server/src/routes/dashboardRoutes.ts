@@ -1,12 +1,14 @@
 import { Router }  from 'express'
 import { isLoggedIn } from '../middlewares/authMiddlware.js';
-import { addFoodEntry, changeMeal, recentCalories, recentMeals, weeklyStats } from '../controllers/dashboardController.js';
+import { addFoodEntry, changeMeal, deleteMeal, recentCalories, recentMeals, weeklyStats } from '../controllers/dashboardController.js';
 
 const router = Router();
 
 router.post('/add-meal', isLoggedIn, addFoodEntry)
 
 router.patch('/change-meal', isLoggedIn, changeMeal)
+
+router.delete('/delete-meal/:id', isLoggedIn, deleteMeal)
 
 router.get('/recent-calories', isLoggedIn, recentCalories)
 

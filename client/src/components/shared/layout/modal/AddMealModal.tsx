@@ -3,15 +3,10 @@ import MealTypeSelector from "./MealTypeSelector"
 import Input from "./Input"
 import ServingSizeInput from "./ServingSizeInput"
 import apiConnection from "../../../../services/apiConnection"
-import { useCaloriesIntakeInfo } from "../../../../utils/useQuery/caloriesIntakeInfoQuery"
 import type { ToastWithShow } from "../../../../types/toastTypes"
-import { useRecentMeals } from "../../../../utils/useQuery/recentMealsQuery"
-import { useWeeklyStats } from "../../../../utils/useQuery/weeklyStatsQuery"
 import type CompleteMealType from "../../../../types/completeMealType"
-import { useHistoryStats } from "../../../../utils/useQuery/useHistoryStatsQuery"
-import { useQueryClient } from "@tanstack/react-query"
-import useLogPages from "../../../../utils/useQuery/logPagesQuery"
 import splitAmount from "../../../../utils/splitAmount"
+import { useInvalidateData } from "../../../../utils/refetch"
 
 interface AddMealModalProps {
   close: () => void,
@@ -20,12 +15,7 @@ interface AddMealModalProps {
 }
 
 const AddMealModal = ({ close, toast, modalValues }: AddMealModalProps ) => {
-  const { refetch: refetchRecentCalories } = useCaloriesIntakeInfo()
-  const { refetch: refetchRecentMeals } = useRecentMeals()
-  const { refetch: refetchWeeklyStats } = useWeeklyStats()
-  const { refetch: refetchHistoryStats } = useHistoryStats()
-  const { refetch: refetchLogPages } = useLogPages()
-  const queryClient = useQueryClient()
+  const { invalidateAll } = useInvalidateData()
 
   const [mealType, setMealType] = useState(modalValues?.mealType || 'breakfast')
   const [foodName, setFoodName] = useState(modalValues?.foodName || '')
@@ -101,12 +91,7 @@ const AddMealModal = ({ close, toast, modalValues }: AddMealModalProps ) => {
     setCalories('')
     setServingSize('')
     setServingMeasurement('g')
-    refetchRecentCalories()
-    refetchRecentMeals()
-    refetchWeeklyStats()
-    refetchHistoryStats()
-    refetchLogPages()
-    queryClient.invalidateQueries({ queryKey: ['meal-log'] })
+    invalidateAll();
     close()
   }
 

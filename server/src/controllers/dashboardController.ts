@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import db from "../db/databaseConnect.js";
+import databaseConnect from '../db/databaseConnect.js';
 
 export const addFoodEntry = async (req: Request, res: Response) => {
   const id = req.user?.id;
@@ -22,6 +23,14 @@ export const changeMeal = async (req: Request, res: Response) => {
         serving_size = $4
       WHERE id = $5;
     `, [ foodName, mealType, calories, servingSize, id ])
+
+  return res.sendStatus(204)
+}
+
+export const deleteMeal = async (req: Request, res: Response) => {
+  const id = req.params.id
+
+  const result = await databaseConnect.query("DELETE FROM food_entries WHERE id = $1;", [id])
 
   return res.sendStatus(204)
 }
