@@ -13,8 +13,6 @@ const MealLog = () => {
   const { data: pages, isPending: arePagesPending } = useLogPages()
   const queryClient = useQueryClient()
 
-  console.log(pages)
-
   useEffect(() => {
     if(page !== 1)
       queryClient.prefetchQuery(mealLogOptions(page-1))

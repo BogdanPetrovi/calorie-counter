@@ -10,6 +10,22 @@ export const addFoodEntry = async (req: Request, res: Response) => {
   return res.status(201).json({ "message": "Success" });
 }
 
+export const changeMeal = async (req: Request, res: Response) => {
+  const { id, mealType, foodName, calories, servingSize } = req.body;
+
+  const result = await db.query(`
+      UPDATE food_entries
+      SET
+        food_name = $1,
+        meal_type = $2,
+        calories = $3,
+        serving_size = $4
+      WHERE id = $5;
+    `, [ foodName, mealType, calories, servingSize, id ])
+
+  return res.sendStatus(204)
+}
+
 export const recentCalories = async (req: Request, res: Response) => {
   const id = req.user?.id;
 

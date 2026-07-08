@@ -11,6 +11,7 @@ import type CompleteMealType from "../../../../types/completeMealType"
 import { useHistoryStats } from "../../../../utils/useQuery/useHistoryStatsQuery"
 import { useQueryClient } from "@tanstack/react-query"
 import useLogPages from "../../../../utils/useQuery/logPagesQuery"
+import splitAmount from "../../../../utils/splitAmount"
 
 interface AddMealModalProps {
   close: () => void,
@@ -29,8 +30,9 @@ const AddMealModal = ({ close, toast, modalValues }: AddMealModalProps ) => {
   const [mealType, setMealType] = useState(modalValues?.mealType || 'breakfast')
   const [foodName, setFoodName] = useState(modalValues?.foodName || '')
   const [calories, setCalories] = useState(modalValues?.calories || '')
-  const [servingSize, setServingSize] = useState(modalValues?.servingSize || '')
-  const [servingMeasurement, setServingMeasurement] = useState(modalValues?.servingMeasurment || 'g')
+  const [size, measurment] = splitAmount(modalValues?.servingSize || '')
+  const [servingSize, setServingSize] = useState(size || '')
+  const [servingMeasurement, setServingMeasurement] = useState(measurment || 'g')
   const [isDisabled, setIsDisabled] = useState(true)
 
   useEffect(() => {
@@ -41,35 +43,59 @@ const AddMealModal = ({ close, toast, modalValues }: AddMealModalProps ) => {
   }, [foodName, calories, setIsDisabled])
 
   const handleSubmit = async () => {
-    try {
-      if(isDisabled)
-        return
-
-      if(modalValues?.id){
-        return
-      }
-
-      const result = await apiConnection.post('/dashboard/add-meal', {
-        foodName,
-        calories,
-        mealType,
-        servingSize: servingSize && `${servingSize}${servingMeasurement}`
-      })
-      if(result.status === 201){
+    if(isDisabled)
+      return
+    
+    if(modalValues?.id){
+      try {
+        const result = await apiConnection.patch('/dashboard/change-meal', {
+          id: modalValues.id,
+          foodName,
+          mealType,
+          calories,
+          servingSize: servingSize && `${servingSize}${servingMeasurement}`
+        })
+        if(result.status === 204) {
+          toast({
+            message: `Succesfuly updated your meal!`,
+            show: true,
+            type: 'success'
+          })
+        }
+      } catch (err) {
+        console.log(err)
         toast({ 
-          message: `Succesfuly added your ${mealType}!`,  
+          message: `Couldn't update your meal, try again!`,  
           show: true,
-          type: 'success'
+          type: 'error'
         })
       }
-    } catch (err) {
-      console.log(err)
-      toast({ 
-        message: `Couldn't save your meal, try again!`,  
-        show: true,
-        type: 'error'
-      })
     }
+    else {
+      try {
+        const result = await apiConnection.post('/dashboard/add-meal', {
+          foodName,
+          calories,
+          mealType,
+          servingSize: servingSize && `${servingSize}${servingMeasurement}`
+        })
+        if(result.status === 201){
+          toast({ 
+            message: `Succesfuly added your ${mealType}!`,  
+            show: true,
+            type: 'success'
+          })
+        }
+      } catch (err) {
+        console.log(err)
+        toast({ 
+          message: `Couldn't save your meal, try again!`,  
+          show: true,
+          type: 'error'
+        })
+      }
+    }
+    
     setMealType('breakfast')
     setFoodName('')
     setCalories('')

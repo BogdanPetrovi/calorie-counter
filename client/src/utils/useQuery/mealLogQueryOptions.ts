@@ -11,7 +11,6 @@ const mealLogOptions = (page: number) => {
 
 const getMealLog = async (page: number): Promise<MealLog[]> => {
   const result = await apiConnection.get(`/history/meal-log?page=${page}`)
-  console.log(result.data)
   return result.data
 }
 

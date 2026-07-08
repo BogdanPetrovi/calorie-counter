@@ -6,7 +6,7 @@ import type { ToastWithShow } from "../../../types/toastTypes";
 import Toast from "../../shared/Toast";
 import type MealLog from "../../../types/mealLogTypes";
 
-const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize, servingMeasurment }: MealLog) => {
+const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize }: MealLog) => {
   const [showModal, setShowModal] = useState(false)
   const [toast, setToast] = useState<ToastWithShow>({
     message: '',
@@ -49,8 +49,7 @@ const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize, se
               mealType,
               foodName,
               calories: String(calories),
-              servingSize,
-              servingMeasurment
+              servingSize
             }}
           />
       }
