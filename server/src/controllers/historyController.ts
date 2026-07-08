@@ -109,3 +109,19 @@ export const logPages = async (req: Request, res: Response) => {
     pages: Math.ceil(Number(result.rows[0].total) / 5) || 1
   })
 }
+
+export const avgPerMeal = async (req: Request, res: Response) => {
+  const user = req.user
+
+  const result = await databaseConnect.query(`
+      SELECT AVG(calories) FILTER (WHERE meal_type = 'breakfast')::NUMERIC(10,2) as breakfast,
+        AVG(calories) FILTER (WHERE meal_type = 'lunch')::NUMERIC(10,2) as lunch,
+        AVG(calories) FILTER (WHERE meal_type = 'dinner')::NUMERIC(10,2) as dinner,
+        AVG(calories) FILTER (WHERE meal_type = 'snack')::NUMERIC(10,2) as snack
+      FROM food_entries 
+      WHERE user_id=$1
+      AND created_at > CURRENT_DATE - 6;
+    `, [user?.id])
+
+  return res.status(200).json(result.rows[0])
+}

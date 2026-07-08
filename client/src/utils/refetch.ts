@@ -6,7 +6,7 @@ export function useInvalidateData() {
   const invalidateAll = () => {
     return queryClient.invalidateQueries({
       predicate: (query) =>
-        ['calories-intake-info', 'weekly-stats', 'history-stats', 'recent-meals', 'meal-log', 'log-pages']
+        ['calories-intake-info', 'weekly-stats', 'history-stats', 'recent-meals', 'meal-log', 'log-pages', 'avg-per-meal']
         .includes(query.queryKey[0] as string)
     })  
   }
