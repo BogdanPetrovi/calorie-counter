@@ -9,7 +9,7 @@ import api from "../../services/apiConnection"
 import { validateLogin } from "../../utils/validator"
 import axios from "axios"
 import { useUser } from "../../utils/useQuery/userQuery"
-import Loader from "../../components/general/Loader"
+import Loader from "../../components/shared/Loader"
 
 const Login = () => {
   const [email, setEmail] = useState('')

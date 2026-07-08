@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom"
 import axios from "axios"
 import { useUser } from "../utils/useQuery/userQuery"
-import Loader from "../components/general/Loader"
+import Loader from "../components/shared/Loader"
 import Layout from "../components/shared/layout/Layout"
 import GeneralInfoSection from "../components/dashboard/GeneralInfoSection"
 import CaloriesIntakeInfo from "../components/shared/CaloriesIntakeInfo"
