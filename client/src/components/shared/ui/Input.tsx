@@ -5,19 +5,21 @@ interface InputProps {
   placeholder: string,
   type: 'text' | 'number',
   value: string,
-  setValue: Dispatch<SetStateAction<string>>
+  setValue: Dispatch<SetStateAction<string>>,
+  isDisabled?: boolean
 }
 
-const Input = ({ name, placeholder, type, value, setValue }: InputProps) => {
+const Input = ({ name, placeholder, type, value, setValue, isDisabled }: InputProps) => {
   return (
-    <div className="text-sm">
+    <div className={`${isDisabled && 'opacity-60'} text-sm`}>
       <h5>{name}</h5>
       <input 
         type={type}
         value={value}
-        className="border border-green-600 rounded-lg w-full p-2 text-xl focus:outline-none focus:ring-0"
+        className={`${isDisabled && 'cursor-not-allowed'} border border-green-600 rounded-lg w-full p-2 text-xl focus:outline-none focus:ring-0`}
         placeholder={placeholder}
         onChange={e => setValue(e.target.value)}
+        disabled={isDisabled}
       />
     </div>
   )

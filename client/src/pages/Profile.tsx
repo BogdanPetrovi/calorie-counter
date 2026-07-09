@@ -4,6 +4,7 @@ import { useUser } from "../utils/useQuery/userQuery"
 import { Navigate } from "react-router-dom"
 import Layout from "../components/shared/layout/Layout"
 import PersonalInfo from "../components/profile/PersonalInfo"
+import PhysiqueAndGoal from "../components/profile/PhysiqueAndGoal"
 
 
 const Profile = () => {
@@ -26,9 +27,7 @@ const Profile = () => {
     <Layout>
       <div className="w-full lg:w-11/12 grid grid-cols-1 lg:grid-cols-2 gap-10">
         <PersonalInfo />
-        {/* <ContainerDiv>
-          sav info naguran 
-         </ContainerDiv> */} 
+        <PhysiqueAndGoal />
         {/* bmi i clan  od */}
         {/* chart promena kilaze */}
       </div>

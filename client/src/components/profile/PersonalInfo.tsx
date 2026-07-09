@@ -26,7 +26,7 @@ const PersonalInfo = () => {
   
   return (
     <div
-      className={`w-full bg-white shadow-md shadow-gray-200 border border-gray-200/50 rounded-2xl flex flex-col gap-3 p-4`}
+      className={`w-full bg-white shadow-md shadow-gray-200 border border-gray-200/50 rounded-2xl flex flex-col gap-3.5 p-4`}
     >
       <Title name="Personal info" />
       <div className="w-full">

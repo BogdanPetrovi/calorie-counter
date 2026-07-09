@@ -67,7 +67,7 @@ export const getUserInfo = async (req: Request, res: Response) => {
   if(!req.user) return res.sendStatus(401)
 
   const user = await db.query(`SELECT users.name, users.email, user_profiles.activicy_level, 
-                                user_profiles.created_at, user_profiles.date_of_birth, user_profiles.gender,
+                                user_profiles.created_at, user_profiles.date_of_birth::text, user_profiles.gender,
                                 user_profiles.goal, user_profiles.height_cm, user_profiles.target_daily_calories,
                                 user_profiles.weight_kg FROM users
                                 LEFT JOIN user_profiles ON user_profiles.user_id = users.id
