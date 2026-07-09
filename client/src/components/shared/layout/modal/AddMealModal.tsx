@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react"
 import MealTypeSelector from "./MealTypeSelector"
-import Input from "./Input"
+import Input from "../../ui/Input"
 import ServingSizeInput from "./ServingSizeInput"
 import apiConnection from "../../../../services/apiConnection"
 import type { ToastWithShow } from "../../../../types/toastTypes"
 import type CompleteMealType from "../../../../types/completeMealType"
 import splitAmount from "../../../../utils/splitAmount"
 import { useInvalidateData } from "../../../../utils/refetch"
+import Submit from "../../ui/Submit"
 
 interface AddMealModalProps {
   close: () => void,
@@ -129,15 +130,7 @@ const AddMealModal = ({ close, toast, modalValues }: AddMealModalProps ) => {
           value={servingSize}
           setValue={setServingSize}
         />
-        <div 
-          className={`
-            ${isDisabled ? 'bg-green-700 brightness-60 cursor-not-allowed' : 'bg-green-700 hover:bg-green-600 active:bg-green-500 cursor-pointer'}
-            w-full flex justify-center items-center  text-white p-2 rounded-lg duration-300 select-none`
-          }
-          onClick={handleSubmit}
-        >
-          Submit
-        </div>
+        <Submit handleSubmit={handleSubmit} isDisabled={isDisabled} />
       </div>
     </div>
   )

@@ -3,6 +3,8 @@ import Loader from "../components/shared/Loader"
 import { useUser } from "../utils/useQuery/userQuery"
 import { Navigate } from "react-router-dom"
 import Layout from "../components/shared/layout/Layout"
+import PersonalInfo from "../components/profile/PersonalInfo"
+
 
 const Profile = () => {
   const { data: user, isPending, isError, error } = useUser()
@@ -22,7 +24,14 @@ const Profile = () => {
 
   return (
     <Layout>
-      <div></div>
+      <div className="w-full lg:w-11/12 grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <PersonalInfo />
+        {/* <ContainerDiv>
+          sav info naguran 
+         </ContainerDiv> */} 
+        {/* bmi i clan  od */}
+        {/* chart promena kilaze */}
+      </div>
     </Layout>
   )
 }

@@ -10,7 +10,7 @@ interface InputProps {
 
 const Input = ({ name, placeholder, type, value, setValue }: InputProps) => {
   return (
-    <div className=" text-sm">
+    <div className="text-sm">
       <h5>{name}</h5>
       <input 
         type={type}
