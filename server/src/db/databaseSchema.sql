@@ -4,7 +4,8 @@ CREATE TABLE users(
   id SERIAL PRIMARY KEY,
   name VARCHAR(25) NOT NULL,
   email TEXT UNIQUE NOT NULL,
-  password TEXT NOT NULL
+  password TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TYPE genders AS ENUM ('Male', 'Female');
@@ -20,7 +21,7 @@ CREATE TABLE user_profiles(
   activicy_level INTEGER NOT NULL,
   target_daily_calories INT NOT NULL,
   goal goals NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TYPE meal_types AS ENUM ('breakfast', 'lunch', 'dinner', 'snack');

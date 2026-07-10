@@ -11,7 +11,8 @@ const transformUser: (BackendResponse: BackendResponse) => CompletedUser = (back
     activicyLevel: backendResponse.activicy_level,
     goal: backendResponse.goal,
     targetDailyCalories: backendResponse.target_daily_calories,
-    createdAt: backendResponse.created_at
+    createdAt: backendResponse.created_at,
+    updatedAt: backendResponse.updated_at
   }
 }
 
