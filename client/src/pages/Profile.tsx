@@ -5,6 +5,7 @@ import { Navigate } from "react-router-dom"
 import Layout from "../components/shared/layout/Layout"
 import PersonalInfo from "../components/profile/PersonalInfo"
 import PhysiqueAndGoal from "../components/profile/PhysiqueAndGoal"
+import BmiAndMemberSince from "../components/profile/BmiAndMemberSince"
 
 
 const Profile = () => {
@@ -25,10 +26,10 @@ const Profile = () => {
 
   return (
     <Layout>
-      <div className="w-full lg:w-11/12 grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <div className="w-full lg:w-11/12 grid grid-cols-1 lg:grid-cols-2 gap-5">
         <PersonalInfo />
         <PhysiqueAndGoal />
-        {/* bmi i clan  od */}
+        <BmiAndMemberSince />
         {/* chart promena kilaze */}
       </div>
     </Layout>

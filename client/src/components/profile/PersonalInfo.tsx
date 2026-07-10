@@ -4,6 +4,7 @@ import { HiLockClosed } from "react-icons/hi"
 import Input from "../shared/ui/Input"
 import Submit from "../shared/ui/Submit"
 import { useUser } from "../../utils/useQuery/userQuery"
+import ProfileContainer from "./ui/ProfileContainer"
 
 const PersonalInfo = () => {
   const { data, isPending } = useUser()
@@ -25,9 +26,7 @@ const PersonalInfo = () => {
   }
   
   return (
-    <div
-      className={`w-full bg-white shadow-md shadow-gray-200 border border-gray-200/50 rounded-2xl flex flex-col gap-3.5 p-4`}
-    >
+    <ProfileContainer gap="gap-3.5">
       <Title name="Personal info" />
       <div className="w-full">
         <Input name="Full name" placeholder="John Doe" value={ name || '' } setValue={setName} type="text" />
@@ -39,7 +38,7 @@ const PersonalInfo = () => {
         <HiLockClosed /> Change password
       </div>
       <Submit handleSubmit={handleSubmit} isDisabled={isDisabled} />
-    </div>
+    </ProfileContainer>
   )
 }
 
