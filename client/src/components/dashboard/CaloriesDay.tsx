@@ -21,13 +21,13 @@ const CaloriesDay = ({ day }: CaloriesDayProps) => {
     <ContainerDiv>
       <Title name={`Calories ${day}`} />
       <div className="relative inline-block">
-        <LuApple className="size-[14rem] md:size-[20rem] lg:size-[23rem]" fill="#d4d4d8" color="#d4d4d8" />
+        <LuApple className="size-[23rem]" fill="#d4d4d8" color="#d4d4d8" />
         {
           done ?
             <LuApple
               fill="green"
               color="green"
-              className="absolute top-0 left-0 size-[14rem] md:size-[20rem] lg:size-[23rem]"
+              className="absolute top-0 left-0 size-[23rem]"
               style={{
                 clipPath: `polygon(0 0, ${Math.round((done/goal) * 100)}% 0, ${Math.round((done/goal) * 100)}% 100%, 0 100%)`
               }}

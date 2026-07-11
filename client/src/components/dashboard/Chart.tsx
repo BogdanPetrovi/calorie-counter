@@ -62,6 +62,11 @@ const Chart = () => {
           }
         }
       }
+    },
+    scales: {
+      y: {
+        min: 0
+      }
     }
   }
 

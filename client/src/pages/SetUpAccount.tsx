@@ -25,7 +25,8 @@ function SetUpAccount() {
     activicyLevel: '',
     goal: '',
     targetDailyCalories: 0,
-    createdAt: ''
+    createdAt: '',
+    updatedAt: ''
   })
 
   if (isPending) 

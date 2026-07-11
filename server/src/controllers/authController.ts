@@ -70,7 +70,7 @@ export const getUserInfo = async (req: Request, res: Response) => {
                                 user_profiles.updated_at, user_profiles.date_of_birth::text, user_profiles.gender,
                                 user_profiles.goal, user_profiles.height_cm, user_profiles.target_daily_calories,
                                 user_profiles.weight_kg FROM users
-                                JOIN user_profiles ON user_profiles.user_id = users.id
+                                LEFT JOIN user_profiles ON user_profiles.user_id = users.id
                                 WHERE users.id = $1;`,
                               [req.user.id])
   

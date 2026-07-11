@@ -11,7 +11,7 @@ const ActivicyLevel: React.FC<DefaultSetUpType> = ({next}) => {
   
 
   return (
-    <form className="w-screen h-screen flex flex-col gap-5 justify-center items-center">
+    <form className="w-screen min-h-screen my-5 lg:my-0 flex flex-col gap-5 justify-center items-center">
       <Header title={'How often do you exercise?'} />
 
       <div className="flex flex-col md:flex-row justify-center w-1/2 md:w-1/3 gap-6">

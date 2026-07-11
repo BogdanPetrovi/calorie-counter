@@ -18,7 +18,7 @@ const DateOfBirth: React.FC<DefaultSetUpType> = ({next}) => {
       <Header title={'When were you born?'} />
 
       <input type="date" 
-        className="outline-none w-1/4 h-14 text-4xl p-2 bg-slate-200 border-0 rounded-lg"
+        className="outline-none w-11/12 lg:w-1/4 h-14 text-4xl p-2 bg-slate-200 border-0 rounded-lg"
         max={maxDateFormatted}
         min="1920-01-01"
         value={date}

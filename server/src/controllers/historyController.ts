@@ -54,7 +54,7 @@ export const historyStats = async (req: Request, res: Response) => {
   return res.status(200).json({ 
     streak: Number(streak.rows[0].current_streak), 
     averageMeal: Number(averageMeal.rows[0].average_calories) || 0, 
-    mostEatenFood: mostEatenFood.rows[0].food_name
+    mostEatenFood: mostEatenFood.rows[0]?.food_name
   })
 }
 
