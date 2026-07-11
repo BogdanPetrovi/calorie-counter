@@ -87,6 +87,11 @@ export const changePersonalInfo = async (req: Request, res: Response) => {
   if(!name || !email) 
     return res.status(400).json({ message: "Please provide both name and email" })
 
+  const isInUse = await db.query('SELECT email FROM users WHERE email = $1;', [email])
+
+  if(isInUse.rows.length > 0)
+    return res.status(409).json({ message: "An account with this email address already exists" })
+
   const result = await db.query(`
       UPDATE users
       SET name = $1, email = $2

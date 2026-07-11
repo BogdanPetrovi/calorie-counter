@@ -9,6 +9,7 @@ import apiConnection from "../../services/apiConnection"
 import { validateEmail } from "../../utils/validator"
 import { useQueryClient } from "@tanstack/react-query"
 import { useToast } from "../../context/ToastContext"
+import { AxiosError } from "axios"
 
 const PersonalInfo = () => {
   const { data, isPending } = useUser()
@@ -55,7 +56,9 @@ const PersonalInfo = () => {
     } catch (err) {
       setName(data.name)
       setEmail(data.email)
-      console.log(err)
+      if(err instanceof AxiosError){
+        return showToast(err.response?.data.message || err.message, 'error')
+      }
       return showToast(`Changing personal info failed, try again!`, 'error')
     }
   }
