@@ -26,7 +26,7 @@ const PersonalInfo = () => {
   }
   
   return (
-    <ProfileContainer gap="gap-3.5">
+    <ProfileContainer additionalStyles="gap-3.5">
       <Title name="Personal info" />
       <div className="w-full">
         <Input name="Full name" placeholder="John Doe" value={ name || '' } setValue={setName} type="text" />

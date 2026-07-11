@@ -6,6 +6,7 @@ import Layout from "../components/shared/layout/Layout"
 import PersonalInfo from "../components/profile/PersonalInfo"
 import PhysiqueAndGoal from "../components/profile/PhysiqueAndGoal"
 import BmiAndMemberSince from "../components/profile/BmiAndMemberSince"
+import WeightChange from "../components/profile/WeightChange"
 
 
 const Profile = () => {
@@ -30,7 +31,7 @@ const Profile = () => {
         <PersonalInfo />
         <PhysiqueAndGoal />
         <BmiAndMemberSince />
-        {/* chart promena kilaze */}
+        <WeightChange />
       </div>
     </Layout>
   )
