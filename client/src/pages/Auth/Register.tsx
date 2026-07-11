@@ -25,8 +25,10 @@ const Register = () => {
 
     //If there was an error function will return string error message
     const validateError: string = validateRegister(email, password, fullName)
-    if(validateError)
+    if(validateError){
+      setLoading(false)
       return setDisplayError(validateError)
+    }
 
     setDisplayError('')
 
