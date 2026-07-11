@@ -3,8 +3,6 @@ import Navbar from "./Navbar"
 import Sidebar from "./Sidebar"
 import { useState } from "react"
 import AddMealModal from "./modal/AddMealModal"
-import type { ToastWithShow } from "../../../types/toastTypes"
-import Toast from "../Toast"
 
 interface LayoutProps {
   children: React.ReactNode
@@ -13,23 +11,9 @@ interface LayoutProps {
 const Layout:React.FC<LayoutProps> = ({ children }) => {
   const [isSidebar, setIsSidebar] = useState(false);
   const [isModal, setIsModal] = useState(false)
-  const [toast, setToast] = useState<ToastWithShow>({
-    message: '',
-    type: 'success',
-    show: false
-  })
 
   const close = () => {
     setIsModal(false)
-  }
-
-  const toastSettings = ( toast: ToastWithShow ) => {
-    setToast({
-      ...toast,
-      message: toast.message,
-      show: toast.show,
-      type: toast.type
-    })
   }
 
   return (
@@ -43,15 +27,7 @@ const Layout:React.FC<LayoutProps> = ({ children }) => {
       </div>
       {
         isModal &&
-          <AddMealModal close={close} toast={toastSettings} />
-      }
-      {
-        toast.show &&
-          <Toast
-            message={toast.message}
-            type={toast.type}
-            onClose={() => setToast({...toast, show: false})}
-          />
+          <AddMealModal close={close} />
       }
       <div className="xl:ml-96 mt-14 w-full py-9 px-5 flex flex-col items-center gap-5 fade-in-left">
         {children}

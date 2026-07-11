@@ -8,6 +8,7 @@ import ProfileContainer from "./ui/ProfileContainer"
 import apiConnection from "../../services/apiConnection"
 import { validateEmail } from "../../utils/validator"
 import { useQueryClient } from "@tanstack/react-query"
+import { useToast } from "../../context/ToastContext"
 
 const PersonalInfo = () => {
   const { data, isPending } = useUser()
@@ -16,6 +17,7 @@ const PersonalInfo = () => {
   const [isDisabled, setIsDisabled] = useState(true)
   const [error, setError] = useState<null | 'name' | 'email' | 'both'>(null)
   const queryClient = useQueryClient()
+  const { showToast } = useToast()
 
   useEffect(() => {
     if(data && data.name === name && data.email === email)
@@ -46,10 +48,15 @@ const PersonalInfo = () => {
         name,
         email
       })
-      if(result.status === 204)
+      if(result.status === 204){
         queryClient.invalidateQueries({ queryKey: ['user'] })
+        return showToast('You succesfuly changed personal info!', 'success')
+      }
     } catch (err) {
+      setName(data.name)
+      setEmail(data.email)
       console.log(err)
+      return showToast(`Changing personal info failed, try again!`, 'error')
     }
   }
   

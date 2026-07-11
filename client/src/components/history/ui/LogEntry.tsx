@@ -5,27 +5,20 @@ import AddMealModal from "../../shared/layout/modal/AddMealModal";
 import type MealLog from "../../../types/mealLogTypes";
 import apiConnection from "../../../services/apiConnection";
 import { useInvalidateData } from "../../../utils/refetch";
-import type { ToastWithShow } from "../../../types/toastTypes";
+import { useToast } from "../../../context/ToastContext";
 
-const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize, toastSettings }: MealLog & { toastSettings: (toast: ToastWithShow) => void }) => {
+const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize }: MealLog) => {
   const { invalidateAll } = useInvalidateData()
   const [showModal, setShowModal] = useState(false)
+  const { showToast } = useToast()
 
   const deleteRow = async () => {
     try {
       await apiConnection.delete(`/dashboard/delete-meal/${id}`)
-      toastSettings({ 
-        message: `Succesfuly deleted meal!`,  
-        show: true,
-        type: 'success'
-      })
+      showToast("Succesfuly deleted meal!", 'success')
     } catch (err) {
       console.log(err)
-      toastSettings({ 
-        message: `Couldn't delete your meal, try again!`,  
-        show: true,
-        type: 'error'
-      })
+      showToast("Couldn't delete your meal, try again!", 'error')
     }
 
     invalidateAll()
@@ -53,7 +46,6 @@ const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize, to
         showModal &&
           <AddMealModal
             close={() => setShowModal(false)} 
-            toast={toastSettings}
             modalValues={{
               id,
               mealType,

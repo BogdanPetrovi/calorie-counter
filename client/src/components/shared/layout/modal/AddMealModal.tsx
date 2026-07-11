@@ -3,19 +3,18 @@ import MealTypeSelector from "./MealTypeSelector"
 import Input from "../../ui/Input"
 import ServingSizeInput from "./ServingSizeInput"
 import apiConnection from "../../../../services/apiConnection"
-import type { ToastWithShow } from "../../../../types/toastTypes"
 import type CompleteMealType from "../../../../types/completeMealType"
 import splitAmount from "../../../../utils/splitAmount"
 import { useInvalidateData } from "../../../../utils/refetch"
 import Submit from "../../ui/Submit"
+import { useToast } from "../../../../context/ToastContext"
 
 interface AddMealModalProps {
   close: () => void,
-  toast: (toast: ToastWithShow) => void,
   modalValues?: CompleteMealType
 }
 
-const AddMealModal = ({ close, toast, modalValues }: AddMealModalProps ) => {
+const AddMealModal = ({ close, modalValues }: AddMealModalProps ) => {
   const { invalidateAll } = useInvalidateData()
 
   const [mealType, setMealType] = useState(modalValues?.mealType || 'breakfast')
@@ -25,6 +24,7 @@ const AddMealModal = ({ close, toast, modalValues }: AddMealModalProps ) => {
   const [servingSize, setServingSize] = useState(size || '')
   const [servingMeasurement, setServingMeasurement] = useState(measurment || 'g')
   const [isDisabled, setIsDisabled] = useState(true)
+  const { showToast } = useToast()
 
   useEffect(() => {
     if(foodName && calories)
@@ -47,19 +47,11 @@ const AddMealModal = ({ close, toast, modalValues }: AddMealModalProps ) => {
           servingSize: servingSize && `${servingSize}${servingMeasurement}`
         })
         if(result.status === 204) {
-          toast({
-            message: `Succesfuly updated your meal!`,
-            show: true,
-            type: 'success'
-          })
+          showToast('Succesfuly updated your meal!', 'success')
         }
       } catch (err) {
         console.log(err)
-        toast({ 
-          message: `Couldn't update your meal, try again!`,  
-          show: true,
-          type: 'error'
-        })
+        showToast("Couldn't update your meal, try again!", 'error')
       }
     }
     else {
@@ -71,19 +63,11 @@ const AddMealModal = ({ close, toast, modalValues }: AddMealModalProps ) => {
           servingSize: servingSize && `${servingSize}${servingMeasurement}`
         })
         if(result.status === 201){
-          toast({ 
-            message: `Succesfuly added your ${mealType}!`,  
-            show: true,
-            type: 'success'
-          })
+          showToast(`Succesfuly added your ${mealType}!`, 'success')
         }
       } catch (err) {
         console.log(err)
-        toast({ 
-          message: `Couldn't save your meal, try again!`,  
-          show: true,
-          type: 'error'
-        })
+        showToast("Couldn't save your meal, try again!", 'error')
       }
     }
     

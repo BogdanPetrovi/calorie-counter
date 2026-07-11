@@ -10,8 +10,8 @@ const Toast = ({ message, type = 'success', onClose, duration = 6000 }: ToastPro
     return () => clearTimeout(timer)
   }, [duration, onClose])
 
-  const bgColor = type === 'success' ? 'bg-green-600' : 'bg-red-500'
-  const progressColor = type === 'success' ? 'bg-green-300' : 'bg-red-300'
+  const bgColor = type === 'success' ? 'bg-green-700' : 'bg-red-600'
+  const progressColor = type === 'success' ? 'bg-green-400' : 'bg-red-300'
 
   return (
     <div className={`slide-in-left fixed bottom-6 right-2 lg:right-6 left-2 lg:left-auto ${bgColor} text-white px-6 py-6 rounded-lg shadow-2xl flex items-center gap-3 slide-in z-50 min-h-[100px] min-w-[350px] overflow-hidden`}>

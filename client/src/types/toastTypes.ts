@@ -1,8 +1,10 @@
 export interface Toast {
   message: string
-  type?: 'success' | 'error'
+  type?: ToastType
   duration?: number
 }
+
+export type ToastType = 'success' | 'error'
 
 export interface ToastProps extends Toast {
   onClose: () => void
