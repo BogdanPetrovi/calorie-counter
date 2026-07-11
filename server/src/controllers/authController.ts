@@ -79,3 +79,19 @@ export const getUserInfo = async (req: Request, res: Response) => {
 
   return res.status(200).json(user.rows[0])
 }
+
+export const changePersonalInfo = async (req: Request, res: Response) => {
+  const user = req.user
+  const { name, email } = req.body
+
+  if(!name || !email) 
+    return res.status(400).json({ message: "Please provide both name and email" })
+
+  const result = await db.query(`
+      UPDATE users
+      SET name = $1, email = $2
+      WHERE id = $3;
+    `, [name, email, user?.id])
+  
+  return res.sendStatus(204)
+}
