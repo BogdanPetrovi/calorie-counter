@@ -13,7 +13,7 @@ CREATE TYPE goals AS ENUM ('lose', 'maintain', 'gain');
 
 CREATE TABLE user_profiles(
   id SERIAL PRIMARY KEY,
-  user_id BIGINT REFERENCES users(id) NOT NULL,
+  user_id BIGINT REFERENCES users(id) NOT NULL UNIQUE,
   gender genders NOT NULL,
   weight_kg FLOAT NOT NULL,
   height_cm FLOAT NOT NULL,
@@ -34,4 +34,11 @@ CREATE TABLE food_entries(
   meal_type meal_types NOT NULL,
   serving_size VARCHAR(10),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE weight_updates(
+  id SERIAL PRIMARY KEY,
+  user_id BIGINT REFERENCES users(id) NOT NULL,
+  weight FLOAT NOT NULL,
+  date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

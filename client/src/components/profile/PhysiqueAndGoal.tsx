@@ -5,9 +5,14 @@ import Submit from "../shared/ui/Submit";
 import Select from "./ui/Select";
 import { useUser } from "../../utils/useQuery/userQuery";
 import DateInput from "./ui/DateInput";
+import { useToast } from "../../context/ToastContext";
+import apiConnection from "../../services/apiConnection";
+import { useQueryClient } from "@tanstack/react-query";
 
 const PhysiqueAndGoal = () => {
+  const queryClient = useQueryClient();
   const { data: user, isPending } = useUser()
+  const { showToast } = useToast()
   const [gender, setGender] = useState(user!.gender);
   const [dateOfBirth, setDateOfBirth] = useState(user!.dateOfBirth)
   const [height, setHeight] = useState(String(user!.height))
@@ -19,6 +24,8 @@ const PhysiqueAndGoal = () => {
   useEffect(() => {
     if(!user) return
 
+    setCalorieBudget(String(user.targetDailyCalories))
+
     if(user!.gender === gender && user!.dateOfBirth === dateOfBirth && 
       String(user!.height) === height && String(user!.activicyLevel) === activicyLevel &&
       user!.goal === goal
@@ -28,8 +35,25 @@ const PhysiqueAndGoal = () => {
     return setIsDisabled(false)
   }, [user, gender, dateOfBirth, height, activicyLevel, goal, setIsDisabled])
 
-  const handleSubmit = () => {
-    return
+  const handleSubmit = async () => {
+    if(isDisabled) return
+    try {
+      await apiConnection.post('/profile/update-user-data', {
+        gender,
+        weight: user?.weight,
+        height,
+        dateOfBirth,
+        activicyLevel,
+        goal
+      })
+
+      queryClient.invalidateQueries({ queryKey: ['user'] })
+
+      return showToast("Succesfuly changed your data!", 'success')
+    } catch (err) {
+      console.log(err)
+      return showToast("Couldn't save your new data, try again!", 'error')
+    }
   }
 
   if(isPending || !user) return <></>
