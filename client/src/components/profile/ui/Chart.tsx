@@ -1,15 +1,20 @@
 import { CategoryScale, Chart as ChartJS, defaults, LinearScale, LineElement, PointElement, Tooltip } from "chart.js"
 import { Line } from "react-chartjs-2"
+import useWeightChange from "../../../utils/useQuery/weightChangeQuery"
 
 ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Tooltip)
 defaults.maintainAspectRatio = false
 
 const Chart = () => {
+  const { data } = useWeightChange();
+
+  if(!data) return
+
   const chartData = {
-    labels: ['14. May', '25 May', '3 June', '15 June', '29 June', '1 July', '9 July'],
+    labels: data.map(val => val.date),
     datasets: [{
       label: 'Weight(kg)',
-      data: [70, 72, 71.5, 71, 73.2, 71, 74],
+      data: data.map(val => val.weight),
       borderColor: 'green',
       backgroundColor: 'green'
     }]

@@ -50,3 +50,24 @@ export const bmiAndMemberSince = async (req: Request, res: Response) => {
     }
   })
 }
+
+export const weightChange = async (req: Request, res: Response) => {
+  const user = req.user
+
+  const history = await databaseConnect.query(
+    `SELECT * 
+    FROM weight_updates 
+    WHERE user_id = $1
+    AND date > CURRENT_DATE - 90
+    ORDER BY date;`, [user?.id])
+
+  const formattedResponse = history.rows.map(val => {
+    const formatDate = Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: 'short'
+    }).format(val.date)
+    return { weight: val.weight, date: formatDate }
+  })
+
+  return res.status(200).json(formattedResponse)
+}
