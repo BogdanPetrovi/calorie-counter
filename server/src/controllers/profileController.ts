@@ -71,3 +71,26 @@ export const weightChange = async (req: Request, res: Response) => {
 
   return res.status(200).json(formattedResponse)
 }
+
+export const logWeight = async (req: Request, res: Response) => {
+  const user = req.user
+  const { weight } = req.body
+
+  if(!weight || typeof weight !== 'number')
+    return res.status(400).json({ message: "Incorrect weight data type. Please provide a number." })
+
+  await databaseConnect.transaction(async (client) => {
+    await client.query(`
+      INSERT INTO weight_updates(user_id, weight)
+      VALUES($1, $2);
+    `, [user?.id, weight])
+
+    await client.query(`
+      UPDATE user_profiles
+      SET weight_kg = $1
+      WHERE user_id = $2;  
+    `, [user?.id, weight])
+  })
+
+  return res.sendStatus(204)
+}
