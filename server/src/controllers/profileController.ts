@@ -89,7 +89,7 @@ export const logWeight = async (req: Request, res: Response) => {
       UPDATE user_profiles
       SET weight_kg = $1
       WHERE user_id = $2;  
-    `, [user?.id, weight])
+    `, [weight, user?.id])
   })
 
   return res.sendStatus(204)

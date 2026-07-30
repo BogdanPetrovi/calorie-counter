@@ -47,7 +47,10 @@ const PhysiqueAndGoal = () => {
         goal
       })
 
-      queryClient.invalidateQueries({ queryKey: ['user'] })
+      await Promise.all([
+        await queryClient.invalidateQueries({ queryKey: ['user'] }),
+        await queryClient.invalidateQueries({ queryKey: ['bmi-and-member-since'] })
+      ])
 
       return showToast("Succesfuly changed your data!", 'success')
     } catch (err) {
