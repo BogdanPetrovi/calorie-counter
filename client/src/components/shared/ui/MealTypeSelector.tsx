@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from "react"
-import type { MealType } from "../../../../types/mealTypeTypes"
+import type { MealType } from "../../../types/mealTypeTypes"
 
 interface MealTypeProps {
   value: string,

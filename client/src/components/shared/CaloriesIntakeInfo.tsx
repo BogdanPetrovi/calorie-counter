@@ -1,5 +1,5 @@
-import CaloriesDay from "../dashboard/CaloriesDay"
-import MealsDay from "../dashboard/MealsDay"
+import CaloriesDay from "./CaloriesDay"
+import MealsDay from "./MealsDay"
 
 const CaloriesIntakeInfo = ({ day }: { day: 'today' | 'yesterday' }) => {
   return(

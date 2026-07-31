@@ -1,8 +1,8 @@
 import { LuApple } from "react-icons/lu"
-import Title from "../shared/ui/Title"
+import Title from "./ui/Title"
 import { useCaloriesIntakeInfo } from "../../utils/useQuery/caloriesIntakeInfoQuery"
 import { useUser } from "../../utils/useQuery/userQuery"
-import ContainerDiv from "../shared/ui/ContainerDiv"
+import ContainerDiv from "./ui/ContainerDiv"
 
 interface CaloriesDayProps {
   day: 'today' | 'yesterday'

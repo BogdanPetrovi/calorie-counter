@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaPen } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
-import AddMealModal from "../../shared/layout/modal/AddMealModal";
+import AddMealModal from "../../shared/AddMealModal";
 import type MealLog from "../../../types/mealLogTypes";
 import apiConnection from "../../../services/apiConnection";
 import { useInvalidateData } from "../../../utils/refetch";

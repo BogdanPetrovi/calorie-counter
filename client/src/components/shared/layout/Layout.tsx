@@ -2,7 +2,7 @@ import type React from "react"
 import Navbar from "./Navbar"
 import Sidebar from "./Sidebar"
 import { useState } from "react"
-import AddMealModal from "./modal/AddMealModal"
+import AddMealModal from "../AddMealModal"
 
 interface LayoutProps {
   children: React.ReactNode

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import Modal from "./Modal"
+import LogWeightModal from "../LogWeightModal"
 
 const LogWeightButton = () => {
   const [isActive, setIsActive] = useState(false)
@@ -14,7 +14,7 @@ const LogWeightButton = () => {
 
       {
         isActive &&
-          <Modal setIsActive={setIsActive} />
+          <LogWeightModal close={() => setIsActive(false)} />
       }
     </>
   )

@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react"
-import MealTypeSelector from "./MealTypeSelector"
-import Input from "../../ui/Input"
-import ServingSizeInput from "./ServingSizeInput"
-import apiConnection from "../../../../services/apiConnection"
-import type CompleteMealType from "../../../../types/completeMealType"
-import splitAmount from "../../../../utils/splitAmount"
-import { useInvalidateData } from "../../../../utils/refetch"
-import Submit from "../../ui/Submit"
-import { useToast } from "../../../../context/ToastContext"
+import MealTypeSelector from "./ui/MealTypeSelector"
+import Input from "./ui/Input"
+import ServingSizeInput from "./ui/ServingSizeInput"
+import apiConnection from "../../services/apiConnection"
+import type CompleteMealType from "../../types/completeMealType"
+import splitAmount from "../../utils/splitAmount"
+import { useInvalidateData } from "../../utils/refetch"
+import Submit from "./ui/Submit"
+import { useToast } from "../../context/ToastContext"
+import ModalContainer from "./ui/ModalContainer"
 
 interface AddMealModalProps {
   close: () => void,
@@ -81,42 +82,33 @@ const AddMealModal = ({ close, modalValues }: AddMealModalProps ) => {
   }
 
   return (    
-    <div 
-      className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center"
-      onClick={close}
+    <ModalContainer
+      title="Log food"
+      close={close}
     >
-      <div 
-        className="w-11/12 md:w-1/2 lg:w-1/3 2xl:w-1/4 px-5 pt-3 pb-5 bg-white text-green-900 rounded-xl drop-shadow-sm drop-shadow-white border border-black/20 flex flex-col gap-4"
-        onClick={e => e.stopPropagation()}
-      >
-        <div className="flex justify-between text-3xl font-bold">
-          <h2>Log food</h2>
-          <h2 className="cursor-pointer" onClick={close}>X</h2>
-        </div>
-        <MealTypeSelector value={mealType} setValue={setMealType} />
-        <Input
-          name="Food name"
-          placeholder={"Chicken breast, chicken soup,..."}
-          value={foodName}
-          setValue={setFoodName}
-          type="text"
-        />
-        <Input
-          name="Calories (kcal)"
-          placeholder={"1"}
-          value={calories}
-          setValue={setCalories}
-          type="number"
-        />
-        <ServingSizeInput
-          measurementValue={servingMeasurement}
-          setMeasurement={setServingMeasurement}
-          value={servingSize}
-          setValue={setServingSize}
-        />
-        <Submit handleSubmit={handleSubmit} isDisabled={isDisabled} />
-      </div>
-    </div>
+      <MealTypeSelector value={mealType} setValue={setMealType} />
+      <Input
+        name="Food name"
+        placeholder={"Chicken breast, chicken soup,..."}
+        value={foodName}
+        setValue={setFoodName}
+        type="text"
+      />
+      <Input
+        name="Calories (kcal)"
+        placeholder={"1"}
+        value={calories}
+        setValue={setCalories}
+        type="number"
+      />
+      <ServingSizeInput
+        measurementValue={servingMeasurement}
+        setMeasurement={setServingMeasurement}
+        value={servingSize}
+        setValue={setServingSize}
+      />
+      <Submit handleSubmit={handleSubmit} isDisabled={isDisabled} />
+    </ModalContainer>
   )
 }
 
