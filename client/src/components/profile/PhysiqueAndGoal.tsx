@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Input from "../shared/ui/Input"
 import Title from "../shared/ui/Title"
 import Submit from "../shared/ui/Submit";
@@ -8,11 +8,13 @@ import DateInput from "./ui/DateInput";
 import { useToast } from "../../context/ToastContext";
 import apiConnection from "../../services/apiConnection";
 import { useQueryClient } from "@tanstack/react-query";
+import { useConfirm } from "../../context/ConfirmContext";
 
 const PhysiqueAndGoal = () => {
   const queryClient = useQueryClient();
   const { data: user, isPending } = useUser()
   const { showToast } = useToast()
+  const { showConfirm, closeConfirm } = useConfirm()
   const [gender, setGender] = useState(user!.gender);
   const [dateOfBirth, setDateOfBirth] = useState(user!.dateOfBirth)
   const [height, setHeight] = useState(String(user!.height))
@@ -35,8 +37,7 @@ const PhysiqueAndGoal = () => {
     return setIsDisabled(false)
   }, [user, gender, dateOfBirth, height, activicyLevel, goal, setIsDisabled])
 
-  const handleSubmit = async () => {
-    if(isDisabled) return
+  const handleConfirmSubmit = useCallback(async () => {
     try {
       await apiConnection.post('/profile/update-user-data', {
         gender,
@@ -47,17 +48,30 @@ const PhysiqueAndGoal = () => {
         goal
       })
 
+      closeConfirm()
+
       await Promise.all([
-        await queryClient.invalidateQueries({ queryKey: ['user'] }),
-        await queryClient.invalidateQueries({ queryKey: ['bmi-and-member-since'] })
+        queryClient.invalidateQueries({ queryKey: ['user'] }),
+        queryClient.invalidateQueries({ queryKey: ['bmi-and-member-since'] })
       ])
 
-      return showToast("Succesfuly changed your data!", 'success')
+      showToast("Succesfuly changed your data!", 'success')
     } catch (err) {
       console.log(err)
-      return showToast("Couldn't save your new data, try again!", 'error')
+      showToast("Couldn't save your new data, try again!", 'error')
     }
-  }
+  }, [gender, user, height, dateOfBirth, activicyLevel, goal, closeConfirm, queryClient, showToast])
+
+  const handleClick = useCallback(() => {
+    if(isDisabled) return
+    showConfirm({
+      title: 'Are you sure you want to update your physique and goal data?',
+      description: "Your gender, date of birth, height, activity level and goal will be updated to the new values.",
+      buttonColor: 'green',
+      action: handleConfirmSubmit,
+      close: () => {}
+    })
+  }, [isDisabled, showConfirm, handleConfirmSubmit])
 
   if(isPending || !user) return <></>
 
@@ -115,7 +129,7 @@ const PhysiqueAndGoal = () => {
         isDisabled
       />
       <div className="col-span-2">
-        <Submit handleSubmit={handleSubmit} isDisabled={isDisabled} />
+        <Submit handleSubmit={handleClick} isDisabled={isDisabled} />
       </div>
     </div>
   )

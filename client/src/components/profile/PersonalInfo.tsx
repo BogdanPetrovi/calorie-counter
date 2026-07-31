@@ -1,5 +1,5 @@
 import Title from "../shared/ui/Title"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { HiLockClosed } from "react-icons/hi"
 import Input from "../shared/ui/Input"
 import Submit from "../shared/ui/Submit"
@@ -9,6 +9,7 @@ import apiConnection from "../../services/apiConnection"
 import { validateEmail } from "../../utils/validator"
 import { useQueryClient } from "@tanstack/react-query"
 import { useToast } from "../../context/ToastContext"
+import { useConfirm } from "../../context/ConfirmContext"
 import { AxiosError } from "axios"
 
 const PersonalInfo = () => {
@@ -19,6 +20,7 @@ const PersonalInfo = () => {
   const [error, setError] = useState<null | 'name' | 'email' | 'both'>(null)
   const queryClient = useQueryClient()
   const { showToast } = useToast()
+  const { showConfirm, closeConfirm } = useConfirm()
 
   useEffect(() => {
     if(data && data.name === name && data.email === email)
@@ -39,29 +41,41 @@ const PersonalInfo = () => {
     setError(null)
     return setIsDisabled(false)    
   }, [data, name, email])
-  
-  if(isPending || !data) return <></>
 
-  const handleSubmit = async () => {
-    if(isDisabled) return
+  const handleConfirmSubmit = useCallback(async () => {
     try {
       const result = await apiConnection.post('/auth/update-personal-info', {
         name,
         email
       })
       if(result.status === 204){
+        closeConfirm()
         queryClient.invalidateQueries({ queryKey: ['user'] })
-        return showToast('You succesfuly changed personal info!', 'success')
+        showToast('You succesfuly changed personal info!', 'success')
       }
     } catch (err) {
-      setName(data.name)
-      setEmail(data.email)
+      setName(data!.name)
+      setEmail(data!.email)
       if(err instanceof AxiosError){
-        return showToast(err.response?.data.message || err.message, 'error')
+        showToast(err.response?.data.message || err.message, 'error')
+      } else {
+        showToast(`Changing personal info failed, try again!`, 'error')
       }
-      return showToast(`Changing personal info failed, try again!`, 'error')
     }
-  }
+  }, [name, email, data, closeConfirm, queryClient, showToast])
+
+  const handleClick = useCallback(() => {
+    if(isDisabled) return
+    showConfirm({
+      title: 'Are you sure you want to change your personal info?',
+      description: "Your name and email on file will be updated to the new values.",
+      buttonColor: 'green',
+      action: handleConfirmSubmit,
+      close: () => {}
+    })
+  }, [isDisabled, showConfirm, handleConfirmSubmit])
+  
+  if(isPending || !data) return <></>
   
   return (
     <ProfileContainer additionalStyles="gap-3.5">
@@ -89,7 +103,7 @@ const PersonalInfo = () => {
       <div className="w-full py-2 flex rounded-lg justify-center items-center cursor-pointer bg-black/20 hover:bg-black/30 active:bg-black/40 duration-200">
         <HiLockClosed /> Change password
       </div>
-      <Submit handleSubmit={handleSubmit} isDisabled={isDisabled} />
+      <Submit handleSubmit={handleClick} isDisabled={isDisabled} />
     </ProfileContainer>
   )
 }
