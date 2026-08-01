@@ -1,10 +1,9 @@
-import type React from "react"
 import type { DefaultSetUpType } from "../../types/setUpTypes"
 import Header from "./ui/Header"
 import Next from "./ui/Next"
 import { useState } from "react"
 
-const DateOfBirth: React.FC<DefaultSetUpType> = ({next}) => {
+const DateOfBirth = ({next}: DefaultSetUpType) => {
   const [date, setDate] = useState('')
 
   const maxDate = new Date()

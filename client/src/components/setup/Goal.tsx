@@ -1,4 +1,3 @@
-import type React from "react"
 import type { DefaultSetUpType } from "../../types/setUpTypes"
 import Next from "./ui/Next"
 import Header from "./ui/Header"
@@ -8,7 +7,7 @@ import { PiChartLineDownBold } from "react-icons/pi";
 import { PiChartLineUpBold } from "react-icons/pi";
 import { IoScale } from "react-icons/io5";
 
-const Goal: React.FC<DefaultSetUpType> = ({next}) => {
+const Goal = ({next}: DefaultSetUpType) => {
   const [selected, setSelected] = useState('')
 
   return (

@@ -1,7 +1,6 @@
-import type React from "react"
 import type { DefaultSetUpType } from "../../types/setUpTypes"
 
-const Start:React.FC<DefaultSetUpType> = ({user, next}) => {
+const Start = ({user, next}: DefaultSetUpType) => {
   return (
     <div className="w-screen h-screen flex flex-col justify-center items-center gap-5">
       <h1 className="text-7xl font-semibold text-zinc-800 mx-2 lg:mx-0">Welcome <span className="font-bold">{ user?.name.split(' ')[0] || user?.name }</span>!</h1>

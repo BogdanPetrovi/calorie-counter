@@ -1,4 +1,3 @@
-import type React from "react"
 import { useState } from "react"
 
 interface NumInputProps {
@@ -8,7 +7,7 @@ interface NumInputProps {
   placeholder: string
 }
 
-const NumInput: React.FC<NumInputProps> = ({ max, min, setSelected, placeholder }) => {
+const NumInput = ({ max, min, setSelected, placeholder }: NumInputProps) => {
   const [inputValue, setInputValue] = useState('')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

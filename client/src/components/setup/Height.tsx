@@ -1,11 +1,10 @@
-import type React from "react"
 import type { DefaultSetUpType } from "../../types/setUpTypes"
 import Next from "./ui/Next"
 import { useState } from "react"
 import Header from "./ui/Header"
 import NumInput from "./ui/NumInput"
 
-const Height: React.FC<DefaultSetUpType> = ({next}) => {
+const Height = ({next}: DefaultSetUpType) => {
   const [selected, setSelected] = useState(0)
   
   return (

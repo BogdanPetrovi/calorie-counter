@@ -1,5 +1,4 @@
 import type { Dispatch, SetStateAction } from "react"
-import type React from "react"
 import { BsPlusCircle } from "react-icons/bs"
 import { IoMenu } from "react-icons/io5"
 
@@ -9,7 +8,7 @@ interface NavbarProps {
   setIsModal: Dispatch<SetStateAction<boolean>>
 }
 
-const Navbar:React.FC<NavbarProps> = ({ isSidebar, setSidebar, setIsModal }) => {
+const Navbar = ({ isSidebar, setSidebar, setIsModal }: NavbarProps) => {
   return (
     <nav className="fixed top-0 left-0 z-40 w-screen h-16 border-b-2 bg-zinc-50 border-zinc-400/10 drop-shadow-lg/10">
       <div className="w-full h-full flex justify-between items-center px-5 xl:px-10">

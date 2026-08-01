@@ -1,5 +1,3 @@
-import type React from "react"
-
 interface NextProps {
   result: string | number,
   item: string,
@@ -8,7 +6,7 @@ interface NextProps {
   max?: number
 }
 
-const Next:React.FC<NextProps> = ({ result, next, item, min, max }) => {
+const Next = ({ result, next, item, min, max }: NextProps) => {
   const disabledLogic = typeof result === 'string' ? result !== '' ? false : true : min && result <= min || max && result >= max ? true : false
 
   return (

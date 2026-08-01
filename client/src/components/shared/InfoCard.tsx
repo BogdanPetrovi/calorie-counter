@@ -1,4 +1,3 @@
-import type React from "react"
 import type { IconType } from "react-icons"
 
 interface InfoCardProps {
@@ -8,7 +7,7 @@ interface InfoCardProps {
   value: string | number | null
 }
 
-const InfoCard:React.FC<InfoCardProps> = ({ bgColor, Icon, label, value }) => {
+const InfoCard = ({ bgColor, Icon, label, value }: InfoCardProps) => {
   return (
     <div className="bg-white flex items-center gap-5 p-6 shadow-md shadow-gray-200 border border-gray-200/50 rounded-2xl">
       <div className={`size-20 text-white flex justify-center items-center rounded-full ${bgColor}`}>

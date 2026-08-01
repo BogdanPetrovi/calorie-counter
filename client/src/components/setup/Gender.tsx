@@ -1,4 +1,3 @@
-import type React from "react"
 import type { DefaultSetUpType } from "../../types/setUpTypes"
 import { ImMan, ImWoman } from "react-icons/im";
 import { useState } from "react";
@@ -6,7 +5,7 @@ import SelectBox from './ui/SelectBox'
 import Next from "./ui/Next";
 import Header from "./ui/Header";
 
-const Gender: React.FC<DefaultSetUpType> = ({next}) => {
+const Gender = ({next}: DefaultSetUpType) => {
   const [selected, setSelected] = useState('')
 
   return (

@@ -1,4 +1,3 @@
-import type React from "react"
 import type { AdditionalUserData } from "../../types/userTypes"
 import api from "../../services/apiConnection"
 import Loader from "../shared/Loader"
@@ -11,7 +10,7 @@ interface EndProps {
   userData: AdditionalUserData
 }
 
-const End:React.FC<EndProps> = ({ userData }) => {
+const End = ({ userData }: EndProps) => {
   const { refetch } = useUser()
   const postUserData = async () => {
     const result = await api.post('/setup', userData)

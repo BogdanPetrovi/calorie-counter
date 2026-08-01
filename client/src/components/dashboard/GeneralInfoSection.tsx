@@ -3,13 +3,12 @@ import { LuApple } from "react-icons/lu"
 import { IoScale } from "react-icons/io5"
 import { GoGoal } from "react-icons/go"
 import type { CompletedUser } from "../../types/userTypes"
-import type React from "react"
 
 interface GeneralInfoSectionProps {
   user: CompletedUser
 }
 
-const GeneralInfoSection:React.FC<GeneralInfoSectionProps> = ({ user }) => {
+const GeneralInfoSection = ({ user }: GeneralInfoSectionProps) => {
   return (
     <div className="w-full lg:h-36 grid grid-cols-1 lg:grid-cols-3 gap-5">
       <InfoCard 

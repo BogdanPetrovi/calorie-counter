@@ -1,4 +1,3 @@
-import type React from "react"
 import Navbar from "./Navbar"
 import Sidebar from "./Sidebar"
 import { useState } from "react"
@@ -8,7 +7,7 @@ interface LayoutProps {
   children: React.ReactNode
 }
 
-const Layout:React.FC<LayoutProps> = ({ children }) => {
+const Layout = ({ children }: LayoutProps) => {
   const [isSidebar, setIsSidebar] = useState(false);
   const [isModal, setIsModal] = useState(false)
 

@@ -1,5 +1,3 @@
-import type React from "react"
-
 interface SelectBoxProps {
   children: React.ReactNode,
   item: string,
@@ -7,7 +5,7 @@ interface SelectBoxProps {
   selected: string
 }
 
-const SelectBox:React.FC<SelectBoxProps> = ({children, changeSelect, item, selected}) => {
+const SelectBox = ({children, changeSelect, item, selected}: SelectBoxProps) => {
   const styles = "flex flex-col gap-2 items-center justify-center cursor-pointer border-5 rounded-3xl border-green-700 p-4 duration-300"
 
   return (

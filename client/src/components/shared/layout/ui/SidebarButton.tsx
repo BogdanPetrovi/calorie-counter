@@ -1,4 +1,3 @@
-import type React from "react"
 import type { IconType } from "react-icons"
 import { Link, useLocation } from "react-router-dom"
 
@@ -8,7 +7,7 @@ interface SidebarButtonProps {
   navigateTo: '/dashboard' | '/history' | '/profile'
 }
 
-const SidebarButton:React.FC<SidebarButtonProps> = ({ Icon, title, navigateTo }) => {
+const SidebarButton = ({ Icon, title, navigateTo }: SidebarButtonProps) => {
   const location = useLocation();
   const isActive = navigateTo === location.pathname
 
