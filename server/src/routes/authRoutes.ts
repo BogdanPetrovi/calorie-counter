@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { changePersonalInfo, getUserInfo, loginUser, logOut, registerUser } from '../controllers/authController.js';
+import { changePassword, changePersonalInfo, getUserInfo, loginUser, logOut, registerUser } from '../controllers/authController.js';
 import { isLoggedIn } from '../middlewares/authMiddlware.js';
 
 const router = Router();
@@ -13,5 +13,7 @@ router.post('/logOut', isLoggedIn, logOut)
 router.get('/getUserInfo', isLoggedIn, getUserInfo)
 
 router.post('/update-personal-info', isLoggedIn, changePersonalInfo)
+
+router.post('/change-password', isLoggedIn, changePassword)
 
 export default router;

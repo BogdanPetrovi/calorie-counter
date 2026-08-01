@@ -100,3 +100,29 @@ export const changePersonalInfo = async (req: Request, res: Response) => {
   
   return res.sendStatus(204)
 }
+
+export const changePassword = async (req: Request, res: Response) => {
+  const userObj = req.user;
+  const { password, newPassword } = req.body;
+
+  if(!password || !newPassword)
+    return res.status(400).json({ message: "Please provide old and new password." })
+
+  if(password === newPassword)
+    return res.status(400).json({ message: "New password have to be different from the old one." })
+
+  if(newPassword.length < 8)
+    return res.status(400).json({ message: "Please enter a password with at least 8 characters." })
+
+  const result = await db.query('SELECT id, password FROM users WHERE id = $1;', [userObj?.id])
+  const user = result.rows[0]
+
+  if(!user || !( await bcrypt.compare(password, user.password) ))
+    return res.status(401).json({"message": "Invalid credentials"})
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10)
+
+  await db.query('UPDATE users SET password = $1 WHERE id = $2;', [hashedPassword, userObj?.id])
+
+  return res.sendStatus(204)
+}
