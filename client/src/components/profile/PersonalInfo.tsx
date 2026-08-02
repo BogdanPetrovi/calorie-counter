@@ -11,12 +11,14 @@ import { useQueryClient } from "@tanstack/react-query"
 import { useToast } from "../../context/ToastContext"
 import { useConfirm } from "../../context/ConfirmContext"
 import { AxiosError } from "axios"
+import ChangePassword from "./ChangePassword"
 
 const PersonalInfo = () => {
   const { data, isPending } = useUser()
   const [name, setName] = useState(data!.name)
   const [email, setEmail] = useState(data!.email)
   const [isDisabled, setIsDisabled] = useState(true)
+  const [isPassword, setIsPassword] = useState(false)
   const [error, setError] = useState<null | 'name' | 'email' | 'both'>(null)
   const queryClient = useQueryClient()
   const { showToast } = useToast()
@@ -78,33 +80,45 @@ const PersonalInfo = () => {
   if(isPending || !data) return <></>
   
   return (
-    <ProfileContainer additionalStyles="gap-3.5">
-      <Title name="Personal info" />
-      <div className="w-full">
-        <Input 
-          name="Full name" 
-          placeholder="John Doe" 
-          value={ name || '' } 
-          setValue={setName} 
-          type="text" 
-          borderColor={ error === 'name' || error === 'both' ? 'border-red-600' : 'border-green-600' }  
-        />
-      </div>
-      <div className="w-full">
-        <Input 
-          name="Email" 
-          placeholder="example@gmail.com" 
-          value={ email || '' } 
-          setValue={setEmail} 
-          type="text" 
-          borderColor={ error === 'email' || error === 'both' ? 'border-red-600' : 'border-green-600' }  
-        />
-      </div>
-      <div className="w-full py-2 flex rounded-lg justify-center items-center cursor-pointer bg-black/20 hover:bg-black/30 active:bg-black/40 duration-200">
-        <HiLockClosed /> Change password
-      </div>
-      <Submit handleSubmit={handleClick} isDisabled={isDisabled} />
-    </ProfileContainer>
+    <>
+    
+      <ProfileContainer additionalStyles="gap-3.5">
+        <Title name="Personal info" />
+        <div className="w-full">
+          <Input 
+            name="Full name" 
+            placeholder="John Doe" 
+            value={ name || '' } 
+            setValue={setName} 
+            type="text" 
+            borderColor={ error === 'name' || error === 'both' ? 'border-red-600' : 'border-green-600' }  
+          />
+        </div>
+        <div className="w-full">
+          <Input 
+            name="Email" 
+            placeholder="example@gmail.com" 
+            value={ email || '' } 
+            setValue={setEmail} 
+            type="text" 
+            borderColor={ error === 'email' || error === 'both' ? 'border-red-600' : 'border-green-600' }  
+          />
+        </div>
+        <div 
+          className="w-full py-2 flex rounded-lg justify-center items-center cursor-pointer bg-black/20 hover:bg-black/30 active:bg-black/40 duration-200"
+          onClick={() => setIsPassword(true)}
+        >
+          <HiLockClosed /> Change password
+        </div>
+        <Submit handleSubmit={handleClick} isDisabled={isDisabled} />
+      </ProfileContainer>
+      {
+        isPassword &&
+          <ChangePassword
+            close={ () => setIsPassword(false) }
+          /> 
+      }
+    </>
   )
 }
 

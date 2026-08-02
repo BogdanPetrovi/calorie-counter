@@ -106,19 +106,19 @@ export const changePassword = async (req: Request, res: Response) => {
   const { password, newPassword } = req.body;
 
   if(!password || !newPassword)
-    return res.status(400).json({ message: "Please provide old and new password." })
+    return res.status(400).json({ message: "Please provide old and new password" })
 
   if(password === newPassword)
-    return res.status(400).json({ message: "New password have to be different from the old one." })
+    return res.status(400).json({ message: "New password have to be different from the old one", errorInput: 'confirm' })
 
   if(newPassword.length < 8)
-    return res.status(400).json({ message: "Please enter a password with at least 8 characters." })
+    return res.status(400).json({ message: "Please enter a password with at least 8 characters", errorInput: "new" })
 
   const result = await db.query('SELECT id, password FROM users WHERE id = $1;', [userObj?.id])
   const user = result.rows[0]
 
   if(!user || !( await bcrypt.compare(password, user.password) ))
-    return res.status(401).json({"message": "Invalid credentials"})
+    return res.status(401).json({ "message": "Current password is incorrect", errorInput: 'old' })
 
   const hashedPassword = await bcrypt.hash(newPassword, 10)
 
