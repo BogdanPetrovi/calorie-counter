@@ -39,7 +39,6 @@ export const ConfirmProvider = ({ children }: { children: ReactNode }) => {
       isActive: true })
   }, [closeConfirm])
 
-  console.log(confirm.isActive)
 
   return (
     <ConfirmContext.Provider value={{ showConfirm, closeConfirm }}>

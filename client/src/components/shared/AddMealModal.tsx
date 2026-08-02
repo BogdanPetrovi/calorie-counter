@@ -83,7 +83,7 @@ const AddMealModal = ({ close, modalValues }: AddMealModalProps ) => {
 
   return (    
     <ModalContainer
-      title="Log food"
+      title="Add meal"
       close={close}
     >
       <MealTypeSelector value={mealType} setValue={setMealType} />
