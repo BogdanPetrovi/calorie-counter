@@ -1,28 +1,42 @@
-import { useState } from "react";
-import { FaPen } from "react-icons/fa";
-import { FaTrash } from "react-icons/fa";
+import { useCallback, useState } from "react";
+import { FaPen, FaTrash } from "react-icons/fa";
 import AddMealModal from "../../shared/AddMealModal";
 import type MealLog from "../../../types/mealLogTypes";
 import apiConnection from "../../../services/apiConnection";
 import { useInvalidateData } from "../../../utils/refetch";
 import { useToast } from "../../../context/ToastContext";
+import { useConfirm } from "../../../context/ConfirmContext";
 
 const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize }: MealLog) => {
   const { invalidateAll } = useInvalidateData()
   const [showModal, setShowModal] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
   const { showToast } = useToast()
+  const { showConfirm } = useConfirm();
 
-  const deleteRow = async () => {
+  const deleteRow = useCallback(async () => {
+    setIsDeleting(true)
     try {
       await apiConnection.delete(`/dashboard/delete-meal/${id}`)
-      showToast("Succesfuly deleted meal!", 'success')
+      showToast("Successfully deleted meal!", 'success')
+      invalidateAll()
     } catch (err) {
       console.log(err)
       showToast("Couldn't delete your meal, try again!", 'error')
+    } finally {
+      setIsDeleting(false)
     }
+  }, [id, invalidateAll, showToast])
 
-    invalidateAll()
-  }
+  const handleClick = useCallback(() => {
+    showConfirm({
+      title: 'Are you sure you want to delete this row?',
+      description: `Your ${mealType} (${foodName}) will be permanently deleted.`,
+      buttonColor: 'red',
+      action: deleteRow,
+      close: () => {}
+    })
+  }, [showConfirm, deleteRow, mealType, foodName])
 
   return (
     <>
@@ -38,8 +52,12 @@ const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize }: 
             <h3 className="font-bold tracking-wide">{ calories } kcal</h3>
             <h3 className="text-sm">{ String(createdAt) }</h3>
           </div>
-          <FaPen className="text-xl cursor-pointer -mr-3" onClick={() => setShowModal(true)} />
-          <FaTrash className="text-red-700 cursor-pointer" onClick={() => deleteRow()} />
+          <button aria-label="Edit meal" onClick={() => setShowModal(true)}>
+            <FaPen className="text-xl cursor-pointer -mr-3" />
+          </button>
+          <button aria-label="Delete meal" onClick={handleClick} disabled={isDeleting}>
+            <FaTrash className={`${isDeleting && 'opacity-50 cursor-not-allowed'} text-red-700 cursor-pointer`} />
+          </button>
         </div>
       </div>
       {
