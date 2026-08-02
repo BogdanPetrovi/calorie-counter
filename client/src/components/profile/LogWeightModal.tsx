@@ -6,11 +6,11 @@ import { useToast } from "../../context/ToastContext"
 import { useQueryClient } from "@tanstack/react-query"
 import ModalContainer from "../shared/ui/ModalContainer"
 
-interface ModalProps {
+interface LogWeightModalProps {
   close: () => void
 }
 
-const Modal = ({ close }: ModalProps) => {
+const LogWeightModal = ({ close }: LogWeightModalProps) => {
   const [weight, setWeight] = useState('')
   const [isDisabled, setIsDisabled] = useState(true)
   const { showToast } = useToast()
@@ -60,4 +60,4 @@ const Modal = ({ close }: ModalProps) => {
   )
 }
 
-export default Modal
+export default LogWeightModal
