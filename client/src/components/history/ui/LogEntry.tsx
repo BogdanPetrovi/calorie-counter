@@ -12,7 +12,7 @@ const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize }: 
   const [showModal, setShowModal] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const { showToast } = useToast()
-  const { showConfirm } = useConfirm();
+  const { showConfirm, closeConfirm } = useConfirm();
 
   const deleteRow = useCallback(async () => {
     setIsDeleting(true)
@@ -25,8 +25,9 @@ const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize }: 
       showToast("Couldn't delete your meal, try again!", 'error')
     } finally {
       setIsDeleting(false)
+      closeConfirm()
     }
-  }, [id, invalidateAll, showToast])
+  }, [id, invalidateAll, showToast, closeConfirm])
 
   const handleClick = useCallback(() => {
     showConfirm({
