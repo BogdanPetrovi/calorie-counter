@@ -6,12 +6,16 @@ import Title from "../shared/ui/Title"
 import mealLogOptions from '../../utils/useQuery/mealLogQueryOptions'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import useLogPages from "../../utils/useQuery/logPagesQuery"
+import EmptyState from "../shared/ui/EmptyState"
+import { LuCookingPot } from "react-icons/lu"
+import AddMealModal from "../shared/AddMealModal"
 
 const MealLog = () => {
   const [page, setPage] = useState(1)
   const { data, isPending } = useQuery(mealLogOptions(page))
   const { data: pages, isPending: arePagesPending } = useLogPages()
   const queryClient = useQueryClient()
+  const [isAddMealModal, setIsAddMealModal] = useState(false)
 
   useEffect(() => {
     if(page !== 1)
@@ -21,6 +25,26 @@ const MealLog = () => {
   }, [page, queryClient])
 
   if(isPending || !data || !pages || arePagesPending) return <></>
+
+  if(data.length === 0)
+    return (
+      <>
+        <ContainerDiv>
+          <Title name="Meal log" />
+          <EmptyState
+            Icon={LuCookingPot}
+            title="No meals logged yet"
+            description="Log your first meal to start tracking your nutrition and see your meal history here."
+            buttonText="Add meal"
+            buttonAction={() => setIsAddMealModal(true)}
+          />
+        </ContainerDiv>
+        {
+          isAddMealModal &&
+            <AddMealModal close={() => setIsAddMealModal(false)} />
+        }
+      </>
+    )
 
   return (
     <>

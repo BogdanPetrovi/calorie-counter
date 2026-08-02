@@ -2,12 +2,40 @@ import MealBar from "./ui/MealBar"
 import { useRecentMeals } from "../../utils/useQuery/recentMealsQuery"
 import Title from "../shared/ui/Title"
 import ContainerDiv from "../shared/ui/ContainerDiv"
+import EmptyState from "./ui/EmptyState"
+import { LuUtensilsCrossed } from "react-icons/lu"
+import emptyStateDescriptions from "../../utils/emptyStateDescriptionsForDaysContainer"
+import AddMealModal from "./AddMealModal"
+import { useState } from "react"
 
 const MealsDay = ({ day }: { day: 'today' | 'yesterday' }) => {
   const { data, isPending } = useRecentMeals()
+  const [isAddMealModal, setIsAddMealModal] = useState(false)
   const recentMeals = day === 'today' ? data?.today : data?.yesterday
   
   if(isPending || !data || !recentMeals) return <></>
+
+  const totalKcal = recentMeals.reduce((sum, val) => sum + val.calories, 0)
+
+  if(totalKcal === 0)
+    return (
+      <>
+        <ContainerDiv>
+          <Title name={`Meals ${day}`} />
+          <EmptyState
+            Icon={LuUtensilsCrossed}
+            title={`No meal added ${day}`}
+            description={ emptyStateDescriptions[day] }
+            buttonText={ day === 'today' ? "Add meal" : "" }
+            buttonAction={() => setIsAddMealModal(true)}
+          />
+        </ContainerDiv>
+        {
+          isAddMealModal &&
+            <AddMealModal close={() => setIsAddMealModal(false)} />
+        }
+      </>
+    )
 
   return (
     <ContainerDiv>
@@ -36,10 +64,7 @@ const MealsDay = ({ day }: { day: 'today' | 'yesterday' }) => {
         <h2 className="text-center font-semibold text-3xl tracking-wide">
           Total:&nbsp;
           <span className="font-bold">
-            {
-              recentMeals.reduce((sum, val) => sum + val.calories, 0)
-            }
-            kcal
+            { totalKcal }kcal
           </span>
         </h2>
       </div>

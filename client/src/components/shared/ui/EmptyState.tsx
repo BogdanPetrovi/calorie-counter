@@ -18,7 +18,7 @@ const EmptyState = ({ Icon, title, description, buttonText, buttonAction }: Empt
       </div>
 
       <div className="flex flex-col gap-1 items-center">
-        <h3 className="text-xl font-bold tracking-wide text-gray-700">
+        <h3 className="text-xl font-bold tracking-wide">
           { title }
         </h3>
         <p className="text-sm text-gray-400 max-w-[220px]">
