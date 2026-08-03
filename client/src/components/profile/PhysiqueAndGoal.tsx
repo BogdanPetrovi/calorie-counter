@@ -62,6 +62,15 @@ const PhysiqueAndGoal = () => {
     }
   }, [gender, user, height, dateOfBirth, activicyLevel, goal, closeConfirm, queryClient, showToast])
 
+  const handleCancel = useCallback(() => {
+    setGender(user!.gender)
+    setDateOfBirth(user!.dateOfBirth)
+    setHeight(String(user!.height))
+    setActivicyLevel(String(user!.activicyLevel))
+    setGoal(user!.goal)
+    closeConfirm()
+  } , [user, closeConfirm])
+
   const handleClick = useCallback(() => {
     if(isDisabled) return
     showConfirm({
@@ -69,9 +78,9 @@ const PhysiqueAndGoal = () => {
       description: "Your gender, date of birth, height, activity level and goal will be updated to the new values.",
       buttonColor: 'green',
       action: handleConfirmSubmit,
-      close: () => {}
+      close: handleCancel
     })
-  }, [isDisabled, showConfirm, handleConfirmSubmit])
+  }, [isDisabled, showConfirm, handleConfirmSubmit, handleCancel])
 
   if(isPending || !user) return <></>
 

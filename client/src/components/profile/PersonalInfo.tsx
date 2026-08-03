@@ -66,6 +66,12 @@ const PersonalInfo = () => {
     }
   }, [name, email, data, closeConfirm, queryClient, showToast])
 
+  const handleCancel = useCallback(() => {
+    setName(data!.name)
+    setEmail(data!.email)
+    closeConfirm()
+  }, [data, closeConfirm])
+
   const handleClick = useCallback(() => {
     if(isDisabled) return
     showConfirm({
@@ -73,9 +79,9 @@ const PersonalInfo = () => {
       description: "Your name and email on file will be updated to the new values.",
       buttonColor: 'green',
       action: handleConfirmSubmit,
-      close: () => {}
+      close: handleCancel
     })
-  }, [isDisabled, showConfirm, handleConfirmSubmit])
+  }, [isDisabled, showConfirm, handleConfirmSubmit, handleCancel])
   
   if(isPending || !data) return <></>
   

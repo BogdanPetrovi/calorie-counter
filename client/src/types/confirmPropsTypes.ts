@@ -3,7 +3,7 @@ export default interface ConfirmProps {
   description: string,
   buttonColor: 'green'| 'red' | 'neutral',
   buttonText?: string,
-  close: () => void,
+  close?: () => void,
   action: () => void,
   isActive?: boolean
 }

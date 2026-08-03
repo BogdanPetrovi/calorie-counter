@@ -32,8 +32,7 @@ const LogOutButton = () => {
       title: 'Are you sure you want to log out?',
       description: "You'll need to sign in again with your email and password to access your account again.",
       buttonColor: 'red',
-      action: handleLogOut,
-      close: () => {}
+      action: handleLogOut
     }), [showConfirm, handleLogOut])
 
   return (
