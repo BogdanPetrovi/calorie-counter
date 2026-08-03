@@ -9,6 +9,7 @@ import setupRouter from './routes/setupRoutes.js'
 import dashboardRoutes from './routes/dashboardRoutes.js'
 import historyRoutes from './routes/historyRoutes.js'
 import profileRouter from './routes/profileRoutes.js'
+import generalRouter from './routes/generalRoutes.js'
 import globalErrorHandler from './utils/globalErrorHandler.js';
 
 const app = express();
@@ -31,6 +32,8 @@ app.use('/api/v1/dashboard', dashboardRoutes);
 app.use('/api/v1/history', historyRoutes);
 
 app.use('/api/v1/profile', profileRouter)
+
+app.use('/api/v1/general', generalRouter)
 
 app.use(globalErrorHandler)
 
