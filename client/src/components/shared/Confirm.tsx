@@ -1,8 +1,23 @@
+import { useEffect } from "react"
 import type ConfirmProps from "../../types/confirmPropsTypes"
 import ModalContainer from "./ui/ModalContainer"
 import Submit from "./ui/Submit"
 
 const Confirm = ({ title, description, buttonColor, buttonText = 'Confirm',  close, action }: ConfirmProps) => {
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if(e.key === 'Enter') {
+        action()
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+    }
+  }, [action])
+
   return (
     <ModalContainer close={close} title={title}>
       <h4 className="text-lg font-semibold">{ description }</h4>

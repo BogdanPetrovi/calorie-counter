@@ -1,3 +1,5 @@
+import { useEffect } from "react"
+
 interface SubmitProps {
   isDisabled: boolean,
   handleSubmit: () => void,
@@ -26,8 +28,22 @@ const colorClasses = {
 const Submit = ({ isDisabled, handleSubmit, text = 'Submit', buttonColor = 'green' }: SubmitProps) => {
   const colors = colorClasses[buttonColor]
 
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if(e.key === 'Enter' && !isDisabled) {
+        handleSubmit()
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+    }
+  }, [isDisabled, handleSubmit])
+
   return (
-    <div 
+    <button 
       className={`
         ${isDisabled 
           ? `${colors.base} brightness-60 cursor-not-allowed`
@@ -37,7 +53,7 @@ const Submit = ({ isDisabled, handleSubmit, text = 'Submit', buttonColor = 'gree
       onClick={handleSubmit}
     >
       { text }
-    </div>
+    </button>
   )
 }
 
