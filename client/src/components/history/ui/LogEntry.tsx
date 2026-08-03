@@ -44,7 +44,7 @@ const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize }: 
       <div className="w-full h-16 bg-black/5 rounded-lg flex items-center justify-between px-2">
         <h3 className="text-xl lg:text-2xl font-bold tracking-wide">
           { foodName }
-          <span className="font-normal text-sm lg:text-base text-black/50 pl-1">
+          <span className="font-normal text-sm lg:text-base text-muted/50 pl-1">
             { servingSize }  
           </span>
         </h3>

@@ -105,7 +105,7 @@ const PersonalInfo = () => {
           />
         </div>
         <div 
-          className="w-full py-2 flex rounded-lg justify-center items-center cursor-pointer bg-black/20 hover:bg-black/30 active:bg-black/40 duration-200"
+          className="w-full py-2 flex rounded-lg justify-center items-center cursor-pointer bg-black/20 dark:bg-white/20 hover:bg-black/30 dark:hover:bg-white/30 active:bg-black/40 dark:active:bg-white/40 duration-200"
           onClick={() => setIsPassword(true)}
         >
           <HiLockClosed /> Change password

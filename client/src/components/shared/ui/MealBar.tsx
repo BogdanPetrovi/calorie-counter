@@ -9,20 +9,20 @@ interface MealBarProps {
 const MealBar = ({ meal, food, calories }: MealBarProps) => {
   const colorMap = {
     breakfast: {
-      background: "bg-indigo-300/30",
-      text: "text-indigo-900"
+      background: "bg-indigo-300/30 dark:bg-indigo-500/20",
+      text: "text-indigo-900 dark:text-indigo-300"
     },
     lunch: {
-      background: "bg-yellow-300/30",
-      text: "text-yellow-900"
+      background: "bg-yellow-300/30 dark:bg-yellow-400/25",
+      text: "text-yellow-900 dark:text-yellow-300"
     },
     dinner: {
-      background: "bg-green-300/30",
-      text: "text-green-900"
+      background: "bg-green-300/30 dark:bg-green-500/20",
+      text: "text-green-900 dark:text-green-300"
     },
     snack: {
-      background: "bg-orange-300/30",
-      text: "text-orange-900"
+      background: "bg-orange-300/30 dark:bg-orange-500/20",
+      text: "text-orange-900 dark:text-orange-300"
     },
   }
   const emoji = meal === 'breakfast' ? "🍳" : meal === 'lunch' ? "🍲" : meal === 'dinner' ? "🥪" : "🍫"

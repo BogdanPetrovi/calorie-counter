@@ -18,8 +18,8 @@ const AuthInput = ({label, type, placeholder, value, onChange}: InputProps) => {
 
   return (
     <>
-      <label className="text-slate-800 mb-2 text-lg">{label}</label>
-      <div className="w-[90%] md:w-[70%] flex justify-between items-center bg-slate-200 px-3 py-4 text-xl rounded-xl mb-5">
+      <label className="text-muted mb-2 text-lg">{label}</label>
+      <div className="w-[90%] md:w-[70%] flex justify-between items-center bg-input-background px-3 py-4 text-xl rounded-xl mb-5">
         <input type={type === "password" ? showPassword ? "text" : "password" : type} className="w-[95%] outline-none bg-transparent"
         placeholder={placeholder} value={value} onChange={(e) => onChange(e.target.value)} />
 
@@ -28,9 +28,9 @@ const AuthInput = ({label, type, placeholder, value, onChange}: InputProps) => {
           <>
             {
               showPassword ? 
-                <FaRegEyeSlash size={32} className="text-black cursor-pointer" onClick={handleChange} />
+                <FaRegEyeSlash size={32} className="text-foreground cursor-pointer" onClick={handleChange} />
                 :
-                <FaRegEye size={32} className="text-black cursor-pointer" onClick={handleChange} />
+                <FaRegEye size={32} className="text-foreground cursor-pointer" onClick={handleChange} />
             }
           
           </>

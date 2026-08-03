@@ -77,7 +77,7 @@ const PhysiqueAndGoal = () => {
 
   return (
     <div
-      className="w-full bg-white shadow-md shadow-gray-200 border border-gray-200/50 rounded-2xl p-4 flex flex-col lg:grid lg:grid-cols-2 gap-2"
+      className="w-full bg-background shadow-md shadow-shadow border border-border/50 rounded-2xl p-4 flex flex-col lg:grid lg:grid-cols-2 gap-2"
     >
       <div className="col-span-2">
         <Title name="Physique and goal" />

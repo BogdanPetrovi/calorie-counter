@@ -74,6 +74,7 @@ const Chart = () => {
     <Line
       data={chartData}
       options={chartOptions}
+      className="dark:brightness-170"
     />
   )
 }

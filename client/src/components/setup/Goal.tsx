@@ -20,24 +20,24 @@ const Goal = ({next}: DefaultSetUpType) => {
           item="lose"
           selected={selected}
         >
-          <PiChartLineDownBold size={150} color="#27272a" className="ml-2" />
-          <h3 className="text-zinc-600 font-semibold text-2xl">Lose Weight</h3>
+          <PiChartLineDownBold size={150} className="ml-2" />
+          <h3 className="font-semibold text-2xl">Lose Weight</h3>
         </SelectBox>
         <SelectBox 
           changeSelect={setSelected}
           item="maintain"
           selected={selected}
         >
-          <IoScale size={150} color="#27272a" className="ml-2" />
-          <h3 className="text-zinc-600 font-semibold text-xl">Maintain Weight</h3>
+          <IoScale size={150} className="ml-2" />
+          <h3 className="font-semibold text-xl">Maintain Weight</h3>
         </SelectBox>
         <SelectBox 
           changeSelect={setSelected}
           item="gain"
           selected={selected}
         >
-          <PiChartLineUpBold size={150} color="#27272a" className="ml-2" />
-          <h3 className="text-zinc-600 font-semibold text-2xl">Gain Weight</h3>
+          <PiChartLineUpBold size={150} className="ml-2" />
+          <h3 className="font-semibold text-2xl">Gain Weight</h3>
         </SelectBox>
       </div>  
 

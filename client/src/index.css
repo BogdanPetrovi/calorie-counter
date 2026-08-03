@@ -1,14 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-background: #F4F4F5;
+  --color-foreground: #27272a;
+  --color-card: #FFF;
+  --color-border: #e5e7eb;
+  --color-input-background: #e5e7eb;
+  --color-shadow: #f3f4f6;
+  --color-muted: #52525c;
+}
+
+.dark {
+  --color-background: #18181b;
+  --color-foreground: #F4F4F5;
+  --color-card: #232326;
+  --color-border: #3f3f46;
+  --color-input-background: #3f3f46;
+  --color-shadow: #212123;
+  --color-muted: #a1a1aa;
+}
+
 @layer base {
   html {
     font-family: "Raleway", sans-serif;
   }
 
   body {
-    background-color: #faf9fa;
-    @apply text-zinc-800;
+    @apply bg-background text-foreground;
     overflow-x: hidden;
   }
   

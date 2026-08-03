@@ -17,16 +17,16 @@ const Gender = ({next}: DefaultSetUpType) => {
           item="Male"
           selected={selected}
         >
-          <ImMan size={150} color="#27272a" className="ml-2" /> 
-          <h3 className="text-zinc-600 font-semibold text-2xl">Male</h3>
+          <ImMan size={150} className="ml-2 " /> 
+          <h3 className="font-semibold text-2xl">Male</h3>
         </SelectBox>
         <SelectBox 
           changeSelect={setSelected}
           item="Female"
           selected={selected}
         >
-          <ImWoman size={150} color="#27272a" className="ml-2" />
-          <h3 className="text-zinc-600 font-semibold text-2xl">Female</h3>
+          <ImWoman size={150} className="ml-2 " />
+          <h3 className="font-semibold text-2xl">Female</h3>
         </SelectBox>
       </div>
       <Next result={selected} item="gender" next={next} />

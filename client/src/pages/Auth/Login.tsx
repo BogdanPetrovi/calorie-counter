@@ -60,7 +60,7 @@ const Login = () => {
   if(user) return <Navigate to={'/dashboard'} />
 
   return (
-    <div className="flex">
+    <div className="flex bg-background">
       <div className="fade-in-right">
         <AuthPageLayout>
           <div className="ml-3 md:ml-0">

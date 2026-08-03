@@ -9,7 +9,7 @@ const SelectBox = ({children, changeSelect, item, selected}: SelectBoxProps) => 
   const styles = "flex flex-col gap-2 items-center justify-center cursor-pointer border-5 rounded-3xl border-green-700 p-4 duration-300"
 
   return (
-    <div className={`${styles} ${selected === item ? ' bg-zinc-200' : ''}`} onClick={() => changeSelect(item)}>
+    <div className={`${styles} ${selected === item ? 'bg-foreground/10' : ''}`} onClick={() => changeSelect(item)}>
       {children}
     </div>
   )

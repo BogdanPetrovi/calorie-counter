@@ -42,11 +42,11 @@ const WeightReminder = ({ close, openModal }: WeightReminderProps) => {
   return (
     <>
       <div
-        className='slide-in-left fixed bottom-6 right-2 lg:right-6 left-2 lg:left-auto bg-white border border-green-700 px-5 py-5 rounded-2xl shadow-2xl flex flex-col gap-3 z-50 min-w-[320px] max-w-[420px] overflow-hidden'
+        className='slide-in-left fixed bottom-6 right-2 lg:right-6 left-2 lg:left-auto bg-background border border-green-700 px-5 py-5 rounded-2xl shadow-2xl flex flex-col gap-3 z-50 min-w-[320px] max-w-[420px] overflow-hidden'
       >
         <div className="w-full flex items-start justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <div className="flex items-center justify-center w-9 h-9 rounded-full bg-green-100 text-green-700 shrink-0">
+            <div className="flex items-center justify-center w-9 h-9 rounded-full bg-green-100 dark:bg-green-700 text-green-700 dark:text-green-100 shrink-0">
               <FiClock size={18} />
             </div>
             <h2 className="font-semibold text-lg">Update weight</h2>
@@ -58,7 +58,7 @@ const WeightReminder = ({ close, openModal }: WeightReminderProps) => {
             <FiX size={16} />
           </button>
         </div>
-        <p className="text-gray-600 text-sm leading-relaxed">
+        <p className="text-muted text-sm leading-relaxed">
           You haven't updated your weight in over 5 days. Consider logging your latest weight to keep your progress on track.
         </p>
         <button 

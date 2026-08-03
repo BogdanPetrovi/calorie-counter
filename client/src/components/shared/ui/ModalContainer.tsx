@@ -13,7 +13,7 @@ const ModalContainer = ({ close, title, children }: ModalContainerProps) => {
       onClick={close}
     >
       <div 
-        className="w-11/12 md:w-1/2 lg:w-1/3 2xl:w-1/4 px-5 pt-3 pb-5 bg-white text-green-900 rounded-xl drop-shadow-sm drop-shadow-white border border-black/20 flex flex-col gap-4"
+        className="w-11/12 md:w-1/2 lg:w-1/3 2xl:w-1/4 px-5 pt-3 pb-5 bg-background text-green-900 dark:text-green-600 rounded-xl drop-shadow-sm drop-shadow-shadow border border-border/50 flex flex-col gap-4"
         onClick={e => e.stopPropagation()}
       >
         <div className="flex justify-between text-3xl font-bold">

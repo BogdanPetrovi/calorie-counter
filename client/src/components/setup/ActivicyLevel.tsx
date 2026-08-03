@@ -20,7 +20,7 @@ const ActivicyLevel = ({next}: DefaultSetUpType) => {
           selected={selected}
         >
           <LiaDumbbellSolid size={150} color="#ffbaba" className="ml-2" />
-          <h3 className="text-zinc-600 font-semibold text-2xl">Not Much</h3>
+          <h3 className="font-semibold text-2xl">Not Much</h3>
         </SelectBox>
         <SelectBox 
           changeSelect={setSelected}
@@ -28,7 +28,7 @@ const ActivicyLevel = ({next}: DefaultSetUpType) => {
           selected={selected}
         >
           <LiaDumbbellSolid size={150} color="#fc6d6d" className="ml-2" />
-          <h3 className="text-zinc-600 font-semibold text-2xl">1-2 Workouts a Week</h3>
+          <h3 className="font-semibold text-2xl">1-2 Workouts a Week</h3>
         </SelectBox>
         <SelectBox 
           changeSelect={setSelected}
@@ -36,7 +36,7 @@ const ActivicyLevel = ({next}: DefaultSetUpType) => {
           selected={selected}
         >
           <LiaDumbbellSolid size={150} color="#ea0909" className="ml-2" />
-          <h3 className="text-zinc-600 font-semibold text-2xl">3-5 Workouts a Week</h3>
+          <h3 className="font-semibold text-2xl">3-5 Workouts a Week</h3>
         </SelectBox>
         <SelectBox 
           changeSelect={setSelected}
@@ -44,7 +44,7 @@ const ActivicyLevel = ({next}: DefaultSetUpType) => {
           selected={selected}
         >
           <LiaDumbbellSolid size={150} color="#9a0707" className="ml-2" />
-          <h3 className="text-zinc-600 font-semibold text-2xl">6-7 Workouts a Week</h3>
+          <h3 className="font-semibold text-2xl">6-7 Workouts a Week</h3>
         </SelectBox>
       </div>
 

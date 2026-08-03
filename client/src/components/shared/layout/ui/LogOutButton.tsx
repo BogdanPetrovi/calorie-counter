@@ -38,7 +38,7 @@ const LogOutButton = () => {
 
   return (
     <button 
-      className="w-4/5 h-14 flex items-center pl-4 rounded-lg gap-1 text-red-600 text-2xl font-semibold cursor-pointer bg-red-100 hover:bg-red-200 duration-300" 
+      className="w-4/5 h-14 flex items-center pl-4 rounded-lg gap-1 text-red-600 dark:text-red-800 text-2xl font-semibold cursor-pointer bg-red-100 dark:bg-red-300 hover:bg-red-200 dark:hover:bg-red-400 active:bg-red-300 dark:active:bg-red-500 duration-300" 
       onClick={handleClick}
     >
       <LuLogOut /> Log out

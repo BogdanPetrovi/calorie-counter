@@ -11,8 +11,10 @@ const Next = ({ result, next, item, min, max }: NextProps) => {
 
   return (
     <button 
-    className="text-5xl font-semibold text-green-800 bg-green-200 hover:bg-green-400 w-1/2 md:w-1/4 py-3 rounded-4xl cursor-pointer duration-300 disabled:bg-zinc-300 disabled:text-zinc-500 disabled:cursor-not-allowed"
-    disabled={disabledLogic} onClick={() => next(item, result)}>
+      className={`text-5xl font-semibold bg-green-300 dark:bg-green-700 hover:bg-green-400 dark:hover:bg-green-600 text-green-700 dark:text-green-200
+        w-1/2 md:w-1/4 py-3 rounded-4xl cursor-pointer duration-300 disabled:brightness-50 disabled:cursor-not-allowed disabled:pointer-events-none`}
+      disabled={disabledLogic} onClick={() => next(item, result)}
+    >
       Next
     </button>
   )

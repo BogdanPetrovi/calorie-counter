@@ -24,9 +24,9 @@ const PasswordInput = ({ name, value, setValue, borderColor='border-green-600', 
         />
         {
           isVisible ? 
-            <FaRegEyeSlash size={32} className="text-black cursor-pointer absolute right-3 top-1/2 -translate-y-1/2" onClick={() => setIsVisible(false)} />
+            <FaRegEyeSlash size={32} className="text-foreground cursor-pointer absolute right-3 top-1/2 -translate-y-1/2" onClick={() => setIsVisible(false)} />
             :
-            <FaRegEye size={32} className="text-black cursor-pointer absolute right-3 top-1/2 -translate-y-1/2" onClick={() => setIsVisible(true)} />
+            <FaRegEye size={32} className="text-foreground cursor-pointer absolute right-3 top-1/2 -translate-y-1/2" onClick={() => setIsVisible(true)} />
         }
       </div>
       {

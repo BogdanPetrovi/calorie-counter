@@ -22,7 +22,7 @@ const NumInput = ({ max, min, setSelected, placeholder }: NumInputProps) => {
   return (
     <input 
       type="number" 
-      className="w-11/12 lg:w-1/4 h-14 text-4xl p-2 bg-slate-200 border-0 outline-0 rounded-lg" 
+      className="w-11/12 lg:w-1/4 h-14 text-4xl p-2 bg-input-background border-0 outline-0 rounded-lg" 
       value={inputValue} 
       min={min} 
       max={max} 
