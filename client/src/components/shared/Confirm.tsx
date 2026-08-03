@@ -4,6 +4,10 @@ import ModalContainer from "./ui/ModalContainer"
 import Submit from "./ui/Submit"
 
 const Confirm = ({ title, description, buttonColor, buttonText = 'Confirm',  close, action }: ConfirmProps) => {
+  const handleClose = () => {
+    close?.()
+  }
+
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if(e.key === 'Enter') {
@@ -19,11 +23,11 @@ const Confirm = ({ title, description, buttonColor, buttonText = 'Confirm',  clo
   }, [action])
 
   return (
-    <ModalContainer close={close} title={title}>
+    <ModalContainer close={handleClose} title={title}>
       <h4 className="text-lg font-semibold">{ description }</h4>
       <div className="flex gap-1.5 self-end">
         <Submit handleSubmit={action} isDisabled={false} text={buttonText} buttonColor={buttonColor} />
-        <Submit handleSubmit={close} isDisabled={false} text="Cancel" buttonColor="neutral" />
+        <Submit handleSubmit={handleClose} isDisabled={false} text="Cancel" buttonColor="neutral" />
       </div>
     </ModalContainer>
   )
