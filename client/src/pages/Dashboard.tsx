@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom"
 import axios from "axios"
-import { useUser } from "../utils/useQuery/userQuery"
+import { useUser } from "../utils/api/hooks/userQuery"
 import Loader from "../components/shared/Loader"
 import Layout from "../components/shared/layout/Layout"
 import GeneralInfoSection from "../components/dashboard/GeneralInfoSection"

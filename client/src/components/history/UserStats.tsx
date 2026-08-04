@@ -2,7 +2,7 @@ import InfoCard from "../shared/InfoCard"
 import { PiFireLight } from "react-icons/pi";
 import { PiAlignCenterVerticalLight } from "react-icons/pi";
 import { PiCarrotThin } from "react-icons/pi";
-import { useHistoryStats } from "../../utils/useQuery/useHistoryStatsQuery";
+import { useHistoryStats } from "../../utils/api/hooks/useHistoryStatsQuery";
 
 
 const UserStats = () => {

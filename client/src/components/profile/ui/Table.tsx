@@ -1,5 +1,5 @@
-import { useUser } from "../../../utils/useQuery/userQuery"
-import useWeightChange from "../../../utils/useQuery/weightChangeQuery"
+import { useUser } from "../../../utils/api/hooks/userQuery"
+import useWeightChange from "../../../utils/api/hooks/weightChangeQuery"
 
 const Table = () => {
   const { data } = useWeightChange()

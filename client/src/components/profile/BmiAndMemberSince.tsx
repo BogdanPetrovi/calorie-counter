@@ -1,4 +1,4 @@
-import useBmiAndMemberSince from "../../utils/useQuery/bmiAndMemberSinceQuery"
+import useBmiAndMemberSince from "../../utils/api/hooks/bmiAndMemberSinceQuery"
 import Title from "../shared/ui/Title"
 import ProfileContainer from "./ui/ProfileContainer"
 

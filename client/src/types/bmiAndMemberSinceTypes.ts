@@ -7,7 +7,7 @@ interface Bmi {
 
 interface MemberSince { 
   date: string,
-  months: string
+  months: number
 }
 
 export default interface BmiAndMemberSince {

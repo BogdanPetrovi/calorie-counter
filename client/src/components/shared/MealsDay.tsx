@@ -1,5 +1,5 @@
 import MealBar from "./ui/MealBar"
-import { useRecentMeals } from "../../utils/useQuery/recentMealsQuery"
+import { useRecentMeals } from "../../utils/api/hooks/recentMealsQuery"
 import Title from "../shared/ui/Title"
 import ContainerDiv from "../shared/ui/ContainerDiv"
 import EmptyState from "./ui/EmptyState"

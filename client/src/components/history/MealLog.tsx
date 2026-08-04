@@ -3,9 +3,9 @@ import LogEntry from "./ui/LogEntry"
 import Pagination from "./Pagination"
 import { useEffect, useState } from "react"
 import Title from "../shared/ui/Title"
-import mealLogOptions from '../../utils/useQuery/mealLogQueryOptions'
+import mealLogOptions from '../../utils/api/hooks/mealLogQueryOptions'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import useLogPages from "../../utils/useQuery/logPagesQuery"
+import useLogPages from "../../utils/api/hooks/logPagesQuery"
 import EmptyState from "../shared/ui/EmptyState"
 import { LuCookingPot } from "react-icons/lu"
 import AddMealModal from "../shared/AddMealModal"

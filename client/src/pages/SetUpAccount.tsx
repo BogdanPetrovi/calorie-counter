@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useUser } from "../utils/useQuery/userQuery"
+import { useUser } from "../utils/api/hooks/userQuery"
 import { Navigate } from "react-router-dom"
 import steps from "../utils/steps"
 import Start from "../components/setup/Start"

@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { FiClock, FiX } from "react-icons/fi"
-import useWeightReminder from "../../../utils/useQuery/weightReminderQuery"
+import useWeightReminder from "../../../utils/api/hooks/weightReminderQuery"
 
 interface WeightReminderProps {
   close: () => void,

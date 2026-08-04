@@ -3,7 +3,7 @@ import Input from "../shared/ui/Input"
 import Title from "../shared/ui/Title"
 import Submit from "../shared/ui/Submit";
 import Select from "./ui/Select";
-import { useUser } from "../../utils/useQuery/userQuery";
+import { useUser } from "../../utils/api/hooks/userQuery";
 import DateInput from "./ui/DateInput";
 import { useToast } from "../../context/ToastContext";
 import apiConnection from "../../services/apiConnection";

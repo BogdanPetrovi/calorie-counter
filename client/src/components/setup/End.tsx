@@ -3,7 +3,7 @@ import api from "../../services/apiConnection"
 import Loader from "../shared/Loader"
 import { useQuery } from "@tanstack/react-query"
 import { Navigate } from "react-router-dom"
-import { useUser } from "../../utils/useQuery/userQuery"
+import { useUser } from "../../utils/api/hooks/userQuery"
 
 
 interface EndProps {

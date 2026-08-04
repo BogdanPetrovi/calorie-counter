@@ -1,5 +1,5 @@
 import { IoScale } from "react-icons/io5"
-import useWeightChange from "../../utils/useQuery/weightChangeQuery"
+import useWeightChange from "../../utils/api/hooks/weightChangeQuery"
 import EmptyState from "../shared/ui/EmptyState"
 import Title from "../shared/ui/Title"
 import Chart from "./ui/Chart"

@@ -7,7 +7,7 @@ import AuthPageDecoration from "../../components/auth/AuthPageDecoration"
 import { validateRegister } from "../../utils/validator"
 import api from "../../services/apiConnection"
 import axios from "axios"
-import { useUser } from "../../utils/useQuery/userQuery"
+import { useUser } from "../../utils/api/hooks/userQuery"
 import Loader from "../../components/shared/Loader"
 
 const Register = () => {

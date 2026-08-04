@@ -5,7 +5,7 @@ export default interface MealLog {
   foodName: string,
   calories: number,
   mealType: MealType,
-  createdAt: Date,
+  createdAt: string,
   servingSize: string,
   servingMeasurment?: string
 }

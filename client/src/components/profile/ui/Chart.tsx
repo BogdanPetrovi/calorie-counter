@@ -1,6 +1,6 @@
 import { CategoryScale, Chart as ChartJS, defaults, LinearScale, LineElement, PointElement, Tooltip } from "chart.js"
 import { Line } from "react-chartjs-2"
-import useWeightChange from "../../../utils/useQuery/weightChangeQuery"
+import useWeightChange from "../../../utils/api/hooks/weightChangeQuery"
 
 ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Tooltip)
 defaults.maintainAspectRatio = false

@@ -4,7 +4,7 @@ import { GoHistory } from "react-icons/go";
 import { LuUser } from "react-icons/lu";
 import SidebarButton from "./ui/SidebarButton";
 import InitialsAvatar from "./ui/InitialsAvatar";
-import { useUser } from "../../../utils/useQuery/userQuery";
+import { useUser } from "../../../utils/api/hooks/userQuery";
 import ChangeThemeButton from "./ui/ChangeThemeButton";
 
 const Sidebar = () => {

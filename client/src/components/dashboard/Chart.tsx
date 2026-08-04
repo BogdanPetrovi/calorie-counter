@@ -1,8 +1,8 @@
 import { CategoryScale, Chart as ChartJS, defaults, Legend, LinearScale, LineElement, PointElement, Tooltip, type ChartOptions } from 'chart.js'
 import annotationPlugin from 'chartjs-plugin-annotation'
 import { Line } from 'react-chartjs-2'
-import { useWeeklyStats } from '../../utils/useQuery/weeklyStatsQuery'
-import { useUser } from '../../utils/useQuery/userQuery'
+import { useWeeklyStats } from '../../utils/api/hooks/weeklyStatsQuery'
+import { useUser } from '../../utils/api/hooks/userQuery'
 
 ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Tooltip, annotationPlugin, Legend)
 defaults.maintainAspectRatio = false
