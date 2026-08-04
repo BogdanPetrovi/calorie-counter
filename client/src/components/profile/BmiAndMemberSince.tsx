@@ -1,17 +1,9 @@
-import { useQuery } from "@tanstack/react-query"
+import useBmiAndMemberSince from "../../utils/useQuery/bmiAndMemberSinceQuery"
 import Title from "../shared/ui/Title"
 import ProfileContainer from "./ui/ProfileContainer"
-import apiConnection from "../../services/apiConnection"
-import type BmiAndMemberSinceType from "../../types/bmiAndMemberSinceTypes"
 
 const BmiAndMemberSince = () => {
-  const { data, isPending } = useQuery({
-    queryKey: ['bmi-and-member-since'],
-    queryFn: async ():Promise<BmiAndMemberSinceType> => {
-      const result = await apiConnection.get('/profile/bmi-and-member-since')
-      return result.data
-    }
-  })
+  const { data, isPending } = useBmiAndMemberSince()
 
   if(isPending || !data) return <></>
 

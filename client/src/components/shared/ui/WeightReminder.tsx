@@ -1,7 +1,6 @@
-import { useQuery } from "@tanstack/react-query"
 import { useEffect } from "react"
 import { FiClock, FiX } from "react-icons/fi"
-import apiConnection from "../../../services/apiConnection"
+import useWeightReminder from "../../../utils/useQuery/weightReminderQuery"
 
 interface WeightReminderProps {
   close: () => void,
@@ -9,13 +8,7 @@ interface WeightReminderProps {
 }
 
 const WeightReminder = ({ close, openModal }: WeightReminderProps) => {
-  const { data: show, isPending } = useQuery({
-    queryKey: ['weight-reminder'],
-    queryFn: async () => {
-      const result = await apiConnection.get('/general/weight-reminder')
-      return result.data.show
-    }
-  })
+  const { data: show, isPending } = useWeightReminder();
   
   useEffect(() => {
     const timer = setTimeout(() => {
