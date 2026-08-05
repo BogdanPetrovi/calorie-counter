@@ -42,15 +42,15 @@ const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize }: 
   return (
     <>
       <div className="w-full h-16 bg-black/5 rounded-lg flex items-center justify-between px-2">
-        <h3 className="text-xl lg:text-2xl font-bold tracking-wide">
+        <h3 className="text-lg lg:text-xl font-bold tracking-wide pr-2">
           { foodName }
-          <span className="font-normal text-sm lg:text-base text-muted/50 pl-1">
+          <span className="font-normal text-xs lg:text-sm text-muted/60 pl-1">
             { servingSize }  
           </span>
         </h3>
-        <div className="flex gap-5 items-center text-xl lg:text-2xl">
-          <div>
-            <h3 className="font-bold tracking-wide">{ calories } kcal</h3>
+        <div className="flex gap-5 items-center text-xl">
+          <div className="hidden 2xl:block text-right">
+            <h3 className="font-bold text-base">{ calories } kcal</h3>
             <h3 className="text-sm">{ String(createdAt) }</h3>
           </div>
           <button aria-label="Edit meal" onClick={() => setShowModal(true)}>
