@@ -5,13 +5,13 @@ import Input from "../shared/ui/Input"
 import Submit from "../shared/ui/Submit"
 import { useUser } from "../../utils/api/hooks/userQuery"
 import ProfileContainer from "./ui/ProfileContainer"
-import apiConnection from "../../services/apiConnection"
 import { validateEmail } from "../../utils/validator"
 import { useQueryClient } from "@tanstack/react-query"
 import { useToast } from "../../context/ToastContext"
 import { useConfirm } from "../../context/ConfirmContext"
 import { AxiosError } from "axios"
 import ChangePassword from "./ChangePassword"
+import { updatePersonalInfo } from "../../utils/api/requests/user.requests"
 
 const PersonalInfo = () => {
   const { data, isPending } = useUser()
@@ -46,10 +46,7 @@ const PersonalInfo = () => {
 
   const handleConfirmSubmit = useCallback(async () => {
     try {
-      const result = await apiConnection.post('/auth/update-personal-info', {
-        name,
-        email
-      })
+      const result = await updatePersonalInfo(name, email)
       if(result.status === 204){
         closeConfirm()
         queryClient.invalidateQueries({ queryKey: ['user'] })
@@ -59,6 +56,7 @@ const PersonalInfo = () => {
       setName(data!.name)
       setEmail(data!.email)
       if(err instanceof AxiosError){
+        closeConfirm()
         showToast(err.response?.data.message || err.message, 'error')
       } else {
         showToast(`Changing personal info failed, try again!`, 'error')

@@ -7,7 +7,7 @@ import { mockCaloriesIntakeInfo, mockRecentMeals, mockWeeklyStats } from "../moc
 
 export async function getCaloriesIntakeInfo(): Promise<CaloriesIntakeInfo> {
   if(isDemo){
-    return withDelay(mockCaloriesIntakeInfo)
+    return withDelay(mockCaloriesIntakeInfo())
   }
 
   const result = await apiConnection.get('/dashboard/recent-calories')
@@ -16,7 +16,7 @@ export async function getCaloriesIntakeInfo(): Promise<CaloriesIntakeInfo> {
 
 export async function getRecentMeals(): Promise<MealsDay> {
   if(isDemo){
-    return withDelay(mockRecentMeals)
+    return withDelay(mockRecentMeals())
   }
 
   const result = await apiConnection.get('/dashboard/recent-meals')
@@ -25,7 +25,7 @@ export async function getRecentMeals(): Promise<MealsDay> {
 
 export async function getWeeklyStats(): Promise<WeeklyStats[]> {
   if(isDemo){
-    return withDelay(mockWeeklyStats)
+    return withDelay(mockWeeklyStats())
   }
 
   const result = await apiConnection.get('/dashboard/weekly-stats')

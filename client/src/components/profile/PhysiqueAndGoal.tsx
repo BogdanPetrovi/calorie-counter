@@ -6,9 +6,9 @@ import Select from "./ui/Select";
 import { useUser } from "../../utils/api/hooks/userQuery";
 import DateInput from "./ui/DateInput";
 import { useToast } from "../../context/ToastContext";
-import apiConnection from "../../services/apiConnection";
 import { useQueryClient } from "@tanstack/react-query";
 import { useConfirm } from "../../context/ConfirmContext";
+import { updatePhysiqueAndGoal } from "../../utils/api/requests/user.requests";
 
 const PhysiqueAndGoal = () => {
   const queryClient = useQueryClient();
@@ -39,14 +39,14 @@ const PhysiqueAndGoal = () => {
 
   const handleConfirmSubmit = useCallback(async () => {
     try {
-      await apiConnection.post('/profile/update-user-data', {
+      await updatePhysiqueAndGoal(
         gender,
-        weight: user?.weight,
-        height,
+        user!.weight,
+        Number(height),
         dateOfBirth,
-        activicyLevel,
+        Number(activicyLevel),
         goal
-      })
+      )
 
       closeConfirm()
 

@@ -326,3 +326,41 @@ export const mockMealLogs: MealLog[] = [
     servingSize: '400ml'
   }
 ];
+
+let nextId = mockMealLogs.length + 1
+
+type NewMealPayload = Omit<MealLog, 'id' | 'createdAt'>
+
+const formatNow = (): string => {
+  const now = new Date()
+  const day = String(now.getDate()).padStart(2, '0')
+  const month = String(now.getMonth() + 1).padStart(2, '0')
+  const year = now.getFullYear()
+  const hours = String(now.getHours()).padStart(2, '0')
+  const minutes = String(now.getMinutes()).padStart(2, '0')
+  return `${day}.${month}.${year}. ${hours}:${minutes}`
+}
+
+export const addMockMealLog = (payload: NewMealPayload): MealLog => {
+  const newLog: MealLog = {
+    id: nextId++,
+    createdAt: formatNow(),
+    ...payload
+  }
+  mockMealLogs.unshift(newLog)
+  return newLog
+}
+
+export const updateMockMealLog = (id: number, payload: Partial<NewMealPayload>): MealLog | null => {
+  const index = mockMealLogs.findIndex(log => log.id === id)
+  if (index === -1) return null
+  mockMealLogs[index] = { ...mockMealLogs[index], ...payload }
+  return mockMealLogs[index]
+}
+
+export const deleteMockMealLog = (id: number): boolean => {
+  const index = mockMealLogs.findIndex(log => log.id === id)
+  if (index === -1) return false
+  mockMealLogs.splice(index, 1)
+  return true
+}

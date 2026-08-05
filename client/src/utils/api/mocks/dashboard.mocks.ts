@@ -9,10 +9,10 @@ const sumCaloriesForDay = (daysAgo: number): number => {
   return mockMealLogs.filter(val => getDaysAgo(val.createdAt) === daysAgo).reduce((sum, val) => sum + val.calories, 0)
 }
 
-export const mockCaloriesIntakeInfo: CaloriesIntakeInfo = {
+export const mockCaloriesIntakeInfo = (): CaloriesIntakeInfo => ({
   today: sumCaloriesForDay(0) > 0 ? sumCaloriesForDay(0) : null,
   yesterday: sumCaloriesForDay(1) > 0 ? sumCaloriesForDay(1) : null
-}
+})
 
 const getMealsForDay = (daysAgo: number) => {
   return mockMealLogs
@@ -24,11 +24,10 @@ const getMealsForDay = (daysAgo: number) => {
     }))
 }
 
-export const mockRecentMeals: MealsDay = {
+export const mockRecentMeals = (): MealsDay => ({
   today: getMealsForDay(0),
   yesterday: getMealsForDay(1)
-}
-
+})
 
 const calculateWeeklyStats = () => {
   const dayNames: Days[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -49,4 +48,4 @@ const calculateWeeklyStats = () => {
   return result.reverse()
 }
 
-export const mockWeeklyStats: WeeklyStats[] = calculateWeeklyStats()
+export const mockWeeklyStats = (): WeeklyStats[] => calculateWeeklyStats()

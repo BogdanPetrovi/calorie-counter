@@ -2,10 +2,10 @@ import { useCallback, useState } from "react";
 import { FaPen, FaTrash } from "react-icons/fa";
 import AddMealModal from "../../shared/AddMealModal";
 import type MealLog from "../../../types/mealLogTypes";
-import apiConnection from "../../../services/apiConnection";
 import { useInvalidateData } from "../../../utils/refetch";
 import { useToast } from "../../../context/ToastContext";
 import { useConfirm } from "../../../context/ConfirmContext";
+import { deleteMeal } from "../../../utils/api/requests/meal.requests";
 
 const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize }: MealLog) => {
   const { invalidateAll } = useInvalidateData()
@@ -17,7 +17,7 @@ const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize }: 
   const deleteRow = useCallback(async () => {
     setIsDeleting(true)
     try {
-      await apiConnection.delete(`/dashboard/delete-meal/${id}`)
+      await deleteMeal(id)
       showToast("Successfully deleted meal!", 'success')
       invalidateAll()
     } catch (err) {

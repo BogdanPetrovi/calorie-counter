@@ -6,7 +6,7 @@ import { mockAvgPerMeal, mockHistoryStats, mockLogPages } from "../mocks/history
 
 export async function getAvgPerMeal(): Promise<AvgPerMeal> {
   if(isDemo) {
-    return withDelay(mockAvgPerMeal)
+    return withDelay(mockAvgPerMeal())
   }
 
   const result = await apiConnection.get('/history/avg-per-meal')
@@ -15,7 +15,7 @@ export async function getAvgPerMeal(): Promise<AvgPerMeal> {
 
 export async function getLogPages(): Promise<number> {
   if(isDemo){
-    return withDelay(mockLogPages)
+    return withDelay(mockLogPages())
   }
 
   const result = await apiConnection.get('/history/log-pages')
@@ -24,7 +24,7 @@ export async function getLogPages(): Promise<number> {
 
 export async function getHistoryStats(): Promise<HistoryStats> {
   if(isDemo){
-    return withDelay(mockHistoryStats)
+    return withDelay(mockHistoryStats())
   }
 
   const result = await apiConnection.get('/history/history-stats')

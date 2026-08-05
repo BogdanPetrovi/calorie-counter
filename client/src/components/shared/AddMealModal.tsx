@@ -2,13 +2,13 @@ import { useEffect, useState } from "react"
 import MealTypeSelector from "./ui/MealTypeSelector"
 import Input from "./ui/Input"
 import ServingSizeInput from "./ui/ServingSizeInput"
-import apiConnection from "../../services/apiConnection"
 import type CompleteMealType from "../../types/completeMealType"
 import splitAmount from "../../utils/splitAmount"
 import { useInvalidateData } from "../../utils/refetch"
 import Submit from "./ui/Submit"
 import { useToast } from "../../context/ToastContext"
 import ModalContainer from "./ui/ModalContainer"
+import { createMeal, updateMeal } from "../../utils/api/requests/meal.requests"
 
 interface AddMealModalProps {
   close: () => void,
@@ -40,11 +40,10 @@ const AddMealModal = ({ close, modalValues }: AddMealModalProps ) => {
     
     if(modalValues?.id){
       try {
-        const result = await apiConnection.patch('/dashboard/change-meal', {
-          id: modalValues.id,
+        const result = await updateMeal(modalValues.id, {
           foodName,
           mealType,
-          calories,
+          calories: Number(calories),
           servingSize: servingSize && `${servingSize}${servingMeasurement}`
         })
         if(result.status === 204) {
@@ -57,9 +56,9 @@ const AddMealModal = ({ close, modalValues }: AddMealModalProps ) => {
     }
     else {
       try {
-        const result = await apiConnection.post('/dashboard/add-meal', {
+        const result = await createMeal({
           foodName,
-          calories,
+          calories: Number(calories),
           mealType,
           servingSize: servingSize && `${servingSize}${servingMeasurement}`
         })

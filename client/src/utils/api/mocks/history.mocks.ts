@@ -19,17 +19,17 @@ const calculateAvgPerMeal = (): AvgPerMeal => {
   return result
 }
 
-export const mockAvgPerMeal: AvgPerMeal = calculateAvgPerMeal()
+export const mockAvgPerMeal = (): AvgPerMeal => calculateAvgPerMeal()
 
-export const mockLogPages: number = Math.ceil(mockMealLogs.length / 5);
+export const mockLogPages = (): number => Math.ceil(mockMealLogs.length / 5);
 
-export const calculateAverageMeal = (): number => {
+const calculateAverageMeal = (): number => {
   const avg = mockMealLogs.reduce((sum, val) => val.calories + sum, 0)
   return Number((avg / mockMealLogs.length).toFixed(2))
 }
 
-export const mockHistoryStats: HistoryStats = {
+export const mockHistoryStats = (): HistoryStats => ({
   streak: 7,
   averageMeal: calculateAverageMeal(),
   mostEatenFood: 'Oatmeal with bananas and berries'
-}
+})
