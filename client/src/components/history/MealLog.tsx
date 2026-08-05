@@ -19,11 +19,13 @@ const MealLog = () => {
   const [isAddMealModal, setIsAddMealModal] = useState(false)
 
   useEffect(() => {
+    if(pages && page > pages)
+      setPage(pages)
     if(page !== 1)
       queryClient.prefetchQuery(mealLogOptions(page-1))
 
     queryClient.prefetchQuery(mealLogOptions(page+1))
-  }, [page, queryClient])
+  }, [page, pages, queryClient])
 
   if(isPending || !data || !pages || arePagesPending) 
     return (
