@@ -22,7 +22,7 @@ function SetUpAccount() {
     weight: 0,
     height: 0,
     dateOfBirth: '',
-    activicyLevel: '',
+    activicyLevel: 0,
     goal: '',
     targetDailyCalories: 0,
     createdAt: '',
