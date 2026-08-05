@@ -6,6 +6,7 @@ import SetUpAccount from "./pages/SetUpAccount";
 import IsAuthenticated from "./pages/Auth/IsAuthenticated";
 import History from "./pages/History";
 import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
 
 export const router = createBrowserRouter([
   { path: '/', element: <IsAuthenticated /> },
@@ -14,7 +15,8 @@ export const router = createBrowserRouter([
   { path: '/dashboard', element: <Dashboard /> },
   { path: '/setup', element: <SetUpAccount /> },
   { path: '/history', element: <History /> },
-  { path: '/profile', element: <Profile /> }
+  { path: '/profile', element: <Profile /> },
+  { path: '*', element: <NotFound />  }
 ])
 
 
