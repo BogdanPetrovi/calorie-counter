@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react"
+import { createContext, useContext, useState, useCallback, type ReactNode, useMemo } from "react"
 import type ConfirmProps from "../types/confirmPropsTypes"
 import Confirm from "../components/shared/Confirm"
 type ShowConfirmArgs = Omit<ConfirmProps, 'isActive'>
@@ -39,9 +39,10 @@ export const ConfirmProvider = ({ children }: { children: ReactNode }) => {
       isActive: true })
   }, [closeConfirm])
 
+  const value = useMemo(() => ({ showConfirm, closeConfirm }), [showConfirm, closeConfirm])
 
   return (
-    <ConfirmContext.Provider value={{ showConfirm, closeConfirm }}>
+    <ConfirmContext.Provider value={value}>
       {children}
       {confirm.isActive && (
         <Confirm

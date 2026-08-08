@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react"
+import { createContext, useContext, useState, useCallback, type ReactNode, useMemo } from "react"
 import Toast from "../components/shared/Toast"
 import type { ToastType, ToastWithShow } from "../types/toastTypes"
 
@@ -25,8 +25,10 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
     setToast((prev) => ({ ...prev, show: false }))
   }, [])
 
+  const value = useMemo(() => ({ showToast }), [showToast])
+
   return (
-    <ToastContext.Provider value={{ showToast }}>
+    <ToastContext.Provider value={value}>
       {children}
       {toast.show && (
         <Toast

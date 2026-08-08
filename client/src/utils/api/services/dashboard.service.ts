@@ -25,7 +25,7 @@ export async function getRecentMeals(): Promise<MealsDay> {
 
 export async function getWeeklyStats(): Promise<WeeklyStats[]> {
   if(isDemo){
-    return withDelay(mockWeeklyStats(), 50000)
+    return withDelay(mockWeeklyStats())
   }
 
   const result = await apiConnection.get('/dashboard/weekly-stats')
