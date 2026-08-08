@@ -1,18 +1,15 @@
 import Title from "../shared/ui/Title"
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { HiLockClosed } from "react-icons/hi"
 import Input from "../shared/ui/Input"
 import Submit from "../shared/ui/Submit"
 import { useUser } from "../../utils/api/hooks/userQuery"
 import ProfileContainer from "./ui/ProfileContainer"
 import { validateEmail } from "../../utils/validator"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useToast } from "../../context/ToastContext"
 import { useConfirm } from "../../context/ConfirmContext"
-import { AxiosError } from "axios"
 import ChangePassword from "./ChangePassword"
-import { updatePersonalInfo } from "../../utils/api/requests/user.requests"
 import ContainerLoading from "../shared/ui/ContainerLoading"
+import useUpdatePersonalInfo from "../../utils/api/mutations/useUpdatePersonalInfo"
 
 const PersonalInfo = () => {
   const { data, isPending } = useUser()
@@ -21,26 +18,9 @@ const PersonalInfo = () => {
   const [isDisabled, setIsDisabled] = useState(true)
   const [isPassword, setIsPassword] = useState(false)
   const [error, setError] = useState<null | 'name' | 'email' | 'both'>(null)
-  const queryClient = useQueryClient()
-  const { showToast } = useToast()
   const { showConfirm, closeConfirm } = useConfirm()
 
-  const { mutate, isPending: isMutatePending } = useMutation({
-    mutationFn: () => updatePersonalInfo(name, email),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user'] })
-      showToast('You succesfuly changed personal info!', 'success')
-    },
-    onError: (err) => {
-      if(err instanceof AxiosError){
-        setName(data!.name)
-        setEmail(data!.email)
-        closeConfirm()
-        showToast(err.response?.data.message || err.message, 'error')
-      }
-      showToast(`Changing personal info failed, try again!`, 'error')
-    }
-  })
+  const { mutate, isPending: isMutatePending } = useUpdatePersonalInfo()
 
   useEffect(() => {
     if(data && data.name === name && data.email === email)
@@ -62,22 +42,30 @@ const PersonalInfo = () => {
     return setIsDisabled(false)    
   }, [data, name, email])
 
-  const handleCancel = useCallback(() => {
+  const handleCancel = () => {
     setName(data!.name)
     setEmail(data!.email)
     closeConfirm()
-  }, [data, closeConfirm])
+  }
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     if(isDisabled) return
     showConfirm({
       title: 'Are you sure you want to change your personal info?',
       description: "Your name and email on file will be updated to the new values.",
       buttonColor: 'green',
-      action: () => { closeConfirm(); mutate(); },
+      action: () => { 
+        closeConfirm(); 
+        mutate(
+          { name, email },
+          {
+            onError: handleCancel
+          }
+        ); 
+      },
       close: handleCancel
     })
-  }, [isDisabled, showConfirm, mutate, handleCancel, closeConfirm])
+  }
   
   if(isPending) return (
     <ContainerLoading request="get" title="Personal info" containerType="profile" />

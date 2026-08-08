@@ -1,6 +1,6 @@
 import apiConnection from "../../../services/apiConnection"
 import { isDemo, withDelay } from "../demo"
-import { updateMockPersonalInfo, updateMockPhysiqueAndGoal } from "../mocks/user.mock"
+import { updateMockPersonalInfo, updateMockPhysiqueAndGoal, updateMockWeight } from "../mocks/user.mock"
 
 export const updatePersonalInfo = async(name: string, email: string) => {
   if(isDemo){
@@ -27,5 +27,17 @@ export const updatePhysiqueAndGoal = (gender: string, weight: number, height: nu
     dateOfBirth,
     activicyLevel,
     goal
+  })
+}
+
+
+export const updateWeight = (weight: number) => {
+  if(isDemo){
+    updateMockWeight(weight)
+    return withDelay({ status: 204 })
+  }
+
+  return apiConnection.post("/profile/log-weight", {
+    weight
   })
 }

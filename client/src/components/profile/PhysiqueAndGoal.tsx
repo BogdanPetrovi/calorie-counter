@@ -1,21 +1,16 @@
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import Input from "../shared/ui/Input"
 import Title from "../shared/ui/Title"
 import Submit from "../shared/ui/Submit";
 import Select from "./ui/Select";
 import { useUser } from "../../utils/api/hooks/userQuery";
 import DateInput from "./ui/DateInput";
-import { useToast } from "../../context/ToastContext";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useConfirm } from "../../context/ConfirmContext";
-import { updatePhysiqueAndGoal } from "../../utils/api/requests/user.requests";
-import { AxiosError } from "axios";
 import ContainerLoading from "../shared/ui/ContainerLoading";
+import useUpdatePhysiqueAndGoal from "../../utils/api/mutations/useUpdatePhysiqueAndGoal";
 
 const PhysiqueAndGoal = () => {
-  const queryClient = useQueryClient();
   const { data: user, isPending } = useUser()
-  const { showToast } = useToast()
   const { showConfirm, closeConfirm } = useConfirm()
   const [gender, setGender] = useState(user!.gender);
   const [dateOfBirth, setDateOfBirth] = useState(user!.dateOfBirth)
@@ -25,27 +20,7 @@ const PhysiqueAndGoal = () => {
   const [calorieBudget, setCalorieBudget] = useState(String(user!.targetDailyCalories))
   const [isDisabled, setIsDisabled] = useState(true)
 
-  const { mutate, isPending: isMutatePending } = useMutation({
-    mutationFn: () => updatePhysiqueAndGoal(
-      gender,
-      user!.weight,
-      Number(height),
-      dateOfBirth,
-      Number(activicyLevel),
-      goal
-    ),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user'] })
-      queryClient.invalidateQueries({ queryKey: ['bmi-and-member-since'] })
-      showToast("Succesfuly changed your data!", 'success')
-    },
-    onError: (err) => {
-      if(err instanceof AxiosError){
-        showToast(err.response?.data.message || err.message, 'error')
-      }
-      showToast("Couldn't save your new data, try again!", 'error')
-    }
-  })
+  const { mutate, isPending: isMutatePending } = useUpdatePhysiqueAndGoal()
 
   useEffect(() => {
     if(!user) return
@@ -61,25 +36,35 @@ const PhysiqueAndGoal = () => {
     return setIsDisabled(false)
   }, [user, gender, dateOfBirth, height, activicyLevel, goal, setIsDisabled])
 
-  const handleCancel = useCallback(() => {
+  const handleCancel = () => {
     setGender(user!.gender)
     setDateOfBirth(user!.dateOfBirth)
     setHeight(String(user!.height))
     setActivicyLevel(String(user!.activicyLevel))
     setGoal(user!.goal)
     closeConfirm()
-  } , [user, closeConfirm])
+  }
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     if(isDisabled) return
     showConfirm({
       title: 'Are you sure you want to update your physique and goal data?',
       description: "Your gender, date of birth, height, activity level and goal will be updated to the new values.",
       buttonColor: 'green',
-      action: () => { closeConfirm(); mutate(); },
+      action: () => { 
+        closeConfirm();
+        mutate({
+          activicyLevel: Number(activicyLevel),
+          dateOfBirth,
+          gender,
+          goal,
+          height: Number(height),
+          weight: user!.weight
+        }); 
+      },
       close: handleCancel
     })
-  }, [isDisabled, showConfirm, mutate, handleCancel, closeConfirm])
+  }
 
   if(isPending) return (
     <ContainerLoading request="get" title="Personal info" containerType="profile" />

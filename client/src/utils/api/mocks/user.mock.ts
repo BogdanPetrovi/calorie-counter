@@ -1,4 +1,5 @@
 import type { CompletedUser } from "../../../types/userTypes";
+import { mockWeightChange } from "./profile.mocks";
 
 export let mockUser: CompletedUser = {
   email: 'user@example.com', 
@@ -33,4 +34,20 @@ export const updateMockPhysiqueAndGoal = (gender: string, weight: number, height
     activicyLevel,
     goal
   }
+}
+
+export const updateMockWeight = (weight: number) => {
+  mockUser = {
+    ...mockUser,
+    weight
+  }
+  const date = new Date()
+  const formatDate = Intl.DateTimeFormat('en-GB', {
+    day: '2-digit',
+    month: 'short'
+  }).format(date)
+  mockWeightChange.push({
+    date: formatDate,
+    weight: weight
+  })
 }
