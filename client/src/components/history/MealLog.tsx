@@ -9,7 +9,7 @@ import useLogPages from "../../utils/api/hooks/logPagesQuery"
 import EmptyState from "../shared/ui/EmptyState"
 import { LuCookingPot } from "react-icons/lu"
 import AddMealModal from "../shared/AddMealModal"
-import Loader from "../shared/Loader"
+import ContainerLoading from "../shared/ui/ContainerLoading"
 
 const MealLog = () => {
   const [page, setPage] = useState(1)
@@ -29,19 +29,7 @@ const MealLog = () => {
 
   if(isPending || !data || !pages || arePagesPending) 
     return (
-      <ContainerDiv>
-        <Title name="Meal log" />
-        <div className="w-full min-h-88 flex justify-center items-center">
-          <Loader size={100} text={false} />
-        </div>
-        <div className="w-[110%] pb-10 mt-2 flex items-center justify-center gap-4 text-4xl font-bold text-white bg-green-700 select-none">
-        <Pagination
-          page={page}
-          setPage={setPage}
-          maxPage={ pages || 10 }
-        />
-        </div>
-      </ContainerDiv>
+      <ContainerLoading title="Meal log" request="get" containerType="all" />
     )
 
   if(data.length === 0)

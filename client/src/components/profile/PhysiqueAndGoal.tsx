@@ -6,9 +6,11 @@ import Select from "./ui/Select";
 import { useUser } from "../../utils/api/hooks/userQuery";
 import DateInput from "./ui/DateInput";
 import { useToast } from "../../context/ToastContext";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useConfirm } from "../../context/ConfirmContext";
 import { updatePhysiqueAndGoal } from "../../utils/api/requests/user.requests";
+import { AxiosError } from "axios";
+import ContainerLoading from "../shared/ui/ContainerLoading";
 
 const PhysiqueAndGoal = () => {
   const queryClient = useQueryClient();
@@ -23,6 +25,28 @@ const PhysiqueAndGoal = () => {
   const [calorieBudget, setCalorieBudget] = useState(String(user!.targetDailyCalories))
   const [isDisabled, setIsDisabled] = useState(true)
 
+  const { mutate, isPending: isMutatePending } = useMutation({
+    mutationFn: () => updatePhysiqueAndGoal(
+      gender,
+      user!.weight,
+      Number(height),
+      dateOfBirth,
+      Number(activicyLevel),
+      goal
+    ),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user'] })
+      queryClient.invalidateQueries({ queryKey: ['bmi-and-member-since'] })
+      showToast("Succesfuly changed your data!", 'success')
+    },
+    onError: (err) => {
+      if(err instanceof AxiosError){
+        showToast(err.response?.data.message || err.message, 'error')
+      }
+      showToast("Couldn't save your new data, try again!", 'error')
+    }
+  })
+
   useEffect(() => {
     if(!user) return
 
@@ -36,31 +60,6 @@ const PhysiqueAndGoal = () => {
     }
     return setIsDisabled(false)
   }, [user, gender, dateOfBirth, height, activicyLevel, goal, setIsDisabled])
-
-  const handleConfirmSubmit = useCallback(async () => {
-    try {
-      await updatePhysiqueAndGoal(
-        gender,
-        user!.weight,
-        Number(height),
-        dateOfBirth,
-        Number(activicyLevel),
-        goal
-      )
-
-      closeConfirm()
-
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: ['user'] }),
-        queryClient.invalidateQueries({ queryKey: ['bmi-and-member-since'] })
-      ])
-
-      showToast("Succesfuly changed your data!", 'success')
-    } catch (err) {
-      console.log(err)
-      showToast("Couldn't save your new data, try again!", 'error')
-    }
-  }, [gender, user, height, dateOfBirth, activicyLevel, goal, closeConfirm, queryClient, showToast])
 
   const handleCancel = useCallback(() => {
     setGender(user!.gender)
@@ -77,12 +76,20 @@ const PhysiqueAndGoal = () => {
       title: 'Are you sure you want to update your physique and goal data?',
       description: "Your gender, date of birth, height, activity level and goal will be updated to the new values.",
       buttonColor: 'green',
-      action: handleConfirmSubmit,
+      action: () => { closeConfirm(); mutate(); },
       close: handleCancel
     })
-  }, [isDisabled, showConfirm, handleConfirmSubmit, handleCancel])
+  }, [isDisabled, showConfirm, mutate, handleCancel, closeConfirm])
 
-  if(isPending || !user) return <></>
+  if(isPending) return (
+    <ContainerLoading request="get" title="Personal info" containerType="profile" />
+  )
+
+  if(isMutatePending) return (
+    <ContainerLoading request="post" title="Personal info" containerType="profile" />
+  )
+  
+  if(!user) return <></>
 
   return (
     <div

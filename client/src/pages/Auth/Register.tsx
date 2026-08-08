@@ -8,7 +8,7 @@ import { validateRegister } from "../../utils/validator"
 import api from "../../services/apiConnection"
 import axios from "axios"
 import { useUser } from "../../utils/api/hooks/userQuery"
-import Loader from "../../components/shared/Loader"
+import Loader from "../../components/shared/ui/ScreenLoader"
 
 const Register = () => {
   const [fullName, setFullName] = useState('')

@@ -12,7 +12,7 @@ import DateOfBirth from "../components/setup/DateOfBirth"
 import ActivicyLevel from "../components/setup/ActivicyLevel"
 import Goal from "../components/setup/Goal"
 import End from "../components/setup/End"
-import Loader from "../components/shared/Loader"
+import Loader from "../components/shared/ui/ScreenLoader"
 
 function SetUpAccount() {
   const { data: user, isPending, isError, error } = useUser()

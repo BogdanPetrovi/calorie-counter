@@ -6,12 +6,13 @@ import Submit from "../shared/ui/Submit"
 import { useUser } from "../../utils/api/hooks/userQuery"
 import ProfileContainer from "./ui/ProfileContainer"
 import { validateEmail } from "../../utils/validator"
-import { useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useToast } from "../../context/ToastContext"
 import { useConfirm } from "../../context/ConfirmContext"
 import { AxiosError } from "axios"
 import ChangePassword from "./ChangePassword"
 import { updatePersonalInfo } from "../../utils/api/requests/user.requests"
+import ContainerLoading from "../shared/ui/ContainerLoading"
 
 const PersonalInfo = () => {
   const { data, isPending } = useUser()
@@ -23,6 +24,23 @@ const PersonalInfo = () => {
   const queryClient = useQueryClient()
   const { showToast } = useToast()
   const { showConfirm, closeConfirm } = useConfirm()
+
+  const { mutate, isPending: isMutatePending } = useMutation({
+    mutationFn: () => updatePersonalInfo(name, email),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user'] })
+      showToast('You succesfuly changed personal info!', 'success')
+    },
+    onError: (err) => {
+      if(err instanceof AxiosError){
+        setName(data!.name)
+        setEmail(data!.email)
+        closeConfirm()
+        showToast(err.response?.data.message || err.message, 'error')
+      }
+      showToast(`Changing personal info failed, try again!`, 'error')
+    }
+  })
 
   useEffect(() => {
     if(data && data.name === name && data.email === email)
@@ -44,26 +62,6 @@ const PersonalInfo = () => {
     return setIsDisabled(false)    
   }, [data, name, email])
 
-  const handleConfirmSubmit = useCallback(async () => {
-    try {
-      const result = await updatePersonalInfo(name, email)
-      if(result.status === 204){
-        closeConfirm()
-        queryClient.invalidateQueries({ queryKey: ['user'] })
-        showToast('You succesfuly changed personal info!', 'success')
-      }
-    } catch (err) {
-      setName(data!.name)
-      setEmail(data!.email)
-      if(err instanceof AxiosError){
-        closeConfirm()
-        showToast(err.response?.data.message || err.message, 'error')
-      } else {
-        showToast(`Changing personal info failed, try again!`, 'error')
-      }
-    }
-  }, [name, email, data, closeConfirm, queryClient, showToast])
-
   const handleCancel = useCallback(() => {
     setName(data!.name)
     setEmail(data!.email)
@@ -76,16 +74,23 @@ const PersonalInfo = () => {
       title: 'Are you sure you want to change your personal info?',
       description: "Your name and email on file will be updated to the new values.",
       buttonColor: 'green',
-      action: handleConfirmSubmit,
+      action: () => { closeConfirm(); mutate(); },
       close: handleCancel
     })
-  }, [isDisabled, showConfirm, handleConfirmSubmit, handleCancel])
+  }, [isDisabled, showConfirm, mutate, handleCancel, closeConfirm])
   
-  if(isPending || !data) return <></>
+  if(isPending) return (
+    <ContainerLoading request="get" title="Personal info" containerType="profile" />
+  )
+
+  if(isMutatePending) return (
+    <ContainerLoading request="post" title="Personal info" containerType="profile" />
+  )
   
+  if(!data) return <></>
+
   return (
     <>
-    
       <ProfileContainer additionalStyles="gap-3.5">
         <Title name="Personal info" />
         <div className="w-full">
