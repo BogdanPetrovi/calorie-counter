@@ -7,13 +7,22 @@ import { LuUtensilsCrossed } from "react-icons/lu"
 import emptyStateDescriptions from "../../utils/emptyStateDescriptionsForDaysContainer"
 import AddMealModal from "./AddMealModal"
 import { useState } from "react"
+import ContainerLoading from "./ui/ContainerLoading"
 
 const MealsDay = ({ day }: { day: 'today' | 'yesterday' }) => {
   const { data, isPending } = useRecentMeals()
   const [isAddMealModal, setIsAddMealModal] = useState(false)
   const recentMeals = day === 'today' ? data?.today : data?.yesterday
   
-  if(isPending || !data || !recentMeals) return <></>
+  if(isPending) return (
+    <ContainerLoading 
+      title={`Meals ${day}`} 
+      containerType="all" 
+      request="get" 
+    />
+  )
+
+  if(!data || !recentMeals) return <></>
 
   const totalKcal = recentMeals.reduce((sum, val) => sum + val.calories, 0)
 

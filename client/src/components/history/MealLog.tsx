@@ -27,10 +27,16 @@ const MealLog = () => {
     queryClient.prefetchQuery(mealLogOptions(page+1))
   }, [page, pages, queryClient])
 
-  if(isPending || !data || !pages || arePagesPending) 
+  if(isPending || arePagesPending) 
     return (
-      <ContainerLoading title="Meal log" request="get" containerType="all" />
+      <ContainerLoading 
+        title="Meal log" 
+        request="get" 
+        containerType="all" 
+      />
     )
+
+  if(!data || !pages) return <></>
 
   if(data.length === 0)
     return (

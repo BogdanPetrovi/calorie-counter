@@ -7,6 +7,7 @@ import EmptyState from "./ui/EmptyState"
 import { useState } from "react"
 import AddMealModal from "./AddMealModal"
 import emptyStateDescriptions from "../../utils/emptyStateDescriptionsForDaysContainer"
+import ContainerLoading from "./ui/ContainerLoading"
 
 interface CaloriesDayProps {
   day: 'today' | 'yesterday'
@@ -14,10 +15,18 @@ interface CaloriesDayProps {
 
 const CaloriesDay = ({ day }: CaloriesDayProps) => {
   const { data, isPending } = useCaloriesIntakeInfo();
-  const { data: user, isPending: userPending } = useUser(); 
+  const { data: user, isPending: isUserPending } = useUser(); 
   const [isAddMealModal, setIsAddMealModal] = useState(false)
 
-  if(isPending || !data || !user || userPending) return <></>
+  if(isPending || isUserPending) return (
+    <ContainerLoading 
+      title={`Calories ${day}`} 
+      containerType="all" 
+      request="get" 
+    />
+  )
+
+  if(!data || !user) return <></>
 
   const done = data[day]
   const goal = user.targetDailyCalories
