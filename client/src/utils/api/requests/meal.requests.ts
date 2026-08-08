@@ -5,7 +5,7 @@ import { addMockMealLog, deleteMockMealLog, updateMockMealLog } from "../mocks/m
 
 type NewMealPayload = Omit<MealLog, 'id' | 'createdAt'>
 
-export const createMeal = async(payload: NewMealPayload) => {
+export const createMeal = (payload: NewMealPayload) => {
   if(isDemo){
     const created = addMockMealLog(payload)
     return withDelay({ status: 201, data: created })
@@ -13,7 +13,7 @@ export const createMeal = async(payload: NewMealPayload) => {
   return apiConnection.post('/dashboard/add-meal', payload)
 }
 
-export const updateMeal = async(id: number, payload: Partial<NewMealPayload>) => {
+export const updateMeal = (id: number, payload: Partial<NewMealPayload>) => {
   if(isDemo){
     updateMockMealLog(id, payload)
     return withDelay({ status: 204 })
@@ -22,10 +22,10 @@ export const updateMeal = async(id: number, payload: Partial<NewMealPayload>) =>
   return apiConnection.patch('/dashboard/change-meal', { id, ...payload })
 }
 
-export const deleteMeal = async (id: number) => {
+export const deleteMeal = (id: number) => {
   if(isDemo) {
     deleteMockMealLog(id)
-    return withDelay({ status: 204 })
+    return withDelay({ status: 204 }, 5000)
   }
 
   return apiConnection.delete(`/dashboard/delete-meal/${id}`)

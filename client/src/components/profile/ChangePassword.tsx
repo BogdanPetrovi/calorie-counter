@@ -2,9 +2,8 @@ import { useEffect, useState } from "react"
 import ModalContainer from "../shared/ui/ModalContainer"
 import Submit from "../shared/ui/Submit"
 import PasswordInput from "./ui/PasswordInput"
-import apiConnection from "../../services/apiConnection"
-import { useToast } from "../../context/ToastContext"
 import { AxiosError } from "axios"
+import useChangePassword from "../../utils/api/mutations/useChangePassword"
 
 interface ChangePasswordProps {
   close: () => void
@@ -17,7 +16,8 @@ const ChangePassword = ({ close }: ChangePasswordProps) => {
   const [errorInput, setErrorInput] = useState<'old' | 'new' | 'confirm' | ''>('')
   const [errorMessage, setErrorMessage] = useState('')
   const [isDisabled, setIsDisabled] = useState(true)
-  const { showToast } = useToast();
+
+  const { mutate, isPending: isMutatePending } = useChangePassword()
 
   useEffect(() => {
     if(!oldPassword || !newPassword || !confirmPassword){
@@ -47,27 +47,11 @@ const ChangePassword = ({ close }: ChangePasswordProps) => {
     return setIsDisabled(false)
   }, [oldPassword, newPassword, confirmPassword])
 
-  const handleSubmit = async () => {
-    if(isDisabled) return
-
-    try {
-      const result = await apiConnection.post("/auth/change-password", { password: oldPassword, newPassword })
-      if(result.status === 204){
-        showToast('You successfully changed your password!')
-        close()
-      }
-    } catch (error) {
-      if(error instanceof AxiosError){
-        setErrorInput(error.response?.data?.errorInput || 'confirm')
-        setErrorMessage(error.response?.data?.message)
-        return
-      }
-
-      console.log(error)
-      showToast("We were unable to change your password, please try again")
-      return
-    }
-  }
+  if(isMutatePending) return (
+    <ModalContainer close={ close } title="Change password">
+      <h4 className="animate-pulse text-lg">Processing your request...</h4>
+    </ModalContainer> 
+  )
 
   return (
     <ModalContainer close={close} title="Change password">
@@ -92,7 +76,23 @@ const ChangePassword = ({ close }: ChangePasswordProps) => {
         borderColor={ errorInput === 'confirm' ? 'border-red-600' : 'border-green-600' }
         errorText={ errorInput === 'confirm' ? errorMessage : '' }
       />
-      <Submit handleSubmit={handleSubmit} isDisabled={isDisabled}  />
+      <Submit 
+        handleSubmit={() => {
+          mutate(
+            { password: oldPassword, newPassword },
+            {
+              onSuccess: () => close(),
+              onError: (err) => {
+                if(!(err instanceof AxiosError)) return
+
+                setErrorInput(err.response?.data?.errorInput || 'confirm')
+                setErrorMessage(err.response?.data?.message)
+              }
+            }
+          )
+        }}
+        isDisabled={isDisabled}  
+      />
     </ModalContainer>
   )
 }

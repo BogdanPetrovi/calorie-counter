@@ -2,7 +2,7 @@ import apiConnection from "../../../services/apiConnection"
 import { isDemo, withDelay } from "../demo"
 import { updateMockPersonalInfo, updateMockPhysiqueAndGoal, updateMockWeight } from "../mocks/user.mock"
 
-export const updatePersonalInfo = async(name: string, email: string) => {
+export const updatePersonalInfo = (name: string, email: string) => {
   if(isDemo){
     updateMockPersonalInfo(name, email)
     return withDelay({ status: 204 })

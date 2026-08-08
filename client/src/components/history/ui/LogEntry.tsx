@@ -1,47 +1,32 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { FaPen, FaTrash } from "react-icons/fa";
 import AddMealModal from "../../shared/AddMealModal";
 import type MealLog from "../../../types/mealLogTypes";
-import { useInvalidateData } from "../../../utils/refetch";
-import { useToast } from "../../../context/ToastContext";
 import { useConfirm } from "../../../context/ConfirmContext";
-import { deleteMeal } from "../../../utils/api/requests/meal.requests";
+import useDeleteLogEntry from "../../../utils/api/mutations/useDeleteLogEntry";
 
 const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize }: MealLog) => {
-  const { invalidateAll } = useInvalidateData()
   const [showModal, setShowModal] = useState(false)
-  const [isDeleting, setIsDeleting] = useState(false)
-  const { showToast } = useToast()
   const { showConfirm, closeConfirm } = useConfirm();
 
-  const deleteRow = useCallback(async () => {
-    setIsDeleting(true)
-    try {
-      await deleteMeal(id)
-      showToast("Successfully deleted meal!", 'success')
-      invalidateAll()
-    } catch (err) {
-      console.log(err)
-      showToast("Couldn't delete your meal, try again!", 'error')
-    } finally {
-      setIsDeleting(false)
-      closeConfirm()
-    }
-  }, [id, invalidateAll, showToast, closeConfirm])
+  const { mutate, isPending: isMutatePending } = useDeleteLogEntry()
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     showConfirm({
       title: 'Are you sure you want to delete this row?',
       description: `Your ${mealType} (${foodName}) will be permanently deleted.`,
       buttonColor: 'red',
-      action: deleteRow,
+      action: () => {
+        closeConfirm()
+        mutate(id)
+      },
       close: () => {}
     })
-  }, [showConfirm, deleteRow, mealType, foodName])
+  }
 
   return (
     <>
-      <div className="w-full h-16 bg-black/5 rounded-lg flex items-center justify-between px-2">
+      <div className={`${isMutatePending && 'opacity-50 cursor-not-allowed'} w-full h-16 bg-black/5 rounded-lg flex items-center justify-between px-2`}>
         <h3 className="text-lg lg:text-xl font-bold tracking-wide pr-2">
           { foodName }
           <span className="font-normal text-xs lg:text-sm text-muted/60 pl-1">
@@ -56,8 +41,8 @@ const LogEntry = ({ id, calories, createdAt, foodName, mealType, servingSize }: 
           <button aria-label="Edit meal" onClick={() => setShowModal(true)}>
             <FaPen className="text-xl cursor-pointer -mr-3" />
           </button>
-          <button aria-label="Delete meal" onClick={handleClick} disabled={isDeleting}>
-            <FaTrash className={`${isDeleting && 'opacity-50 cursor-not-allowed'} text-red-700 cursor-pointer`} />
+          <button aria-label="Delete meal" onClick={handleClick} disabled={isMutatePending}>
+            <FaTrash className={'text-red-700 cursor-pointer'} />
           </button>
         </div>
       </div>
