@@ -26,7 +26,7 @@ export const updateMeal = (id: number, payload: Partial<NewMealPayload>) => {
 export const deleteMeal = (id: number) => {
   if(isDemo) {
     deleteMockMealLog(id)
-    return withDelay({ status: 204 }, 5000)
+    return withDelay({ status: 204 })
   }
 
   return apiConnection.delete(`/dashboard/delete-meal/${id}`)
