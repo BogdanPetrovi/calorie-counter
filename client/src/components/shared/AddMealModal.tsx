@@ -4,11 +4,10 @@ import Input from "./ui/Input"
 import ServingSizeInput from "./ui/ServingSizeInput"
 import type CompleteMealType from "../../types/completeMealType"
 import splitAmount from "../../utils/splitAmount"
-import { useInvalidateData } from "../../utils/refetch"
 import Submit from "./ui/Submit"
-import { useToast } from "../../context/ToastContext"
 import ModalContainer from "./ui/ModalContainer"
-import { createMeal, updateMeal } from "../../utils/api/requests/meal.requests"
+import useUpdateMeal from "../../utils/api/mutations/useUpdateMeal"
+import useCreateMeal from "../../utils/api/mutations/useCreateMeal"
 
 interface AddMealModalProps {
   close: () => void,
@@ -16,8 +15,6 @@ interface AddMealModalProps {
 }
 
 const AddMealModal = ({ close, modalValues }: AddMealModalProps ) => {
-  const { invalidateAll } = useInvalidateData()
-
   const [mealType, setMealType] = useState(modalValues?.mealType || 'breakfast')
   const [foodName, setFoodName] = useState(modalValues?.foodName || '')
   const [calories, setCalories] = useState(modalValues?.calories || '')
@@ -25,7 +22,9 @@ const AddMealModal = ({ close, modalValues }: AddMealModalProps ) => {
   const [servingSize, setServingSize] = useState(size || '')
   const [servingMeasurement, setServingMeasurement] = useState(measurment || 'g')
   const [isDisabled, setIsDisabled] = useState(true)
-  const { showToast } = useToast()
+
+  const { mutate: mutateUpdate, isPending: isUpdatePending } = useUpdateMeal()
+  const { mutate: mutateCreate, isPending: isCreatePending } = useCreateMeal()
 
   useEffect(() => {
     if(foodName && calories)
@@ -37,48 +36,49 @@ const AddMealModal = ({ close, modalValues }: AddMealModalProps ) => {
   const handleSubmit = async () => {
     if(isDisabled)
       return
-    
+
+    const resetStates = () => {
+      setMealType('breakfast')
+      setFoodName('')
+      setCalories('')
+      setServingSize('')
+      setServingMeasurement('g')
+      close()
+    }
+
     if(modalValues?.id){
-      try {
-        const result = await updateMeal(modalValues.id, {
-          foodName,
-          mealType,
-          calories: Number(calories),
-          servingSize: servingSize && `${servingSize}${servingMeasurement}`
-        })
-        if(result.status === 204) {
-          showToast('Succesfuly updated your meal!', 'success')
-        }
-      } catch (err) {
-        console.log(err)
-        showToast("Couldn't update your meal, try again!", 'error')
-      }
+      mutateUpdate(
+        {
+          id: modalValues.id, 
+          payload: {
+            foodName,
+            mealType,
+            calories: Number(calories),
+            servingSize: servingSize && `${servingSize}${servingMeasurement}`
+          }
+        },
+        { onSuccess: () => resetStates() }
+      )
+      return
     }
-    else {
-      try {
-        const result = await createMeal({
-          foodName,
-          calories: Number(calories),
-          mealType,
-          servingSize: servingSize && `${servingSize}${servingMeasurement}`
-        })
-        if(result.status === 201){
-          showToast(`Succesfuly added your ${mealType}!`, 'success')
-        }
-      } catch (err) {
-        console.log(err)
-        showToast("Couldn't save your meal, try again!", 'error')
-      }
-    }
-    
-    setMealType('breakfast')
-    setFoodName('')
-    setCalories('')
-    setServingSize('')
-    setServingMeasurement('g')
-    invalidateAll();
-    close()
+
+    mutateCreate(
+      {
+        foodName,
+        calories: Number(calories),
+        mealType,
+        servingSize: servingSize && `${servingSize}${servingMeasurement}`
+      },
+      { onSuccess: () => resetStates() }
+    )
   }
+
+  if(isCreatePending || isUpdatePending)
+    return (
+      <ModalContainer close={ close } title="Add meal">
+        <h4 className="animate-pulse text-lg">Processing your request...</h4>
+      </ModalContainer> 
+    )
 
   return (    
     <ModalContainer
