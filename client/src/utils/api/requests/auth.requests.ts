@@ -16,3 +16,19 @@ export const logOut = () => {
 
   return apiConnection.post('/auth/logOut')
 }
+
+export const logIn = ({ email, password }: { email: string, password: string }) => {
+  if(isDemo) {
+    return withDelayError({ message: "You can't log in in demo mode" })
+  }
+
+  return apiConnection.post('/auth/login', { email, password })
+}
+
+export const register = ({ fullName, email, password }: { fullName: string, email: string, password: string }) => {
+  if(isDemo) {
+    return withDelayError({ message: "You can't register in demo mode" })
+  }
+
+  return apiConnection.post('/auth/register', { fullName, email, password })
+}
