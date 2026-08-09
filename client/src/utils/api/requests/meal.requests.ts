@@ -5,11 +5,12 @@ import { addMockMealLog, deleteMockMealLog, updateMockMealLog } from "../mocks/m
 
 type NewMealPayload = Omit<MealLog, 'id' | 'createdAt'>
 
-export const createMeal = (payload: NewMealPayload) => {
+export const createMeal = async(payload: NewMealPayload) => {
   if(isDemo){
     const created = addMockMealLog(payload)
     return withDelay({ status: 201, data: created })
   }
+  
   return apiConnection.post('/dashboard/add-meal', payload)
 }
 

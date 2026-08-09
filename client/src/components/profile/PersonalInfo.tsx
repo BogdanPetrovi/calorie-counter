@@ -23,8 +23,10 @@ const PersonalInfo = () => {
   const { mutate, isPending: isMutatePending } = useUpdatePersonalInfo()
 
   useEffect(() => {
-    if(data && data.name === name && data.email === email)
+    if(data && data.name === name && data.email === email){
+      setError(null)
       return setIsDisabled(true)
+    }
     if(name === ''){
       if(!validateEmail(email)){
         setError('both')
