@@ -1,5 +1,7 @@
 CREATE DATABASE "calorie_counter";
 
+\c calorie_counter
+
 CREATE TABLE users(
   id SERIAL PRIMARY KEY,
   name VARCHAR(25) NOT NULL,
